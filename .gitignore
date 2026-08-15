@@ -1,0 +1,11 @@
+# System & IDE
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Logs & scratch
+*.log
+scratch/
+.cache/

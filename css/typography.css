@@ -1,0 +1,82 @@
+/* ==========================================================================
+   SOLRAC · ATELIER DE ARQUITETURA TECTÓNICA & CANTARIA DE AUTOR
+   TYPOGRAPHY & EDITORIAL HIERARCHY
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.65;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* -------------------------------------------------------------------------
+   Editorial Titles & Serif Headings
+   ------------------------------------------------------------------------- */
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  line-height: 1.15;
+}
+
+.display-title {
+  font-size: var(--text-display);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  line-height: 1.05;
+}
+
+h1 { font-size: var(--text-h1); }
+h2 { font-size: var(--text-h2); }
+h3 { font-size: var(--text-h3); }
+
+/* -------------------------------------------------------------------------
+   Technical Mono & Coordinates Tags
+   ------------------------------------------------------------------------- */
+.font-mono, .badge-coord, .tech-label, .metric-number {
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  font-size: var(--text-micro);
+  text-transform: uppercase;
+}
+
+.tech-label {
+  color: var(--text-secondary);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tech-label::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: var(--text-primary);
+}
+
+.text-muted {
+  color: var(--text-secondary);
+}
+
+p {
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+p.lead {
+  font-size: var(--text-body-lg);
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-weight: 300;
+}
