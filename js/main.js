@@ -1,6 +1,6 @@
 /* ==========================================================================
-   SOLRAC · ATELIER DE ARQUITETURA TECTÓNICA & CANTARIA DE AUTOR
-   JAVASCRIPT ENGINE (Portfolio Data, Lightbox, Filtering, Concierge)
+   SOLRAC TECTONICS · STONECRAFT & ARCHITECTURAL ENGINEERING
+   JAVASCRIPT ENGINE (Archive Data, Lightbox, Filtering, Concierge)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,118 +11,118 @@ document.addEventListener('DOMContentLoaded', () => {
      ------------------------------------------------------------------------- */
   const PROJECTS_DATA = [
     {
-      id: 'muro-douro-01',
+      id: 'wall-douro-01',
       category: 'muros',
-      categoryLabel: 'Muro Estrutural',
-      title: 'Muro de Contenção Ciclópico · Quinta no Douro',
-      location: 'Pinhão, Vale do Douro',
-      material: 'Granito Amarelo de Real (Maciço)',
-      role: 'Direção Técnica & Cantaria',
+      categoryLabel: 'Cyclopean Retaining Wall',
+      title: 'Cyclopean Retaining Structure · Douro Valley Wine Estate',
+      location: 'Pinhão, Douro Valley',
+      material: 'Solid Yellow Real Granite (Hand-Dressed)',
+      role: 'Technical Direction & Master Masonry',
       year: '2025',
       image: 'assets/images/muros/muro_douro_01.jpg',
-      placeholderSvg: generateStonePatternSvg('Ciclópico Douro', '41.1892° N, 7.5456° W'),
+      placeholderSvg: generateStonePatternSvg('Cyclopean Douro', '41.1892° N, 7.5456° W'),
       specs: {
-        altura: '4.80 metros',
-        extensao: '62 metros lineares',
-        drenagem: 'Tubagem Geotécnica Oculta c/ Brita Filtrante',
-        acabamento: 'Aparelhado à Picadeira com Juntas Secas'
+        height: '4.80 meters',
+        length: '62 linear meters',
+        drainage: 'Concealed Geotextile Hydro-Conduit & Filter Gravel',
+        finish: 'Hand-Pointed with Tight Dry-Joint Tolerance'
       },
-      description: 'Muro de contenção de encosta de alta carga para proteção de socalcos vinícolas centenários. Cálculo de impulso de terras de acordo com o Eurocódigo 7 e execução em blocos de granito maciço talhados à mão.'
+      description: 'High-load hillside retaining structure safeguarding centuries-old vineyard terraces. Designed and calculated in compliance with Eurocode 7 geotechnical standards, hand-dressed and interlocked with millimeter precision.'
     },
     {
       id: 'solar-foz-02',
       category: 'quintas',
-      categoryLabel: 'Restauro Nobre',
-      title: 'Reabilitação de Fachada & Cantarias Nobres',
+      categoryLabel: 'Heritage Estate Restoration',
+      title: 'Noble Facade & Historic Quoin Conservation',
       location: 'Foz do Douro, Porto',
-      material: 'Granito Pedras Salgadas & Argamassa de Cal',
-      role: 'Consultoria de Aparejador & Reabilitação',
+      material: 'Pedras Salgadas Granite & Natural Hydraulic Lime',
+      role: 'Quantity Surveying & Masonry Restoration',
       year: '2024',
       image: 'assets/images/quintas/solar_foz_02.jpg',
-      placeholderSvg: generateStonePatternSvg('Solar Foz', '41.1512° N, 8.6732° W'),
+      placeholderSvg: generateStonePatternSvg('Foz Manor Estate', '41.1512° N, 8.6732° W'),
       specs: {
-        area: '340 m² de Fachada',
-        elementos: '14 Vãos Nobres, Cimalhas e Cornijas Históricas',
-        tolerancia: '±1.0 mm em Prumos e Esquadrias',
-        conservacao: 'Descontaminação e Consolidação Mineral'
+        facade_area: '340 m² Historic Granite Facade',
+        elements: '14 Noble Window Surrounds, Cornices & Entablatures',
+        tolerance: '±1.0 mm Alignment in Plumb & Square',
+        preservation: 'Mineral Desalination & Structural Consolidation'
       },
-      description: 'Restauro integral de cantarias históricas numa moradia senhorial do século XIX na Foz. Alinhamento de cimalhas, reconstrução de ombreiras com enxertos cirúrgicos e consolidação estrutural contra maresia.'
+      description: 'Comprehensive restoration of 19th-century noble granite masonry in a coastal manor in Foz. Careful alignment of cornices, surgical micro-grafting on jambs, and maritime atmosphere waterproofing.'
     },
     {
       id: 'cantaria-gaia-03',
       category: 'cantaria',
-      categoryLabel: 'Cantaria de Autor',
-      title: 'Escadaria Helicoidal & Lareira Monolítica',
+      categoryLabel: 'Bespoke Architectural Stone',
+      title: 'Cantilevered Monolithic Staircase & Hearth',
       location: 'Afurada, Vila Nova de Gaia',
-      material: 'Granito Cinzento Alpinista (Maciço)',
-      role: 'Escultura Tectónica & Montagem',
+      material: 'Alpine Gray Solid Granite Block',
+      role: 'Tectonic Sculpture & Engineering',
       year: '2025',
       image: 'assets/images/cantaria/escadaria_gaia_03.jpg',
-      placeholderSvg: generateStonePatternSvg('Escadaria Tectónica', '41.1445° N, 8.6511° W'),
+      placeholderSvg: generateStonePatternSvg('Tectonic Staircase', '41.1445° N, 8.6511° W'),
       specs: {
-        degraus: '18 Degraus Maciços Engastados',
-        peso_bloco: '420 kg por unidade',
-        fixacao: 'Ancoragens em Aço Inox AISI 316',
-        textura: 'Bujardado Fino de Alta Aderência'
+        treads: '18 Solid Granite Cantilevered Treads',
+        block_weight: '420 kg per monolith',
+        anchoring: 'Concealed AISI 316 Stainless Structural Pins',
+        texture: 'Fine Bush-Hammered Non-Slip Grip'
       },
-      description: 'Peça de arquitetura contemporânea executada em blocos puros de granito. Cada degrau foi aparelhado individualmente para encaixe em consola de parede de betão aparente com fixação oculta.'
+      description: 'Contemporary architectural centerpiece crafted from solid granite monoliths. Each tread individually dressed and slotted into exposed architectural concrete walls with hidden structural anchoring.'
     },
     {
-      id: 'muro-porto-04',
+      id: 'wall-porto-04',
       category: 'muros',
-      categoryLabel: 'Muro Estrutural',
-      title: 'Muro de Fecho & Cantaria Geométrica',
+      categoryLabel: 'Cyclopean Retaining Wall',
+      title: 'Perimeter Monolith Wall & Geometric Ashlar',
       location: 'Nevogilde, Porto',
-      material: 'Granito Azulino de Ponte de Lima',
-      role: 'Execução Integral & Cálculo',
+      material: 'Ponte de Lima Blue Granite',
+      role: 'Full Execution & Geotechnical Calculation',
       year: '2024',
       image: 'assets/images/muros/muro_nevogilde_04.jpg',
       placeholderSvg: generateStonePatternSvg('Nevogilde Tectonics', '41.1620° N, 8.6820° W'),
       specs: {
-        extensao: '45 metros lineares',
-        sistema: 'Junta Esquadrejada 5mm s/ Argamassa Aparente',
-        impermeabilizacao: 'Membrana Betuminosa com Drenagem Periférica',
-        seguranca: 'Cálculo Sísmico Certificado'
+        length: '45 linear meters',
+        system: '5mm Dressed Joints / No Exposed Mortar',
+        waterproofing: 'Bituminous Membrane with Subsurface Trench',
+        safety: 'Seismic Stability Certification'
       },
-      description: 'Delimitação arquitetónica de moradia minimalista de luxo. Rigor geométrico absoluto em granito aparelhado com linhas de junta contínuas e integração oculta de iluminação linear LED.'
+      description: 'Architectural perimeter for an ultra-luxury minimalist residence. Absolute geometric discipline in dressed granite with uninterrupted joint lines and concealed linear LED channels.'
     },
     {
       id: 'quinta-amarante-05',
       category: 'quintas',
-      categoryLabel: 'Património & Adega',
-      title: 'Adega Monolítica & Abóbada de Berço em Granito',
-      location: 'Amarante / Marco de Canaveses',
-      material: 'Granito Regional Rústico Aparelhado',
-      role: 'Direção de Obra & Alvenaria Nobre',
+      categoryLabel: 'Heritage Estate & Vault',
+      title: 'Monolithic Wine Vault & Semicircular Granite Arch',
+      location: 'Amarante / Douro Sub-Region',
+      material: 'Hand-Squared Regional Quarry Granite',
+      role: 'Technical Direction & Noble Masonry',
       year: '2023',
       image: 'assets/images/quintas/adega_amarante_05.jpg',
-      placeholderSvg: generateStonePatternSvg('Adega Granítica', '41.2711° N, 8.0772° W'),
+      placeholderSvg: generateStonePatternSvg('Granite Vault', '41.2711° N, 8.0772° W'),
       specs: {
-        vao: 'Arco de 6.2 metros em Volta Perfeita',
-        espessura: 'Paredes de 70 cm de Inércia Térmica',
-        fundacao: 'Encastramento Direto no Maciço Rochoso',
-        climatizacao: 'Inércia Natural (14°C constante)'
+        arch_span: '6.2 meters Semicircular Barrel Vault',
+        thickness: '70 cm Thermal Mass Granite Walls',
+        foundation: 'Direct Bedrock Socketing',
+        climate: 'Passive Thermal Inertia (14°C constant)'
       },
-      description: 'Construção de adega semi-subterrânea de guarda de vinhos nobres. Utilização da massa mineral para estabilização térmica e higrométrica passiva com cantaria de juntas travadas.'
+      description: 'Semi-subterranean private wine cellar constructed from massive granite blocks. Harnesses mineral mass for completely passive humidity and temperature regulation.'
     },
     {
       id: 'cantaria-portais-06',
       category: 'cantaria',
-      categoryLabel: 'Cantaria de Autor',
-      title: 'Pórtico Monolítico & Painéis Ventilados',
+      categoryLabel: 'Bespoke Architectural Stone',
+      title: 'Monolithic Entrance Portal & Cladding Panels',
       location: 'Matosinhos Sul',
-      material: 'Granito Escuro Pedras Salgadas',
-      role: 'Engenharia de Fachada & Execução',
+      material: 'Pedras Salgadas Deep Granite',
+      role: 'Facade Engineering & Installation',
       year: '2025',
       image: 'assets/images/cantaria/portico_matosinhos_06.jpg',
-      placeholderSvg: generateStonePatternSvg('Pórtico Matosinhos', '41.1812° N, 8.6912° W'),
+      placeholderSvg: generateStonePatternSvg('Matosinhos Portal', '41.1812° N, 8.6912° W'),
       specs: {
-        altura_portico: '3.60 metros livre',
-        tolerancia: 'Zero desvio em diagonais',
-        tratamento: 'Hidrófugo Mineral Respirável Oleofóbico',
-        acabamento: 'Corte à Serra com Escovado Texturado'
+        portal_height: '3.60 meters clear height',
+        tolerances: 'Zero diagonal deviation',
+        treatment: 'Oleophobic Breathable Mineral Seal',
+        finish: 'Saw-Cut with Brushed Tactile Texture'
       },
-      description: 'Entrada monumental para edifício residencial de luxo. Montagem de ombreiras de grande porte com tolerância zero de alinhamento com a caixilharia oculta suíça.'
+      description: 'Monumental entrance portal for a luxury private residence. Installation of large-scale stone jambs with micro-tolerances interfacing seamlessly with Swiss minimalist glazing frames.'
     }
   ];
 
@@ -132,24 +132,24 @@ document.addEventListener('DOMContentLoaded', () => {
   function generateStonePatternSvg(title, coords) {
     const svgString = `
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" width="100%" height="100%">
-        <rect width="800" height="550" fill="#0c0c0c"/>
+        <rect width="800" height="550" fill="#0a0a0a"/>
         <defs>
           <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#181818" stroke-width="1"/>
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#161616" stroke-width="1"/>
           </pattern>
         </defs>
         <rect width="800" height="550" fill="url(#grid)" />
         <g stroke="#262626" stroke-width="1.5" fill="none">
-          <polygon points="120,80 380,80 340,240 80,240" fill="#141414"/>
-          <polygon points="380,80 720,80 680,240 340,240" fill="#171717"/>
-          <polygon points="80,240 340,240 300,420 50,420" fill="#121212"/>
-          <polygon points="340,240 680,240 640,420 300,420" fill="#151515"/>
+          <polygon points="120,80 380,80 340,240 80,240" fill="#121212"/>
+          <polygon points="380,80 720,80 680,240 340,240" fill="#151515"/>
+          <polygon points="80,240 340,240 300,420 50,420" fill="#101010"/>
+          <polygon points="340,240 680,240 640,420 300,420" fill="#141414"/>
         </g>
         <line x1="50" y1="480" x2="750" y2="480" stroke="#333" stroke-width="1"/>
-        <text x="60" y="510" fill="#888" font-family="monospace" font-size="12" letter-spacing="2">SOLRAC TECTONIC ARCHITECTURE</text>
-        <text x="740" y="510" fill="#555" font-family="monospace" font-size="11" text-anchor="end" letter-spacing="1">${coords}</text>
-        <text x="400" y="260" fill="#f0f0f0" font-family="serif" font-size="18" text-anchor="middle" letter-spacing="3">${title.toUpperCase()}</text>
-        <text x="400" y="290" fill="#777" font-family="sans-serif" font-size="11" text-anchor="middle" letter-spacing="1">CANTEIRO &amp; APARELHADOR</text>
+        <text x="60" y="510" fill="#888" font-family="'JetBrains Mono', monospace" font-size="12" letter-spacing="2">SOLRAC TECTONICS · PORTO</text>
+        <text x="740" y="510" fill="#555" font-family="'JetBrains Mono', monospace" font-size="11" text-anchor="end" letter-spacing="1">${coords}</text>
+        <text x="400" y="260" fill="#f0f0f0" font-family="'Cinzel', serif" font-size="18" text-anchor="middle" letter-spacing="3">${title.toUpperCase()}</text>
+        <text x="400" y="290" fill="#777" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" text-anchor="middle" letter-spacing="1">QUANTITY SURVEYOR &amp; MASTER MASON</text>
       </svg>
     `;
     return 'data:image/svg+xml;utf8,' + encodeURIComponent(svgString);
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ? PROJECTS_DATA 
       : PROJECTS_DATA.filter(p => p.category === filter);
 
-    filteredProjects.forEach((project, index) => {
+    filteredProjects.forEach((project) => {
       const card = document.createElement('article');
       card.className = 'project-card';
       card.dataset.id = project.id;
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="project-meta-table">
             <span class="meta-field-label">Material</span>
             <span class="meta-field-val">${project.material}</span>
-            <span class="meta-field-label">Função</span>
+            <span class="meta-field-label">Role</span>
             <span class="meta-field-val">${project.role}</span>
           </div>
         </div>
@@ -290,22 +290,22 @@ document.addEventListener('DOMContentLoaded', () => {
       const submitBtn = conciergeForm.querySelector('button[type="submit"]');
       const originalText = submitBtn.innerHTML;
       
-      submitBtn.innerHTML = `<span>A PROCESSAR CONSULTA TÉCNICA...</span>`;
+      submitBtn.innerHTML = `<span>PROCESSING TECHNICAL INQUIRY...</span>`;
       submitBtn.disabled = true;
 
       // Extract details
       const formData = new FormData(conciergeForm);
-      const name = formData.get('client_name') || 'Cliente';
-      const projectType = formData.get('project_type') || 'Obra em Pedra';
+      const name = formData.get('client_name') || 'Client';
+      const projectType = formData.get('project_type') || 'Stone Commission';
       const location = formData.get('location') || 'Grande Porto';
       
       setTimeout(() => {
-        submitBtn.innerHTML = `<span>✓ CONSULTA ENVIADA COM SUCESSO</span>`;
+        submitBtn.innerHTML = `<span>✓ INQUIRY TRANSMITTED SUCCESSFULLY</span>`;
         submitBtn.style.background = '#222';
         submitBtn.style.color = '#55ff55';
         submitBtn.style.borderColor = '#55ff55';
         
-        alert(`Obrigado, ${name}.\n\nA sua solicitação para "${projectType}" em ${location} foi registada com prioridade de Direção Técnica.\n\nO Diretor Técnico e Mestre Canteiro entrará em contacto dentro de 24 horas úteis.`);
+        alert(`Thank you, ${name}.\n\nYour technical inquiry regarding "${projectType}" in ${location} has been registered with priority technical direction status.\n\nThe Technical Director & Master Craftsman will be in touch within 24 business hours.`);
         
         conciergeForm.reset();
         setTimeout(() => {
