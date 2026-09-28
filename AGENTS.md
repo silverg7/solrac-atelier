@@ -20,3 +20,8 @@
    - Cualquier nueva tarea debe registrarse en `TABLERO_AGENTES.md` bajo el estándar universal de 6 columnas y doble frontera (`SETTLES WHEN` y `FAILS IF`).
 3. **Verificación Fail-Closed:**
    - Todo cambio en código o marcado debe verificarse con `make check` y probarse en servidor local (`make serve` / `python3 -m http.server 8080`).
+
+---
+
+## Canon de flota (Noesis)
+- Doctrina de despacho vigente: `../noesis/memory.md` §60-61 y `../noesis/data/fleet_canon.json` (lo aplica `python ../noesis/mando.py doctor`).
