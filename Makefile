@@ -3,7 +3,7 @@
 
 IGNITE_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 
-.PHONY: help sync test check ignite serve
+.PHONY: help sync test check ignite serve merge escala mariskal magnus
 
 help:
 	@echo "SOLRAC Atelier — Comandos disponibles:"
@@ -12,13 +12,15 @@ help:
 	@echo "  make check   — Verificación de salud y archivos canónicos"
 	@echo "  make test    — Validar sintaxis y estructura del portfolio"
 	@echo "  make ignite  — Despertar táctico y lectura de identidad"
+	@echo "  make merge MSG=... — Ciclo completo fail-closed (preflights + push)"
+	@echo "  make escala  — Protocolo 'escala a noesis' ante fricción o bloqueo"
 
 serve:
 	@echo "Iniciando portfolio web en http://localhost:8080 ..."
 	@python3 -m http.server 8080
 
 sync:
-	@git pull --rebase --autostash --prune origin main
+	@git pull --rebase --autostash --prune origin $$(git branch --show-current)
 
 check:
 	@test -f index.html || { echo "✖ Falta index.html" >&2; exit 1; }
@@ -31,3 +33,14 @@ test: check
 ignite:
 	@echo "=== SOLRAC Atelier · ignite local ==="
 	@cat "$(IGNITE_ROOT)/AGENTS.md"
+
+merge:
+	@bash scripts/merge.sh "$${MSG:-}"
+
+escala:
+	@python3 ../noesis/mando.py escala --satelite solrac-atelier 2>/dev/null || echo "✖ Noesis no disponible en ruta hermana."
+
+mariskal:
+	@python3 ../noesis/mando.py mariskal solrac-atelier $(if $(TICKET),--ticket $(TICKET),) $(if $(WORKTREE),--worktree $(WORKTREE),) $(if $(DISPATCH),--dispatch,) $(if $(JSON),--json,)
+
+magnus: mariskal
