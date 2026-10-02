@@ -25,3 +25,7 @@
 
 ## Canon de flota (Noesis)
 - Doctrina de despacho vigente: `../noesis/memory.md` §60-61 y `../noesis/data/fleet_canon.json` (lo aplica `python ../noesis/mando.py doctor`).
+
+## Despacho y Mariskal de Campo
+- **Vía Rápida Determinista (`make mariskal`):** Ante cualquier solicitud de prompt, delegación a Tier-S o invocación del "mariskal", el agente tiene **terminantemente prohibido redactar prompts a mano o inventar plantillas**. Ejecuta inmediatamente `python3 ../noesis/mando.py mariskal solrac-atelier` (o `make mariskal`) y entrega directamente el bloque `work_order` resultante de forma 100% literal e íntegra sin preámbulos ni paráfrasis.
+
