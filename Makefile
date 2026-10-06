@@ -1,7 +1,11 @@
+override SCOPE_ROOT := $(abspath $(dir $(firstword $(MAKEFILE_LIST))))
+include $(SCOPE_ROOT)/scripts/project_scope.mk
+.DEFAULT_GOAL :=
+
 # Makefile — SOLRAC Atelier
 # Sujeto a gobernanza Top-Down de Noesis
 
-IGNITE_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+IGNITE_ROOT := $(abspath $(dir $(firstword $(MAKEFILE_LIST))))
 
 .PHONY: help sync test check ignite serve merge escala mariskal magnus
 
@@ -20,7 +24,11 @@ serve:
 	@python3 -m http.server 8080
 
 sync:
-	@git pull --rebase --autostash --prune origin $$(git branch --show-current)
+ifeq ($(PROJECT_TRANSVERSAL),1)
+	@cd "$(SCOPE_ROOT)" && bash "$(SCOPE_ROOT)/scripts/transversal.sh" sync
+else
+	@cd "$(SCOPE_ROOT)" && bash "$(SCOPE_ROOT)/scripts/sync_local.sh"
+endif
 
 check:
 	@test -f index.html || { echo "✖ Falta index.html" >&2; exit 1; }
@@ -35,7 +43,11 @@ ignite:
 	@cat "$(IGNITE_ROOT)/AGENTS.md"
 
 merge:
-	@bash scripts/merge.sh "$${MSG:-}"
+ifeq ($(PROJECT_TRANSVERSAL),1)
+	@cd "$(SCOPE_ROOT)" && bash "$(SCOPE_ROOT)/scripts/transversal.sh" merge "$${MSG:-}"
+else
+	@cd "$(SCOPE_ROOT)" && bash scripts/merge.sh "$${MSG:-}"
+endif
 
 escala:
 	@python3 ../noesis/mando.py escala --satelite solrac-atelier 2>/dev/null || echo "✖ Noesis no disponible en ruta hermana."

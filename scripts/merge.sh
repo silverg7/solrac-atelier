@@ -6,7 +6,9 @@
 set -euo pipefail
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
+export PATH="$REPO/scripts:$PATH"
 MSG="${1:-}"
+[[ $# -le 1 ]] || { echo "Argumentos inválidos; merge local no admite alcance implícito." >&2; exit 2; }
 
 RED='\033[91m'
 GREEN='\033[92m'

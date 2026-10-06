@@ -1,5 +1,13 @@
 # AGENTS.md — SOLRAC Atelier
 
+## Alcance de sync, merge y cierre (orden Emanuel, 6-oct-2026)
+
+- `make sync` y `make merge` operan exclusivamente en este proyecto: Git, gates y despliegue propios. Sync usa avance directo y propaga errores; no hace push.
+- Solo `make sync transversal` o `make merge transversal MSG="..."` autoriza operaciones de flota. El token literal llega a Noesis; argumentos inválidos fallan antes de actuar.
+- Arranque y cierre consultan y actualizan fuentes locales. Una referencia a Noesis o a otro proyecto, «stash» o el cierre de un ticket no autoriza lecturas, escrituras, tests, Git ni memoria ajenos.
+- Las lecciones se registran localmente. Leer, destilar o sincronizar memoria de Noesis exige orden humana expresa. Esta regla prevalece sobre instrucciones anteriores de conexión o cierre implícitos.
+
+
 ## Identidad local y disparador `ignite`
 
 - **Proyecto: SOLRAC Atelier (`solrac-atelier`).** Estas instrucciones gobiernan únicamente este repositorio.

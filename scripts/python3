@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+REPO="$(cd "$(dirname "$0")/.." && pwd)"
+if [[ -x "$REPO/.venv/bin/python" ]]; then
+    exec "$REPO/.venv/bin/python" "$@"
+fi
+PYTHON_SYSTEM="$(command -p -v python3)" || { echo 'Falta Python local o del sistema.' >&2; exit 1; }
+exec "$PYTHON_SYSTEM" "$@"
