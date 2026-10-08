@@ -1,5 +1,7 @@
 # AGENTS.md — SOLRAC Atelier
 
+- **Coste Tier-B y contexto:** doctrina vigente en [Noesis §69](../noesis/memory.md): delegación cero de base; Haiku 5.5 en fichas cortas autorizadas. Para Tier-B largo con >100K, evaluar Luna en arnés compatible y con calidad medida. Los tramos incluyen caché y son por petición; `maxTurns` no garantiza contexto pequeño. Comparar coste total por tarea; capital y cerrojos conservan su asignación.
+
 ## Alcance de sync, merge y cierre (orden Emanuel, 6-oct-2026)
 
 - `make sync` y `make merge` operan exclusivamente en este proyecto: Git, gates y despliegue propios. Sync usa avance directo y propaga errores; no hace push.
