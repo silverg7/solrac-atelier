@@ -26,7 +26,13 @@ command -v git >/dev/null 2>&1 || die "git no encontrado"
 cd "$REPO"
 
 BRANCH="$(git rev-parse --abbrev-ref HEAD)"
-[[ "$BRANCH" == "master" || "$BRANCH" == "main" ]] || die "Estás en '$BRANCH', no en master/main. Cambia a master/main primero."
+WORKTREE_MODE=0
+if [[ "$BRANCH" != "master" && "$BRANCH" != "main" ]]; then
+    COMMON_DIR="$(cd "$(git rev-parse --git-common-dir)" && pwd)"
+    [[ "$(git rev-parse --absolute-git-dir)" != "$COMMON_DIR" ]] \
+        || die "Estás en '$BRANCH', no en master/main. Cambia a master/main primero."
+    WORKTREE_MODE=1
+fi
 
 # ── Preflight barato antes de cualquier gate ─────────────────────────────────
 SECONDS=0
@@ -43,6 +49,42 @@ GIT_DIR="$(git rev-parse --absolute-git-dir)"
 PROBE="$(mktemp "$GIT_DIR/merge-write-check.XXXXXX")" || die "Git no permite escritura; ejecuta fuera del sandbox antes de lanzar los gates."
 rm -f -- "$PROBE"
 [[ ! -e "$GIT_DIR/index.lock" ]] || die "Git está ocupado (index.lock); no se elimina el bloqueo."
+
+# ── Modo worktree (NOE-MERGE-WORKTREE-20261018, portado de Noesis) ───────────
+# Desde la rama de un worktree se publica la rama, no el checkout principal: este
+# puede tener trabajo sin commitear de otras sesiones, que no debe acabar en el
+# commit ni bloquear el merge. Se integra origin/$TARGET ($TARGET local si no hay
+# origin) en la rama, los gates y el staging actúan sobre este worktree y se
+# publica HEAD en $TARGET. El checkout principal solo avanza por fast-forward; si
+# sus cambios lo impiden, avisa.
+if [[ $WORKTREE_MODE -eq 1 ]]; then
+    MAIN="$(dirname "$COMMON_DIR")"
+    # El intérprete local (.venv, fuera de git) solo vive en el principal: los gates de
+    # este worktree lo usan enlazado entrada a entrada. Su .gitignore («*», como el que
+    # escribe venv) se crea y no se enlaza: git no lee un .gitignore que sea symlink.
+    if [[ -d "$MAIN/.venv" && ! -e "$REPO/.venv" ]]; then
+        { mkdir "$REPO/.venv" && printf '*\n' > "$REPO/.venv/.gitignore" \
+            && find "$MAIN/.venv" -mindepth 1 -maxdepth 1 ! -name .gitignore -exec ln -s {} "$REPO/.venv/" \; ; } \
+            || die "No se pudo enlazar .venv desde $MAIN."
+    fi
+    TARGET="$(git -C "$MAIN" rev-parse --abbrev-ref HEAD)"
+    [[ "$TARGET" == "master" || "$TARGET" == "main" ]] || TARGET="master"
+    if git remote | grep -q "^origin$"; then
+        UPSTREAM="origin/$TARGET"
+        run_step "Actualizar referencia remota" git fetch origin "$TARGET"
+    else
+        UPSTREAM="$TARGET"
+    fi
+    if ! git merge-base --is-ancestor "$UPSTREAM" HEAD; then
+        git merge -q --no-edit "$UPSTREAM" || {
+            git merge --abort 2>/dev/null || true
+            die "No se pudo integrar $UPSTREAM en '$BRANCH' (conflicto o cambios sin commitear en los mismos ficheros): resuélvelo en la rama y relanza."
+        }
+        ok "$UPSTREAM integrado en '$BRANCH'."
+    fi
+    ok "Modo worktree: '$BRANCH' → $TARGET, sin tocar el árbol de $MAIN."
+    BRANCH="$TARGET"
+fi
 
 REMOTE_BRANCH="$BRANCH"
 REMOTE_REF="origin/$REMOTE_BRANCH"
@@ -104,12 +146,37 @@ else
     echo "  Commit: ${SHA_AFTER:0:8}"
 fi
 
+# Modo worktree: la rama local $BRANCH sigue a lo publicado sin tocar el árbol ajeno.
+# Si está en checkout en $MAIN, fast-forward allí (git lo rechaza solo si los cambios
+# sin commitear chocan con ficheros publicados); si no, se mueve la referencia.
+sincronizar_local() {
+    local tip prev
+    tip="$(git rev-parse HEAD)"
+    prev="$(git rev-parse --verify -q "refs/heads/$BRANCH" || true)"
+    if [[ -n "$prev" ]] && ! git merge-base --is-ancestor "$prev" "$tip"; then
+        warn "$BRANCH local (${prev:0:8}) diverge de lo publicado: no se mueve."
+    elif [[ "$(git -C "$MAIN" rev-parse --abbrev-ref HEAD)" == "$BRANCH" ]]; then
+        if git -C "$MAIN" merge --ff-only -q "$tip"; then
+            ok "$BRANCH en $MAIN: ${prev:0:8} → ${tip:0:8}; sus cambios sin commitear siguen intactos."
+        else
+            warn "$BRANCH en $MAIN no avanza: cambios sin commitear chocan con lo publicado (origin ya tiene ${tip:0:8})."
+        fi
+    else
+        git update-ref "refs/heads/$BRANCH" "$tip" ${prev:+"$prev"} || die "No se pudo mover $BRANCH local a ${tip:0:8}."
+        ok "$BRANCH local: ${prev:0:8} → ${tip:0:8}."
+    fi
+}
+
 # ── Push ──────────────────────────────────────────────────────────────────────
 if git remote | grep -q "^origin$"; then
     echo ""
     echo -e "${BOLD}[merge] Push a origin/$REMOTE_BRANCH...${RESET}"
-    run_step "Push" git push origin "$REMOTE_BRANCH"
+    run_step "Push" git push origin "HEAD:$REMOTE_BRANCH"
     ok "Merge y push completados en origin/$REMOTE_BRANCH."
+fi
+
+if [[ $WORKTREE_MODE -eq 1 ]]; then
+    sincronizar_local
 fi
 
 ok "Ciclo completo: ${SECONDS} s."
