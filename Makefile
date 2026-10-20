@@ -57,3 +57,10 @@ mariskal:
 	@python3 ../noesis/mando.py mariskal solrac-atelier $(if $(TICKET),--ticket $(TICKET),) $(if $(WORKTREE),--worktree $(WORKTREE),) $(if $(DISPATCH),--dispatch,) $(if $(JSON),--json,)
 
 magnus: mariskal
+
+
+# Testigo de relevo canónico de flota (Noesis `mando.py relevo`).
+.PHONY: relevo
+relevo:
+	@principal="$$(dirname "$$(git rev-parse --path-format=absolute --git-common-dir)")"; sat="$$(basename "$$principal")"; AUTOR="$(AUTOR)" ENTREGADO="$(ENTREGADO)" ESTADO="$(ESTADO)" NOTAS="$(NOTAS)" \
+	python3 "$$principal/../noesis/mando.py" relevo "$$sat" --raiz "$(CURDIR)"

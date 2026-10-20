@@ -1,6 +1,7 @@
-# TABLERO DE AGENTES — SOLRAC ATELIER
-# Centro de Mando Satélite · Sujeto a gobernanza Top-Down de Noesis
-# Gramática RMAS: 6 columnas, 4 estados canónicos (PENDIENTE 🕓, EN_PROGRESO 🔵, LISTO 🟢, CERRADO ✅)
+<!-- noesis:cabecera v1 — no editar a mano; la regenera `python ../noesis/mando.py alinear-flota --fix` -->
+# TABLERO DE AGENTES — SOLRAC-ATELIER
+> SOLRAC: atelier de cantería y arquitectura en piedra del Grande Porto y el Douro. · Gobernanza Noesis · RMAS: 6 columnas, `PENDIENTE` 🕓 / `CERRADO` ✅
+<!-- noesis:cabecera:fin -->
 
 ---
 

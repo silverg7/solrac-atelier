@@ -1,14 +1,22 @@
-# AGENTS.md — SOLRAC Atelier
+<!-- noesis:cabecera v1 — no editar a mano; la regenera `python ../noesis/mando.py alinear-flota --fix` -->
+# AGENTS.md — solrac-atelier
+> SOLRAC: atelier de cantería y arquitectura en piedra del Grande Porto y el Douro.
+
+## Gobernanza de flota (Noesis, top-down)
+- Este satélite sigue el canon de Noesis: `../noesis/AGENTS.md`, `../noesis/data/fleet_canon.json` y `../noesis/fleet.json`.
+- `make sync` / `make merge` actúan en este repo; la flota entera, con `make sync transversal` / `make merge transversal`.
+- **Tablero:** `TABLERO_AGENTES.md`, tabla RMAS de 6 columnas (ID, Bloque, Tarea, Estado, Hecho cuando, Falla si);
+  dos estados, `PENDIENTE` 🕓 y `CERRADO` ✅; los cerrados salen a `archive/` con `python ../noesis/scripts/tablero_ops.py close`.
+- **Despacho:** `make mariskal` da la orden de marcha determinista del siguiente ticket; ante fricción, `make escala`.
+- **Relevo:** al cerrar ventana, `make relevo` sella `scripts/prompts/PROMPT_SIGUIENTE_VENTANA.md` (frontmatter 3.0 + `cursor_ack`).
+  El siguiente ticket lo marca el tablero o el Córtex, no un prompt redactado a mano.
+- PROTOCOLO_DECISIONES_HUMANAS: lo que dependa de Emanuel se pregunta en el acto con AskUserQuestion
+  (2-4 opciones, la recomendada primero); nunca queda aparcado en prosa (`make audit-decisiones` en Noesis).
+<!-- noesis:cabecera:fin -->
+
+## Lo propio: SOLRAC Atelier
 
 - **Coste Tier-B y contexto:** doctrina vigente en [Noesis §69](../noesis/memory.md): delegación cero de base; Haiku 5.5 en fichas cortas autorizadas. Para Tier-B largo con >100K, evaluar Luna en arnés compatible y con calidad medida. Los tramos incluyen caché y son por petición; `maxTurns` no garantiza contexto pequeño. Comparar coste total por tarea; capital y cerrojos conservan su asignación.
-
-## Alcance de sync, merge y cierre (orden Emanuel, 6-oct-2026)
-
-- `make sync` y `make merge` operan exclusivamente en este proyecto: Git, gates y despliegue propios. Sync usa avance directo y propaga errores; no hace push.
-- Solo `make sync transversal` o `make merge transversal MSG="..."` autoriza operaciones de flota. El token literal llega a Noesis; argumentos inválidos fallan antes de actuar.
-- Arranque y cierre consultan y actualizan fuentes locales. Una referencia a Noesis o a otro proyecto, «stash» o el cierre de un ticket no autoriza lecturas, escrituras, tests, Git ni memoria ajenos.
-- Las lecciones se registran localmente. Leer, destilar o sincronizar memoria de Noesis exige orden humana expresa. Esta regla prevalece sobre instrucciones anteriores de conexión o cierre implícitos.
-
 
 ## Identidad local y disparador `ignite`
 
@@ -34,7 +42,6 @@
 ---
 
 ## Canon de flota (Noesis)
-- Doctrina de despacho vigente: `../noesis/memory.md` §60-61 y `../noesis/data/fleet_canon.json` (lo aplica `python ../noesis/mando.py doctor`).
 
 ## Despacho y Mariskal de Campo
 - **Vía Rápida Determinista (`make mariskal`):** Ante cualquier solicitud de prompt, delegación a Tier-S o invocación del "mariskal", el agente tiene **terminantemente prohibido redactar prompts a mano o inventar plantillas**. Ejecuta inmediatamente `python3 ../noesis/mando.py mariskal solrac-atelier` (o `make mariskal`) y entrega directamente el bloque `work_order` resultante de forma 100% literal e íntegra sin preámbulos ni paráfrasis.
