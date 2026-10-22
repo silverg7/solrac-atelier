@@ -1,34 +1,54 @@
-# GUIA DE GESTÃO DE IMAGENS DO PORTFOLIO · SOLRAC
+# Gestão de imagens do portfolio · SOLRAC
 
----
+## Seleção SOL-02
 
-## 📸 Onde e Como Colocar as Fotografias Reais
+Fotografias provenientes do álbum **Muros pedra**, fornecido pelo responsável do
+projeto em 22 de outubro de 2026. As posições abaixo correspondem à ordem do álbum
+na importação. O link partilhado e os URLs temporários de descarga não fazem parte
+do site. Os originais continuam no álbum, sem alterações.
 
-A estrutura de imagens foi desenhada para que possas arrastar e soltar as tuas fotos nas seguintes pastas dentro de `assets/images/`:
+| Pasta / nome base | Posição no álbum | Conteúdo visível |
+|---|---:|---|
+| `hero/cantaria-esquina` | 20 | Esquina de muro com pedras aparelhadas; recorte 4:5 para capa |
+| `muros/muro-curvo` | 6 | Muro de contenção com alinhamento curvo |
+| `muros/muro-aparelhado` | 21 | Muro de blocos aparelhados junto a uma entrada |
+| `quintas/portal-rural` | 28 | Empena e portal de edifício rural em reabilitação |
+| `quintas/reabilitacao-pedra` | 32 | Alvenaria e ombreiras de edifício rural em obra |
+| `cantaria/escada-detalhe` | 54 | Encontro de cantaria inclinada com alvenaria sob uma escada |
+| `cantaria/degraus-macicos` | 66 | Degraus maciços com remates laterais |
 
-| Pasta | Tipo de Obras | Exemplos |
-|---|---|---|
-| `assets/images/muros/` | **Muros de Contenção & Estruturais** | Muros em pedra seca ou aparelhada, contenção de encostas, muros de fecho de quintas. |
-| `assets/images/quintas/` | **Quintas, Solares & Restauro** | Casas senhoriais, adegas no Douro, restauro de fachadas de granito antigo. |
-| `assets/images/cantaria/` | **Cantaria de Autor & Detalhes** | Peitoris, ombreiras, arcos em volta perfeita, cornijas, lareiras de pedra maciça, escadarias. |
-| `assets/images/tecnico/` | **Engenharia & Obra em Curso** | Prumos, níveis, cortes milimétricos, sapatas armadas, fundações e drenagens técnicas. |
-| `assets/images/hero/` | **Imagens de Capa / Destaque** | As 2 ou 3 fotografias mais impactantes e imponentes da carreira dele. |
+As legendas descrevem apenas os elementos visíveis. O álbum não identifica a
+localização das obras: não é atribuído nenhum concelho ou quinta no Douro às
+fotografias. Datas de execução, medidas, proveniências de pedreira e certificações
+das antigas fichas de exemplo foram retiradas destas fichas.
 
----
+## Ficheiros e carregamento
 
-## ⚙️ Dicas de Tratamento para Efeito "High-End Luxury"
+- Cada fotografia dispõe de versões WebP de **640, 1280 e 1920 px de largura**.
+  As proporções originais são mantidas nas fichas; a capa usa um recorte 4:5.
+- A grelha pede 640 ou 1280 px com `srcset`, `sizes`, `loading="lazy"` e
+  `decoding="async"`. A imagem de 1920 px é pedida ao abrir o lightbox.
+- A capa tem `fetchpriority="high"` e três larguras responsivas. Os atributos
+  `width` e `height` e as caixas CSS reservam o espaço das fotografias.
+- Os ficheiros conservam a cor; o CSS aplica o filtro monocromático, também no hover
+  e no lightbox. Não há dependência de Google Photos durante a navegação.
+- A exportação corrige a orientação e elimina EXIF, GPS e outros metadados pessoais.
+  Não foram usadas imagens sintéticas nem bancos de imagem.
 
-1. **Filtro Preto e Branco:** A página web aplica automaticamente um filtro monocromático de alta fidelidade e contraste dinâmico via CSS. Podes carregar imagens a cores ou já em preto e branco.
-2. **Resolução Recomendada:** Fotografias com pelo menos 1920x1080px (formato horizontal) ou 1080x1350px (formato vertical de detalhe).
-3. **Formatos Suportados:** `.jpg`, `.jpeg`, `.png`, `.webp`.
+`assets/images/manifest.json` regista a posição de origem, as dimensões originais,
+o SHA-256 do ficheiro recebido, as dimensões e os bytes de cada versão publicada.
+Orçamento verificado em `make check`: até 100 KiB por miniatura, 700 KiB por
+ficheiro e 8 MiB para o conjunto de versões. As sete fotografias têm 21 versões;
+o conjunto ocupa cerca de 5,1 MiB, sem ser transferido integralmente ao abrir a página.
 
----
+## Atualizar a seleção
 
-## 🔄 Como Atualizar os Textos dos Projetos
-
-No ficheiro `index.html` ou em `js/main.js`, cada projeto tem uma ficha com:
-- **Título do Projeto** (ex: *Muro Ciclópico de Contenção · Quinta no Douro*)
-- **Localização** (ex: *Pinhão / Peso da Régua / Foz do Douro*)
-- **Material Utilizado** (ex: *Granito Amarelo do Norte, Granito Pedras Salgadas*)
-- **Direção Técnica** (ex: *Cálculo de Drenagem Subterrânea & Aparelhamento Manual*)
-- **Ano de Execução** (ex: *2024 / 2025*)
+1. Preservar o original na origem e preparar versões WebP, sem ampliar fotografias
+   pequenas. Na seleção inicial foi usado Pillow, qualidade 80 (74 na capa).
+2. Guardar as versões na pasta correspondente e atualizar `manifest.json`.
+3. Atualizar `PROJECTS_DATA` em `js/main.js`: `imageBase`, `image`, dimensões, texto
+   alternativo e descrição factual. A capa é configurada em `index.html`.
+   Copiar ficheiros para uma pasta não cria fichas automaticamente.
+4. Executar `make check`, `node --check js/main.js` e `make serve`. Verificar a
+   grelha em desktop e telemóvel, os três filtros e a ampliação de cada fotografia.
+   Confirmar ausência de imagens partidas, erros de consola e pedidos 404.

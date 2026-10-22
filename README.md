@@ -47,7 +47,8 @@ solrac/
    - `assets/images/muros/` para muros de contenção e cantaria rústica/aparelhada.
    - `assets/images/quintas/` para obras de solares, quintas no Douro e restauros.
    - `assets/images/cantaria/` para peças esculpidas, arcos, colunas e pavimentos.
-2. As imagens serão automaticamente integradas e formatadas na grelha monocromática de alta precisão.
+2. Prepara versões WebP de 640, 1280 e 1920 px de largura e regista-as em `assets/images/manifest.json`.
+3. Atualiza as fichas em `PROJECTS_DATA` (`js/main.js`) e a capa em `index.html`. A grelha aplica o tratamento monocromático; copiar ficheiros para uma pasta não cria fichas automaticamente. Consulta `docs/GUIA_IMAGENS.md`.
 
 ---
 

@@ -11,6 +11,7 @@
 |---|---|---|:---:|---|---|
 | **SOL-02** | Frontend / Portfolio | **Curaduría y carga de fotografías reales de obras en assets/images/.** Incorporar fotos de alta resolución de muros de contención, quintas no Douro y piezas de cantaria aparelhada. | 🕓 **PENDIENTE** | Imágenes organizadas en `assets/images/` y visualización correcta en grelha monocromática en `index.html`. | Imágenes rotas, rutas inexistentes o tiempos de carga excesivos sin optimización. |
 | **SOL-03** | Marca & Concierge | **Refinamiento del módulo Concierge y formulario de contacto técnico.** Optimizar flujo de contacto directo para arquitectos y clientes de alto patrón en Grande Porto y Douro. | 🕓 **PENDIENTE** | Botón de concierge funcional con modal o enlace directo de contacto sin dependencias externas caídas. | Enlaces muertos, errores de consola JS o layout shift. |
+| **SOL-BUG-01** | [BUG/PROYECTO] / Responsive | **Overflow móvil del Concierge.** A 390 px, el ancho mínimo del formulario/select expande los hijos de `.concierge-grid` a 490 px; llegan hasta x=510 y el documento mide 510 px. Detectado con Chromium local durante SOL-02; hero y grelha caben en 390 px. Fuera del perímetro fotográfico, relacionado con SOL-03. | 🕓 **PENDIENTE** | Concierge y formulario caben en 390 px sin scroll horizontal; verificación real con `document.documentElement.scrollWidth === innerWidth`. | Corregir ocultando el overflow, recortar controles o desbordar el viewport. |
 
 ---
 

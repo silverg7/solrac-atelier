@@ -1,0 +1,210 @@
+{
+  "source": "Muros pedra — álbum fornecido para SOL-02",
+  "processing": "WebP; orientação corrigida; metadados pessoais removidos; cor preservada; monocromia em CSS. Originais preservados no álbum de origem.",
+  "images": [
+    {
+      "stem": "hero/cantaria-esquina",
+      "album_position": 20,
+      "source_dimensions": [
+        1960,
+        4032
+      ],
+      "source_sha256": "d141f9fd9f5a02bdf3646ddd5669bcb2f8fcd7d5b6151e61efa7508c835c8ed9",
+      "files": [
+        {
+          "path": "assets/images/hero/cantaria-esquina-640.webp",
+          "width": 640,
+          "height": 800,
+          "bytes": 96664
+        },
+        {
+          "path": "assets/images/hero/cantaria-esquina-1280.webp",
+          "width": 1280,
+          "height": 1600,
+          "bytes": 362510
+        },
+        {
+          "path": "assets/images/hero/cantaria-esquina-1920.webp",
+          "width": 1920,
+          "height": 2400,
+          "bytes": 690304
+        }
+      ],
+      "crop": "4:5, centred horizontally; vertical focus 22%"
+    },
+    {
+      "stem": "muros/muro-curvo",
+      "album_position": 6,
+      "source_dimensions": [
+        3264,
+        1840
+      ],
+      "source_sha256": "cc6f70f619a381a1a3056d3c8bd6f221cac333b05f8f1a274237d61641f90956",
+      "files": [
+        {
+          "path": "assets/images/muros/muro-curvo-640.webp",
+          "width": 640,
+          "height": 361,
+          "bytes": 68100
+        },
+        {
+          "path": "assets/images/muros/muro-curvo-1280.webp",
+          "width": 1280,
+          "height": 722,
+          "bytes": 279536
+        },
+        {
+          "path": "assets/images/muros/muro-curvo-1920.webp",
+          "width": 1920,
+          "height": 1082,
+          "bytes": 560294
+        }
+      ]
+    },
+    {
+      "stem": "muros/muro-aparelhado",
+      "album_position": 21,
+      "source_dimensions": [
+        4032,
+        1960
+      ],
+      "source_sha256": "5ec79ede53f39c084c305e4e6d09e64f85ddfc4ef807cce48d29aab82997603b",
+      "files": [
+        {
+          "path": "assets/images/muros/muro-aparelhado-640.webp",
+          "width": 640,
+          "height": 311,
+          "bytes": 35616
+        },
+        {
+          "path": "assets/images/muros/muro-aparelhado-1280.webp",
+          "width": 1280,
+          "height": 622,
+          "bytes": 155050
+        },
+        {
+          "path": "assets/images/muros/muro-aparelhado-1920.webp",
+          "width": 1920,
+          "height": 933,
+          "bytes": 351736
+        }
+      ]
+    },
+    {
+      "stem": "quintas/portal-rural",
+      "album_position": 28,
+      "source_dimensions": [
+        4032,
+        1960
+      ],
+      "source_sha256": "a0510d232dbdb2055a81f4f2d8fb19ca44ac6e0f9f3899faf30dec19c1e034f2",
+      "files": [
+        {
+          "path": "assets/images/quintas/portal-rural-640.webp",
+          "width": 640,
+          "height": 311,
+          "bytes": 43070
+        },
+        {
+          "path": "assets/images/quintas/portal-rural-1280.webp",
+          "width": 1280,
+          "height": 622,
+          "bytes": 163078
+        },
+        {
+          "path": "assets/images/quintas/portal-rural-1920.webp",
+          "width": 1920,
+          "height": 933,
+          "bytes": 343642
+        }
+      ]
+    },
+    {
+      "stem": "quintas/reabilitacao-pedra",
+      "album_position": 32,
+      "source_dimensions": [
+        3840,
+        2160
+      ],
+      "source_sha256": "a54545c2cdb200f178957c1a9b946d6b3350d31c16e2f98621fe6b7c1de968f4",
+      "files": [
+        {
+          "path": "assets/images/quintas/reabilitacao-pedra-640.webp",
+          "width": 640,
+          "height": 360,
+          "bytes": 49056
+        },
+        {
+          "path": "assets/images/quintas/reabilitacao-pedra-1280.webp",
+          "width": 1280,
+          "height": 720,
+          "bytes": 170494
+        },
+        {
+          "path": "assets/images/quintas/reabilitacao-pedra-1920.webp",
+          "width": 1920,
+          "height": 1080,
+          "bytes": 341040
+        }
+      ]
+    },
+    {
+      "stem": "cantaria/escada-detalhe",
+      "album_position": 54,
+      "source_dimensions": [
+        4032,
+        1960
+      ],
+      "source_sha256": "4b8acf60d6737c3878e20169b97a4c4517c10842107d9ce272c7fdcab8241715",
+      "files": [
+        {
+          "path": "assets/images/cantaria/escada-detalhe-640.webp",
+          "width": 640,
+          "height": 311,
+          "bytes": 61894
+        },
+        {
+          "path": "assets/images/cantaria/escada-detalhe-1280.webp",
+          "width": 1280,
+          "height": 622,
+          "bytes": 270006
+        },
+        {
+          "path": "assets/images/cantaria/escada-detalhe-1920.webp",
+          "width": 1920,
+          "height": 933,
+          "bytes": 603208
+        }
+      ]
+    },
+    {
+      "stem": "cantaria/degraus-macicos",
+      "album_position": 66,
+      "source_dimensions": [
+        4032,
+        1960
+      ],
+      "source_sha256": "8f20a3d2a7a1795c9ef6c430a236dc454e03c146712a4a35abce25fb6d1eb22e",
+      "files": [
+        {
+          "path": "assets/images/cantaria/degraus-macicos-640.webp",
+          "width": 640,
+          "height": 311,
+          "bytes": 49414
+        },
+        {
+          "path": "assets/images/cantaria/degraus-macicos-1280.webp",
+          "width": 1280,
+          "height": 622,
+          "bytes": 212654
+        },
+        {
+          "path": "assets/images/cantaria/degraus-macicos-1920.webp",
+          "width": 1920,
+          "height": 933,
+          "bytes": 450084
+        }
+      ]
+    }
+  ]
+}

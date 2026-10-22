@@ -11,152 +11,117 @@ document.addEventListener('DOMContentLoaded', () => {
      ------------------------------------------------------------------------- */
   const PROJECTS_DATA = [
     {
-      id: 'wall-douro-01',
-      category: 'muros',
-      categoryLabel: 'Cyclopean Retaining Wall',
-      title: 'Cyclopean Retaining Structure · Douro Valley Wine Estate',
-      location: 'Pinhão, Douro Valley',
-      material: 'Solid Yellow Real Granite (Hand-Dressed)',
-      role: 'Technical Direction & Master Masonry',
-      year: '2025',
-      image: 'assets/images/muros/muro_douro_01.jpg',
-      placeholderSvg: generateStonePatternSvg('Cyclopean Douro', '41.1892° N, 7.5456° W'),
-      specs: {
-        height: '4.80 meters',
-        length: '62 linear meters',
-        drainage: 'Concealed Geotextile Hydro-Conduit & Filter Gravel',
-        finish: 'Hand-Pointed with Tight Dry-Joint Tolerance'
+      "id": "muro-curvo",
+      "category": "muros",
+      "categoryLabel": "Retaining Wall",
+      "title": "Curved Retaining Wall",
+      "material": "Stone masonry",
+      "detail": "Curved alignment",
+      "image": "assets/images/muros/muro-curvo-1920.webp",
+      "imageBase": "assets/images/muros/muro-curvo",
+      "width": 1920,
+      "height": 1082,
+      "alt": "Curved stone retaining wall following the edge of a landscaped plot.",
+      "specs": {
+        "element": "Curved alignment",
+        "masonry": "Exposed stonework"
       },
-      description: 'High-load hillside retaining structure safeguarding centuries-old vineyard terraces. Designed and calculated in compliance with Eurocode 7 geotechnical standards, hand-dressed and interlocked with millimeter precision.'
+      "description": "Masonry follows the curve of the terrain, with staggered joints and a continuous stone face."
     },
     {
-      id: 'solar-foz-02',
-      category: 'quintas',
-      categoryLabel: 'Heritage Estate Restoration',
-      title: 'Noble Facade & Historic Quoin Conservation',
-      location: 'Foz do Douro, Porto',
-      material: 'Pedras Salgadas Granite & Natural Hydraulic Lime',
-      role: 'Quantity Surveying & Masonry Restoration',
-      year: '2024',
-      image: 'assets/images/quintas/solar_foz_02.jpg',
-      placeholderSvg: generateStonePatternSvg('Foz Manor Estate', '41.1512° N, 8.6732° W'),
-      specs: {
-        facade_area: '340 m² Historic Granite Facade',
-        elements: '14 Noble Window Surrounds, Cornices & Entablatures',
-        tolerance: '±1.0 mm Alignment in Plumb & Square',
-        preservation: 'Mineral Desalination & Structural Consolidation'
+      "id": "muro-aparelhado",
+      "category": "muros",
+      "categoryLabel": "Retaining Wall",
+      "title": "Dressed Stone Boundary Wall",
+      "material": "Stone masonry",
+      "detail": "Dressed courses",
+      "image": "assets/images/muros/muro-aparelhado-1920.webp",
+      "imageBase": "assets/images/muros/muro-aparelhado",
+      "width": 1920,
+      "height": 933,
+      "alt": "Long wall of dressed stone blocks beside a recessed entrance.",
+      "specs": {
+        "element": "Dressed courses",
+        "masonry": "Exposed stonework"
       },
-      description: 'Comprehensive restoration of 19th-century noble granite masonry in a coastal manor in Foz. Careful alignment of cornices, surgical micro-grafting on jambs, and maritime atmosphere waterproofing.'
+      "description": "A continuous wall of squared stone, showing the coursing, joint pattern and return at the entrance."
     },
     {
-      id: 'cantaria-gaia-03',
-      category: 'cantaria',
-      categoryLabel: 'Bespoke Architectural Stone',
-      title: 'Cantilevered Monolithic Staircase & Hearth',
-      location: 'Afurada, Vila Nova de Gaia',
-      material: 'Alpine Gray Solid Granite Block',
-      role: 'Tectonic Sculpture & Engineering',
-      year: '2025',
-      image: 'assets/images/cantaria/escadaria_gaia_03.jpg',
-      placeholderSvg: generateStonePatternSvg('Tectonic Staircase', '41.1445° N, 8.6511° W'),
-      specs: {
-        treads: '18 Solid Granite Cantilevered Treads',
-        block_weight: '420 kg per monolith',
-        anchoring: 'Concealed AISI 316 Stainless Structural Pins',
-        texture: 'Fine Bush-Hammered Non-Slip Grip'
+      "id": "portal-rural",
+      "category": "quintas",
+      "categoryLabel": "Rural Masonry",
+      "title": "Stone Gable & Entrance Surround",
+      "material": "Stone masonry",
+      "detail": "Entrance surround",
+      "image": "assets/images/quintas/portal-rural-1920.webp",
+      "imageBase": "assets/images/quintas/portal-rural",
+      "width": 1920,
+      "height": 933,
+      "alt": "Rural stone gable with a dressed stone entrance surround during rehabilitation.",
+      "specs": {
+        "element": "Entrance surround",
+        "masonry": "Exposed stonework"
       },
-      description: 'Contemporary architectural centerpiece crafted from solid granite monoliths. Each tread individually dressed and slotted into exposed architectural concrete walls with hidden structural anchoring.'
+      "description": "An existing rural masonry shell with a pitched gable and dressed blocks framing the entrance."
     },
     {
-      id: 'wall-porto-04',
-      category: 'muros',
-      categoryLabel: 'Cyclopean Retaining Wall',
-      title: 'Perimeter Monolith Wall & Geometric Ashlar',
-      location: 'Nevogilde, Porto',
-      material: 'Ponte de Lima Blue Granite',
-      role: 'Full Execution & Geotechnical Calculation',
-      year: '2024',
-      image: 'assets/images/muros/muro_nevogilde_04.jpg',
-      placeholderSvg: generateStonePatternSvg('Nevogilde Tectonics', '41.1620° N, 8.6820° W'),
-      specs: {
-        length: '45 linear meters',
-        system: '5mm Dressed Joints / No Exposed Mortar',
-        waterproofing: 'Bituminous Membrane with Subsurface Trench',
-        safety: 'Seismic Stability Certification'
+      "id": "reabilitacao-pedra",
+      "category": "quintas",
+      "categoryLabel": "Rural Masonry",
+      "title": "Rural Stonework Rehabilitation",
+      "material": "Stone masonry",
+      "detail": "Doorway jambs",
+      "image": "assets/images/quintas/reabilitacao-pedra-1920.webp",
+      "imageBase": "assets/images/quintas/reabilitacao-pedra",
+      "width": 1920,
+      "height": 1080,
+      "alt": "Interior of a rural stone building with dressed doorway jambs and exposed masonry.",
+      "specs": {
+        "element": "Doorway jambs",
+        "masonry": "Exposed stonework"
       },
-      description: 'Architectural perimeter for an ultra-luxury minimalist residence. Absolute geometric discipline in dressed granite with uninterrupted joint lines and concealed linear LED channels.'
+      "description": "Exposed masonry walls and dressed doorway elements photographed during the rehabilitation of a rural building."
     },
     {
-      id: 'quinta-amarante-05',
-      category: 'quintas',
-      categoryLabel: 'Heritage Estate & Vault',
-      title: 'Monolithic Wine Vault & Semicircular Granite Arch',
-      location: 'Amarante / Douro Sub-Region',
-      material: 'Hand-Squared Regional Quarry Granite',
-      role: 'Technical Direction & Noble Masonry',
-      year: '2023',
-      image: 'assets/images/quintas/adega_amarante_05.jpg',
-      placeholderSvg: generateStonePatternSvg('Granite Vault', '41.2711° N, 8.0772° W'),
-      specs: {
-        arch_span: '6.2 meters Semicircular Barrel Vault',
-        thickness: '70 cm Thermal Mass Granite Walls',
-        foundation: 'Direct Bedrock Socketing',
-        climate: 'Passive Thermal Inertia (14°C constant)'
+      "id": "escada-detalhe",
+      "category": "cantaria",
+      "categoryLabel": "Dressed Stonework",
+      "title": "Staircase · Stone Joint Detail",
+      "material": "Stone masonry",
+      "detail": "Diagonal stone course",
+      "image": "assets/images/cantaria/escada-detalhe-1920.webp",
+      "imageBase": "assets/images/cantaria/escada-detalhe",
+      "width": 1920,
+      "height": 933,
+      "alt": "Close view of a diagonal dressed stone course meeting the masonry beneath a staircase.",
+      "specs": {
+        "element": "Diagonal stone course",
+        "masonry": "Exposed stonework"
       },
-      description: 'Semi-subterranean private wine cellar constructed from massive granite blocks. Harnesses mineral mass for completely passive humidity and temperature regulation.'
+      "description": "A close study of the joint between the dressed diagonal stone course and the supporting masonry beneath the stairs."
     },
     {
-      id: 'cantaria-portais-06',
-      category: 'cantaria',
-      categoryLabel: 'Bespoke Architectural Stone',
-      title: 'Monolithic Entrance Portal & Cladding Panels',
-      location: 'Matosinhos Sul',
-      material: 'Pedras Salgadas Deep Granite',
-      role: 'Facade Engineering & Installation',
-      year: '2025',
-      image: 'assets/images/cantaria/portico_matosinhos_06.jpg',
-      placeholderSvg: generateStonePatternSvg('Matosinhos Portal', '41.1812° N, 8.6912° W'),
-      specs: {
-        portal_height: '3.60 meters clear height',
-        tolerances: 'Zero diagonal deviation',
-        treatment: 'Oleophobic Breathable Mineral Seal',
-        finish: 'Saw-Cut with Brushed Tactile Texture'
+      "id": "degraus-macicos",
+      "category": "cantaria",
+      "categoryLabel": "Dressed Stonework",
+      "title": "Solid Stone Entrance Steps",
+      "material": "Stone masonry",
+      "detail": "Solid stone steps",
+      "image": "assets/images/cantaria/degraus-macicos-1920.webp",
+      "imageBase": "assets/images/cantaria/degraus-macicos",
+      "width": 1920,
+      "height": 933,
+      "alt": "Wide solid stone entrance steps with dressed risers and side returns.",
+      "specs": {
+        "element": "Solid stone steps",
+        "masonry": "Exposed stonework"
       },
-      description: 'Monumental entrance portal for a luxury private residence. Installation of large-scale stone jambs with micro-tolerances interfacing seamlessly with Swiss minimalist glazing frames.'
+      "description": "A broad flight of stone steps, with continuous horizontal lines and dressed side returns, photographed on site."
     }
   ];
 
   /* -------------------------------------------------------------------------
-     2. SVG Fallback / Architectural Blueprint Placeholder Generator
-     ------------------------------------------------------------------------- */
-  function generateStonePatternSvg(title, coords) {
-    const svgString = `
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" width="100%" height="100%">
-        <rect width="800" height="550" fill="#0a0a0a"/>
-        <defs>
-          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#161616" stroke-width="1"/>
-          </pattern>
-        </defs>
-        <rect width="800" height="550" fill="url(#grid)" />
-        <g stroke="#262626" stroke-width="1.5" fill="none">
-          <polygon points="120,80 380,80 340,240 80,240" fill="#121212"/>
-          <polygon points="380,80 720,80 680,240 340,240" fill="#151515"/>
-          <polygon points="80,240 340,240 300,420 50,420" fill="#101010"/>
-          <polygon points="340,240 680,240 640,420 300,420" fill="#141414"/>
-        </g>
-        <line x1="50" y1="480" x2="750" y2="480" stroke="#333" stroke-width="1"/>
-        <text x="60" y="510" fill="#888" font-family="'JetBrains Mono', monospace" font-size="12" letter-spacing="2">SOLRAC TECTONICS · PORTO</text>
-        <text x="740" y="510" fill="#555" font-family="'JetBrains Mono', monospace" font-size="11" text-anchor="end" letter-spacing="1">${coords}</text>
-        <text x="400" y="260" fill="#f0f0f0" font-family="'Cinzel', serif" font-size="18" text-anchor="middle" letter-spacing="3">${title.toUpperCase()}</text>
-        <text x="400" y="290" fill="#777" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" text-anchor="middle" letter-spacing="1">QUANTITY SURVEYOR &amp; MASTER MASON</text>
-      </svg>
-    `;
-    return 'data:image/svg+xml;utf8,' + encodeURIComponent(svgString);
-  }
-
-  /* -------------------------------------------------------------------------
-     3. Render Projects Grid
+     2. Render Projects Grid
      ------------------------------------------------------------------------- */
   const projectsGrid = document.getElementById('projects-grid');
   const filterButtons = document.querySelectorAll('.filter-btn');
@@ -178,9 +143,11 @@ document.addEventListener('DOMContentLoaded', () => {
       
       card.innerHTML = `
         <div class="project-thumb-wrapper">
-          <img src="${project.image}" alt="${project.title}" 
-               onerror="this.onerror=null; this.src='${project.placeholderSvg}';" 
-               loading="lazy">
+          <img src="${project.imageBase}-640.webp"
+               srcset="${project.imageBase}-640.webp 640w, ${project.imageBase}-1280.webp 1280w"
+               sizes="(max-width: 768px) 92vw, (max-width: 1024px) 44vw, (max-width: 1440px) 29vw, 411px"
+               width="${project.width}" height="${project.height}" alt="${project.alt}"
+               loading="lazy" decoding="async">
           <span class="project-category-badge">${project.categoryLabel}</span>
           <div class="project-expand-btn">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -190,14 +157,14 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="project-info">
           <div>
-            <span class="tech-label" style="font-size: 0.65rem; margin-bottom: 0.4rem;">${project.location}</span>
+            <span class="tech-label" style="font-size: 0.65rem; margin-bottom: 0.4rem;">${project.categoryLabel}</span>
             <h3 class="project-title">${project.title}</h3>
           </div>
           <div class="project-meta-table">
             <span class="meta-field-label">Material</span>
             <span class="meta-field-val">${project.material}</span>
-            <span class="meta-field-label">Role</span>
-            <span class="meta-field-val">${project.role}</span>
+            <span class="meta-field-label">Detail</span>
+            <span class="meta-field-val">${project.detail}</span>
           </div>
         </div>
       `;
@@ -218,13 +185,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* -------------------------------------------------------------------------
-     4. Fullscreen Lightbox Modal
+     3. Fullscreen Lightbox Modal
      ------------------------------------------------------------------------- */
   const lightboxModal = document.getElementById('lightbox-modal');
   const lightboxImage = document.getElementById('lightbox-image');
   const lightboxTitle = document.getElementById('lightbox-title');
   const lightboxCategory = document.getElementById('lightbox-category');
-  const lightboxLocation = document.getElementById('lightbox-location');
   const lightboxDesc = document.getElementById('lightbox-desc');
   const lightboxSpecsContainer = document.getElementById('lightbox-specs');
   const lightboxClose = document.getElementById('lightbox-close');
@@ -234,13 +200,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!project || !lightboxModal) return;
 
     lightboxImage.src = project.image;
-    lightboxImage.onerror = () => {
-      lightboxImage.src = project.placeholderSvg;
-    };
+    lightboxImage.alt = project.alt;
+    lightboxImage.width = project.width;
+    lightboxImage.height = project.height;
     
     lightboxTitle.textContent = project.title;
-    lightboxCategory.textContent = `${project.categoryLabel} · ${project.year}`;
-    lightboxLocation.textContent = project.location;
+    lightboxCategory.textContent = project.categoryLabel;
     lightboxDesc.textContent = project.description;
 
     // Render specs
@@ -280,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* -------------------------------------------------------------------------
-     5. High-Ticket Concierge Inquiry Form
+     4. High-Ticket Concierge Inquiry Form
      ------------------------------------------------------------------------- */
   const conciergeForm = document.getElementById('concierge-form');
   if (conciergeForm) {
@@ -318,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* -------------------------------------------------------------------------
-     6. Header Scroll Blur Effect
+     5. Header Scroll Blur Effect
      ------------------------------------------------------------------------- */
   const header = document.querySelector('.header');
   window.addEventListener('scroll', () => {
