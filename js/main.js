@@ -258,6 +258,15 @@ document.addEventListener('DOMContentLoaded', () => {
   function openConciergeModal(prefillProject = null) {
     if (!conciergeModal) return;
 
+    modalOpenTime = Date.now();
+
+    if (conciergeModalForm) {
+      conciergeModalForm.hidden = false;
+    }
+    if (modalFeedbackCard) {
+      modalFeedbackCard.hidden = true;
+    }
+
     conciergeModal.removeAttribute('hidden');
     // Force layout flush for smooth CSS opacity transition
     void conciergeModal.offsetWidth;
@@ -353,6 +362,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  let pageLoadTime = Date.now();
+  let modalOpenTime = Date.now();
+
   function generateDossierRef() {
     const year = new Date().getFullYear();
     const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
@@ -363,60 +375,162 @@ document.addEventListener('DOMContentLoaded', () => {
     return `SOL-${year}-${code}`;
   }
 
+  function getWhatsAppUrl(phone, text) {
+    const cleanPhone = phone.replace(/[^0-9]/g, '');
+    return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`;
+  }
+
+  function cacheLeadLocally(ref, payload, status) {
+    try {
+      const storageKey = 'solrac_dossier_vault';
+      const existing = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      existing.push({
+        ref: ref,
+        timestamp: new Date().toISOString(),
+        status: status,
+        payload: payload,
+      });
+      localStorage.setItem(storageKey, JSON.stringify(existing));
+    } catch (_) {
+      // Storage unavailable or private mode
+    }
+  }
+
+  async function transmitInquiry(payload) {
+    const response = await fetch('/api/inquiry', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      let errorMsg = `HTTP ${response.status}`;
+      try {
+        const errorJson = await response.json();
+        if (errorJson && errorJson.error) {
+          errorMsg = errorJson.error;
+        }
+      } catch (_) {}
+      throw new Error(errorMsg);
+    }
+
+    return await response.json();
+  }
+
   // Concierge Modal Form Submission
   if (conciergeModalForm) {
-    conciergeModalForm.addEventListener('submit', (e) => {
+    conciergeModalForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const submitBtn = conciergeModalForm.querySelector('button[type="submit"]');
       const originalText = submitBtn.innerHTML;
 
+      const formData = new FormData(conciergeModalForm);
+      const websiteTrap = (formData.get('website_trap') || '').toString().trim();
+
+      // Anti-spam client check: if trap filled, drop silently
+      if (websiteTrap !== '') {
+        return;
+      }
+
       submitBtn.innerHTML = `<span>TRANSMITTING TECHNICAL DOSSIER...</span>`;
       submitBtn.disabled = true;
 
-      const formData = new FormData(conciergeModalForm);
-      const name = formData.get('client_name') || 'Principal';
-      const email = formData.get('client_email') || '';
-      const phone = formData.get('client_phone') || '';
-      const projectType = formData.get('project_type') || 'Stone Commission';
-      const location = formData.get('location') || 'Grande Porto / Douro';
-      const notes = formData.get('project_notes') || '';
-      const dossierRef = generateDossierRef();
+      const name = (formData.get('client_name') || '').toString().trim() || 'Principal';
+      const role = (formData.get('client_role') || 'architect').toString().trim();
+      const email = (formData.get('client_email') || '').toString().trim();
+      const phone = (formData.get('client_phone') || '').toString().trim();
+      const projectType = (formData.get('project_type') || 'Stone Commission').toString().trim();
+      const location = (formData.get('location') || '').toString().trim() || 'Grande Porto / Douro';
+      const notes = (formData.get('project_notes') || '').toString().trim();
 
-      setTimeout(() => {
-        conciergeModalForm.hidden = true;
-        if (modalFeedbackCard) {
-          modalFeedbackCard.hidden = false;
+      const payload = {
+        client_name: name,
+        client_role: role,
+        client_email: email,
+        client_phone: phone,
+        project_type: projectType,
+        location: location,
+        project_notes: notes,
+        website_trap: websiteTrap,
+        form_loaded_at: modalOpenTime,
+        source: 'modal_form',
+      };
 
-          const descEl = document.getElementById('modal-feedback-desc');
-          if (descEl) {
-            descEl.textContent = `Thank you, ${name}. Your commission feasibility inquiry regarding "${projectType}" in ${location} has been registered with priority technical status.`;
-          }
+      let dossierRef = '';
+      let isBackendOffline = false;
 
-          const refEl = document.getElementById('modal-receipt-ref');
-          if (refEl) {
-            refEl.textContent = dossierRef;
-          }
+      try {
+        const result = await transmitInquiry(payload);
+        dossierRef = result.ref || generateDossierRef();
+        cacheLeadLocally(dossierRef, payload, 'persisted_remote');
+      } catch (err) {
+        console.warn('Backend unavailable, activating resilient direct channels fallback:', err);
+        dossierRef = generateDossierRef();
+        isBackendOffline = true;
+        cacheLeadLocally(dossierRef, payload, 'offline_cached');
+      }
 
-          const mailtoBtn = document.getElementById('modal-mailto-fallback');
-          if (mailtoBtn) {
-            const subject = encodeURIComponent(`[${dossierRef}] Technical Direction Commission Inquiry - ${name}`);
-            const body = encodeURIComponent(
-              `Dossier Ref: ${dossierRef}\n` +
-              `Principal/Studio: ${name}\n` +
-              `Professional Email: ${email}\n` +
-              `Phone/WhatsApp: ${phone}\n` +
-              `Nature of Commission: ${projectType}\n` +
-              `Location: ${location}\n\n` +
-              `Technical Brief / Blueprints:\n${notes}\n`
-            );
-            mailtoBtn.href = `mailto:director@solrac-tectonics.com?subject=${subject}&body=${body}`;
+      conciergeModalForm.hidden = true;
+      if (modalFeedbackCard) {
+        modalFeedbackCard.hidden = false;
+
+        const descEl = document.getElementById('modal-feedback-desc');
+        if (descEl) {
+          if (isBackendOffline) {
+            descEl.textContent = `Thank you, ${name}. Your commission feasibility inquiry regarding "${projectType}" in ${location} has been registered under reference ${dossierRef}. Our local ingestion node is currently offline; please complete instant transmission via direct email or WhatsApp below.`;
+          } else {
+            descEl.textContent = `Thank you, ${name}. Your commission feasibility inquiry regarding "${projectType}" in ${location} has been registered with priority technical status in our transactional log.`;
           }
         }
 
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-      }, 700);
+        const refEl = document.getElementById('modal-receipt-ref');
+        if (refEl) {
+          refEl.textContent = dossierRef;
+        }
+
+        const statusEl = modalFeedbackCard.querySelector('.feedback-receipt .receipt-item:nth-child(2) .receipt-val');
+        if (statusEl) {
+          statusEl.textContent = isBackendOffline
+            ? 'DIRECT CHANNEL DISPATCH REQUIRED'
+            : 'ASSIGNED TO TECHNICAL DIRECTOR';
+        }
+
+        const subject = encodeURIComponent(`[${dossierRef}] Technical Direction Commission Inquiry - ${name}`);
+        const bodyText =
+          `Dossier Ref: ${dossierRef}\n` +
+          `Principal/Studio: ${name}\n` +
+          `Client Profile: ${role}\n` +
+          `Professional Email: ${email}\n` +
+          `Phone/WhatsApp: ${phone}\n` +
+          `Nature of Commission: ${projectType}\n` +
+          `Location: ${location}\n\n` +
+          `Technical Brief / Blueprints:\n${notes}\n`;
+
+        const mailtoBtn = document.getElementById('modal-mailto-fallback');
+        if (mailtoBtn) {
+          mailtoBtn.href = `mailto:director@solrac-tectonics.com?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
+        }
+
+        const whatsappBtn = document.getElementById('modal-whatsapp-fallback');
+        if (whatsappBtn) {
+          const waText =
+            `*SOLRAC TECTONICS — Commission Inquiry [${dossierRef}]*\n\n` +
+            `• Principal: ${name}\n` +
+            `• Profile: ${role}\n` +
+            `• Email: ${email}\n` +
+            `• Phone: ${phone}\n` +
+            `• Commission: ${projectType}\n` +
+            `• Location: ${location}\n\n` +
+            `*Brief / Blueprints:*\n${notes}`;
+          whatsappBtn.href = getWhatsAppUrl('351912345678', waText);
+        }
+      }
+
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
     });
   }
 
@@ -428,62 +542,121 @@ document.addEventListener('DOMContentLoaded', () => {
   const inpageFeedbackReset = document.getElementById('inpage-feedback-reset');
 
   if (conciergeForm) {
-    conciergeForm.addEventListener('submit', (e) => {
+    conciergeForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const submitBtn = conciergeForm.querySelector('button[type="submit"]');
       const originalText = submitBtn.innerHTML;
 
+      const formData = new FormData(conciergeForm);
+      const websiteTrap = (formData.get('website_trap') || '').toString().trim();
+
+      // Anti-spam client check: if trap filled, drop silently
+      if (websiteTrap !== '') {
+        return;
+      }
+
       submitBtn.innerHTML = `<span>TRANSMITTING TECHNICAL INQUIRY...</span>`;
       submitBtn.disabled = true;
 
-      const formData = new FormData(conciergeForm);
-      const name = formData.get('client_name') || 'Principal';
-      const email = formData.get('client_email') || '';
-      const phone = formData.get('client_phone') || '';
-      const projectType = formData.get('project_type') || 'Stone Commission';
-      const location = formData.get('location') || 'Grande Porto';
-      const notes = formData.get('project_notes') || '';
-      const dossierRef = generateDossierRef();
+      const name = (formData.get('client_name') || '').toString().trim() || 'Principal';
+      const role = (formData.get('client_role') || 'architect').toString().trim();
+      const email = (formData.get('client_email') || '').toString().trim();
+      const phone = (formData.get('client_phone') || '').toString().trim();
+      const projectType = (formData.get('project_type') || 'Stone Commission').toString().trim();
+      const location = (formData.get('location') || '').toString().trim() || 'Grande Porto';
+      const notes = (formData.get('project_notes') || '').toString().trim();
 
-      setTimeout(() => {
-        conciergeForm.hidden = true;
-        if (inpageFeedbackCard) {
-          inpageFeedbackCard.hidden = false;
+      const payload = {
+        client_name: name,
+        client_role: role,
+        client_email: email,
+        client_phone: phone,
+        project_type: projectType,
+        location: location,
+        project_notes: notes,
+        website_trap: websiteTrap,
+        form_loaded_at: pageLoadTime,
+        source: 'inpage_form',
+      };
 
-          const descEl = document.getElementById('inpage-feedback-desc');
-          if (descEl) {
-            descEl.textContent = `Thank you, ${name}. Your commission feasibility dossier regarding "${projectType}" in ${location} has been transmitted to Technical Direction.`;
-          }
+      let dossierRef = '';
+      let isBackendOffline = false;
 
-          const refEl = document.getElementById('inpage-receipt-ref');
-          if (refEl) {
-            refEl.textContent = dossierRef;
-          }
+      try {
+        const result = await transmitInquiry(payload);
+        dossierRef = result.ref || generateDossierRef();
+        cacheLeadLocally(dossierRef, payload, 'persisted_remote');
+      } catch (err) {
+        console.warn('Backend unavailable, activating resilient direct channels fallback:', err);
+        dossierRef = generateDossierRef();
+        isBackendOffline = true;
+        cacheLeadLocally(dossierRef, payload, 'offline_cached');
+      }
 
-          const mailtoBtn = document.getElementById('inpage-mailto-fallback');
-          if (mailtoBtn) {
-            const subject = encodeURIComponent(`[${dossierRef}] Commission Feasibility Intake - ${name}`);
-            const body = encodeURIComponent(
-              `Dossier Ref: ${dossierRef}\n` +
-              `Principal/Studio: ${name}\n` +
-              `Professional Email: ${email}\n` +
-              `Phone/WhatsApp: ${phone}\n` +
-              `Nature of Commission: ${projectType}\n` +
-              `Location: ${location}\n\n` +
-              `Technical Brief / Blueprints:\n${notes}\n`
-            );
-            mailtoBtn.href = `mailto:director@solrac-tectonics.com?subject=${subject}&body=${body}`;
+      conciergeForm.hidden = true;
+      if (inpageFeedbackCard) {
+        inpageFeedbackCard.hidden = false;
+
+        const descEl = document.getElementById('inpage-feedback-desc');
+        if (descEl) {
+          if (isBackendOffline) {
+            descEl.textContent = `Thank you, ${name}. Your commission feasibility dossier regarding "${projectType}" in ${location} has been compiled under reference ${dossierRef}. Our local ingestion node is currently offline; please complete instant transmission via direct email or WhatsApp below.`;
+          } else {
+            descEl.textContent = `Thank you, ${name}. Your commission feasibility dossier regarding "${projectType}" in ${location} has been transmitted to Technical Direction and logged in the secure register.`;
           }
         }
 
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-      }, 700);
+        const refEl = document.getElementById('inpage-receipt-ref');
+        if (refEl) {
+          refEl.textContent = dossierRef;
+        }
+
+        const statusEl = inpageFeedbackCard.querySelector('.feedback-receipt .receipt-item:nth-child(2) .receipt-val');
+        if (statusEl) {
+          statusEl.textContent = isBackendOffline
+            ? 'DIRECT CHANNEL DISPATCH REQUIRED'
+            : 'ASSIGNED TO TECHNICAL DIRECTOR';
+        }
+
+        const subject = encodeURIComponent(`[${dossierRef}] Commission Feasibility Intake - ${name}`);
+        const bodyText =
+          `Dossier Ref: ${dossierRef}\n` +
+          `Principal/Studio: ${name}\n` +
+          `Client Profile: ${role}\n` +
+          `Professional Email: ${email}\n` +
+          `Phone/WhatsApp: ${phone}\n` +
+          `Nature of Commission: ${projectType}\n` +
+          `Location: ${location}\n\n` +
+          `Technical Brief / Blueprints:\n${notes}\n`;
+
+        const mailtoBtn = document.getElementById('inpage-mailto-fallback');
+        if (mailtoBtn) {
+          mailtoBtn.href = `mailto:director@solrac-tectonics.com?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
+        }
+
+        const whatsappBtn = document.getElementById('inpage-whatsapp-fallback');
+        if (whatsappBtn) {
+          const waText =
+            `*SOLRAC TECTONICS — Commission Inquiry [${dossierRef}]*\n\n` +
+            `• Principal: ${name}\n` +
+            `• Profile: ${role}\n` +
+            `• Email: ${email}\n` +
+            `• Phone: ${phone}\n` +
+            `• Commission: ${projectType}\n` +
+            `• Location: ${location}\n\n` +
+            `*Brief / Blueprints:*\n${notes}`;
+          whatsappBtn.href = getWhatsAppUrl('351912345678', waText);
+        }
+      }
+
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
     });
 
     if (inpageFeedbackReset) {
       inpageFeedbackReset.addEventListener('click', () => {
+        pageLoadTime = Date.now();
         conciergeForm.reset();
         conciergeForm.hidden = false;
         if (inpageFeedbackCard) inpageFeedbackCard.hidden = true;

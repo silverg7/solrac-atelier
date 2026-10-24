@@ -21,7 +21,7 @@ help:
 
 serve:
 	@echo "Iniciando portfolio web en http://localhost:8080 ..."
-	@python3 -m http.server 8080
+	@python3 scripts/server.py 8080
 
 sync:
 ifeq ($(PROJECT_TRANSVERSAL),1)
@@ -33,7 +33,7 @@ endif
 check:
 	@test -f index.html || { echo "✖ Falta index.html" >&2; exit 1; }
 	@test -f TABLERO_AGENTES.md || { echo "✖ Falta TABLERO_AGENTES.md" >&2; exit 1; }
-	@python3 -B -m unittest -q scripts/test_merge_worktree.py scripts/test_portfolio_assets.py scripts/test_concierge_flow.py
+	@python3 -B -m unittest -q scripts/test_merge_worktree.py scripts/test_portfolio_assets.py scripts/test_concierge_flow.py scripts/test_lead_pipeline.py
 	@echo "✔ SOLRAC Atelier verificado bajo estándar Noesis."
 
 test: check

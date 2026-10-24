@@ -369,6 +369,12 @@
           <div class="concierge-form-wrapper">
             <form class="concierge-form" id="concierge-form">
               
+              <!-- Anti-Spam Honeypot Trap (invisible to humans) -->
+              <div class="visual-trap" aria-hidden="true">
+                <label for="website_trap">Leave empty</label>
+                <input type="text" id="website_trap" name="website_trap" tabindex="-1" autocomplete="off">
+              </div>
+
               <div class="form-row">
                 <div class="form-group">
                   <label class="form-label" for="client_name">Principal / Studio Name</label>
@@ -452,6 +458,7 @@
               <div class="feedback-actions">
                 <button type="button" class="btn-outline" id="inpage-feedback-reset">Submit Another Commission</button>
                 <a href="mailto:director@solrac-tectonics.com" class="btn-concierge" id="inpage-mailto-fallback">Open Direct Email Client</a>
+                <a href="https://wa.me/351912345678" target="_blank" rel="noopener noreferrer" class="btn-outline" id="inpage-whatsapp-fallback">Transmit via WhatsApp</a>
               </div>
             </div>
           </div>
@@ -571,6 +578,11 @@
 
       <div class="concierge-modal-body">
         <form class="concierge-modal-form" id="concierge-modal-form">
+          <!-- Anti-Spam Honeypot Trap (invisible to humans) -->
+          <div class="visual-trap" aria-hidden="true">
+            <label for="modal_website_trap">Leave empty</label>
+            <input type="text" id="modal_website_trap" name="website_trap" tabindex="-1" autocomplete="off">
+          </div>
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="modal_client_name">Principal / Studio Name</label>
@@ -653,6 +665,7 @@
           <div class="feedback-actions">
             <button type="button" class="btn-outline" id="modal-feedback-close">Close Desk</button>
             <a href="mailto:director@solrac-tectonics.com" class="btn-concierge" id="modal-mailto-fallback">Open Direct Email Client</a>
+            <a href="https://wa.me/351912345678" target="_blank" rel="noopener noreferrer" class="btn-outline" id="modal-whatsapp-fallback">Transmit via WhatsApp</a>
           </div>
         </div>
       </div>

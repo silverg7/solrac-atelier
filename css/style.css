@@ -839,6 +839,18 @@ button {
   white-space: nowrap;
 }
 
+/* Honeypot anti-spam trap: invisible to humans and screen readers */
+.visual-trap {
+  position: absolute !important;
+  left: -9999px !important;
+  top: auto !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 .form-input:focus, .form-select:focus, .form-textarea:focus {
   border-color: var(--text-primary);
 }

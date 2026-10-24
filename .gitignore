@@ -4,6 +4,8 @@ Thumbs.db
 *.swp
 *.swo
 *~
+__pycache__/
+*.py[cod]
 
 # Logs & scratch
 *.log
