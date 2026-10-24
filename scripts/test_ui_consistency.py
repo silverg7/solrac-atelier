@@ -38,11 +38,14 @@ class UIConsistencyTests(unittest.TestCase):
         for prefix, action in (("inpage", "reset"), ("modal", "close")):
             primary = next(attrs for _, attrs in self.parsed.tags
                            if attrs.get("id") == f"{prefix}-feedback-{action}")
-            self.assertEqual(primary["class"], "btn-concierge")
+            self.assertEqual(primary["class"], "btn-outline")
             for channel in ("mailto", "whatsapp"):
                 secondary = next(attrs for _, attrs in self.parsed.tags
                                  if attrs.get("id") == f"{prefix}-{channel}-fallback")
                 self.assertEqual(secondary["class"], "btn-outline")
+        for tag, attrs in self.parsed.tags:
+            if attrs.get("id", "").endswith(("feedback-reset", "feedback-close", "mailto-fallback", "whatsapp-fallback")):
+                self.assertNotIn("btn-concierge", attrs.get("class", ""))
         for untranslated in ("Submit Another Commission", "Technical Priority Registered",
                              "Private Technical Consultation", "Leave empty"):
             self.assertNotIn(untranslated, self.html_text)

@@ -998,9 +998,9 @@ button {
 
 .feedback-actions > :first-child {
   grid-column: 1 / -1;
+  border-color: var(--border-strong);
 }
 
-.feedback-actions > .btn-concierge,
 .feedback-actions > .btn-outline {
   min-height: 48px;
   min-width: 0;
