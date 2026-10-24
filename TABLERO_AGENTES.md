@@ -9,7 +9,6 @@
 
 | # | Bloque | Tarea / Descripción | Estado | Criterio de Aceptación (SETTLES WHEN) | Modos de Fallo (FAILS IF) |
 |---|---|---|:---:|---|---|
-| **SOL-BUG-01** | [BUG/PROYECTO] / Responsive | **Overflow móvil del Concierge.** A 390 px, el ancho mínimo del formulario/select expande los hijos de `.concierge-grid` a 490 px; llegan hasta x=510 y el documento mide 510 px. Detectado con Chromium local durante SOL-02; hero y grelha caben en 390 px. Fuera del perímetro fotográfico, relacionado con SOL-03. | 🕓 **PENDIENTE** | Concierge y formulario caben en 390 px sin scroll horizontal; verificación real con `document.documentElement.scrollWidth === innerWidth`. | Corregir ocultando el overflow, recortar controles o desbordar el viewport. |
 
 ---
 
