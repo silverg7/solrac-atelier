@@ -56,6 +56,29 @@ solrac/
 
 Para testar localmente no teu navegador:
 ```bash
-python3 -m http.server 8080
+make serve
 ```
 Abre no navegador: `http://localhost:8080`
+
+
+O servidor do projeto recebe os pedidos em `/api/inquiry` e protege os dados locais.
+Serve apenas a página e os diretórios públicos `assets/`, `css/` e `js/`.
+
+## 5. Verificação antes de integrar alterações
+
+`make check` executa os testes de estrutura, JavaScript e persistência com dados temporários.
+Para as regressões de frontend num navegador real, instala as dependências de desenvolvimento
+num ambiente Python e usa Chrome ou Chromium já instalado:
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements-browser.txt
+make check-browser BROWSER_PYTHON=.venv/bin/python
+```
+
+`BROWSER_PYTHON` permite reutilizar outro intérprete com Playwright; `SOLRAC_BROWSER`
+seleciona o executável de Chrome/Chromium. A aplicação não depende de Playwright.
+O teste de navegador falha se lhe faltar o ambiente necessário; não omite verificações.
+As capturas ficam em `scratch/sol-bug-03/`, fora do Git.
+
+A revisão e as correções de 24/10/2026 estão em [SOL-BUG-03 · Verificação](docs/SOL-BUG-03_VERIFICACAO.md).

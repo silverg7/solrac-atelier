@@ -17,6 +17,7 @@ import fcntl
 import hashlib
 import http.server
 import json
+import math
 import os
 import re
 import shutil
@@ -73,20 +74,14 @@ def get_existing_refs(file_path: Path) -> set:
     refs = set()
     if not file_path.exists():
         return refs
-    try:
-        with open(file_path, "r", encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
-                if not line:
-                    continue
-                try:
-                    data = json.loads(line)
-                    if isinstance(data, dict) and "ref" in data:
-                        refs.add(data["ref"])
-                except json.JSONDecodeError:
-                    continue
-    except OSError:
-        pass
+    with open(file_path, "r", encoding="utf-8") as f:
+        for line in f:
+            if not line.strip():
+                continue
+            data = json.loads(line)
+            if not isinstance(data, dict) or not isinstance(data.get("ref"), str):
+                raise ValueError("Invalid dossier record in transaction log")
+            refs.add(data["ref"])
     return refs
 
 
@@ -105,10 +100,7 @@ def generate_unique_ref(file_path: Path, preferred_ref: Optional[str] = None) ->
         if candidate not in existing:
             return candidate
 
-    # Fallback determinista com caracteres canónicos derivados de nanossegundos
-    ns_val = time.time_ns()
-    fallback_code = "".join(REF_CHARS[(ns_val >> (i * 5)) % len(REF_CHARS)] for i in range(4))
-    return f"SOL-{datetime.now(timezone.utc).year}-{fallback_code}"
+    raise RuntimeError("Unable to reserve a unique dossier reference")
 
 
 def _verify_photo_signature(mime_type: str, data: bytes) -> bool:
@@ -346,6 +338,8 @@ def validate_inquiry(payload: Dict[str, Any], now_ms: Optional[float] = None) ->
 
     try:
         form_loaded_ms = float(form_loaded_at)
+        if not math.isfinite(form_loaded_ms):
+            raise ValueError("Non-finite form timestamp")
         # Se timestamp em segundos em vez de ms, converter
         if 0 < form_loaded_ms < 10000000000:
             form_loaded_ms *= 1000
@@ -424,7 +418,7 @@ def persist_photos(
     if not dossier_dir.is_relative_to(photos_root):
         raise ValueError("Resolved photo directory escapes storage root.")
 
-    dossier_dir.mkdir(parents=True, exist_ok=True)
+    dossier_dir.mkdir(parents=True, exist_ok=False)
     persisted_meta: List[Dict[str, Any]] = []
 
     try:
@@ -477,20 +471,50 @@ def persist_inquiry(record: Dict[str, Any], file_path: Path = DEFAULT_INQUIRIES_
         fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
         try:
             needs_leading_newline = False
+            original_size = file_path.stat().st_size if file_path.exists() else 0
             if file_path.exists():
-                size = file_path.stat().st_size
+                size = original_size
                 if size > 0:
                     with open(file_path, "rb") as rf:
                         rf.seek(size - 1)
                         needs_leading_newline = rf.read(1) != b"\n"
 
-            with open(file_path, "ab") as f:
-                if needs_leading_newline:
-                    f.write(b"\n")
-                f.write(payload_bytes)
-                f.flush()
-                os.fsync(f.fileno())
+            append_bytes = (b"\n" if needs_leading_newline else b"") + payload_bytes
+            with open(file_path, "ab", buffering=0) as f:
+                try:
+                    if f.write(append_bytes) != len(append_bytes):
+                        raise OSError("Incomplete transaction log write")
+                    os.fsync(f.fileno())
+                except Exception:
+                    # Keep a failed append from leaving a partial/acknowledged record.
+                    f.truncate(original_size)
+                    os.fsync(f.fileno())
+                    raise
             _fsync_directory(file_path.parent)
+        finally:
+            fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
+
+
+def persist_dossier(record: Dict[str, Any], decoded_photos: List[Dict[str, Any]],
+                    file_path: Path, preferred_ref: Optional[str] = None) -> Dict[str, Any]:
+    """Reserve the reference and commit its photos/log under one cross-process lock."""
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+    transaction_lock = file_path.parent / f".{file_path.name}.transaction.lock"
+    with open(transaction_lock, "a+b") as lock_file:
+        fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
+        saved_photos = []
+        try:
+            dossier_ref = generate_unique_ref(file_path, preferred_ref=preferred_ref)
+            saved_photos = persist_photos(dossier_ref, decoded_photos, file_path.parent)
+            saved = {**record, "ref": dossier_ref, "photos": saved_photos}
+            saved["metadata"] = {**record["metadata"], "photo_count": len(saved_photos),
+                                 "photo_bytes": sum(p["size_bytes"] for p in saved_photos)}
+            persist_inquiry(saved, file_path=file_path)
+            return saved
+        except Exception:
+            if saved_photos:
+                shutil.rmtree(file_path.parent / "photos" / dossier_ref, ignore_errors=True)
+            raise
         finally:
             fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
 
@@ -548,14 +572,28 @@ class InquiryRequestHandler(http.server.SimpleHTTPRequestHandler):
             )
             return
 
-        # Bloquear acesso público HTTP directo à pasta de dados/leads privados (RGPD fail-closed)
-        normalized = os.path.normpath("/" + clean_path.lstrip("/"))
-        if normalized == "/data" or normalized.startswith("/data/"):
-            self._send_json_response(403, {"ok": False, "error": "FORBIDDEN"})
-            return
-
-        # Para qualquer outro caminho, servir ficheiros estáticos do portfolio
         super().do_GET()
+
+    def send_head(self):
+        # GET and HEAD must authorize the same decoded, resolved filesystem path.
+        root = Path(self.directory).resolve()
+        target = Path(self.translate_path(self.path)).resolve()
+        try:
+            relative = target.relative_to(root)
+        except ValueError:
+            relative = None
+        public = relative is not None and (
+            not relative.parts or relative == Path("index.html") or
+            relative.parts[0] in {"assets", "css", "js"}
+        )
+        if not public:
+            self.send_error(403, "Forbidden")
+            return None
+        return super().send_head()
+
+    def list_directory(self, path):
+        self.send_error(403, "Directory listing is disabled")
+        return None
 
     def do_POST(self) -> None:
         clean_path = self.path.split("?")[0].rstrip("/")
@@ -628,10 +666,6 @@ class InquiryRequestHandler(http.server.SimpleHTTPRequestHandler):
             )
             return
 
-        # Determinar referência única
-        client_ref = payload.get("dossier_ref")
-        dossier_ref = generate_unique_ref(self.inquiries_file, preferred_ref=client_ref)
-
         created_at = datetime.now(timezone.utc).isoformat()
         client_ip = self.client_address[0] if hasattr(self, "client_address") and self.client_address else "127.0.0.1"
         user_agent = self.headers.get("User-Agent", "unknown")[:300]
@@ -644,15 +678,8 @@ class InquiryRequestHandler(http.server.SimpleHTTPRequestHandler):
         except (ValueError, TypeError):
             elapsed_ms = -1
 
-        saved_photos: List[Dict[str, Any]] = []
         try:
-            saved_photos = persist_photos(
-                dossier_ref=dossier_ref,
-                decoded_photos=decoded_photos,
-                base_dir=self.inquiries_file.parent,
-            )
             record = {
-                "ref": dossier_ref,
                 "created_at": created_at,
                 "client_name": str(payload.get("client_name", "")).strip(),
                 "client_role": str(payload.get("client_role", "architect")).strip()[:64],
@@ -661,20 +688,18 @@ class InquiryRequestHandler(http.server.SimpleHTTPRequestHandler):
                 "project_type": str(payload.get("project_type", "General Commission")).strip()[:64],
                 "location": str(payload.get("location", "")).strip(),
                 "project_notes": str(payload.get("project_notes", "")).strip(),
-                "photos": saved_photos,
                 "metadata": {
                     "source": str(payload.get("source", "web_concierge"))[:64],
                     "client_ip": client_ip,
                     "user_agent": user_agent,
                     "elapsed_ms": elapsed_ms,
-                    "photo_count": len(saved_photos),
-                    "photo_bytes": sum(p["size_bytes"] for p in saved_photos),
                 },
             }
-            persist_inquiry(record, file_path=self.inquiries_file)
+            saved = persist_dossier(record, decoded_photos, self.inquiries_file,
+                                    preferred_ref=payload.get("dossier_ref"))
+            dossier_ref = saved["ref"]
+            saved_photos = saved["photos"]
         except Exception as e:
-            if saved_photos:
-                shutil.rmtree(self.inquiries_file.parent / "photos" / dossier_ref, ignore_errors=True)
             self._send_json_response(
                 500,
                 {"ok": False, "error": "PERSISTENCE_FAILURE", "message": f"Failed to persist dossier: {str(e)}"},

@@ -7,7 +7,7 @@ include $(SCOPE_ROOT)/scripts/project_scope.mk
 
 IGNITE_ROOT := $(abspath $(dir $(firstword $(MAKEFILE_LIST))))
 
-.PHONY: help sync test check ignite serve merge escala mariskal magnus
+.PHONY: help sync test check check-browser ignite serve merge escala mariskal magnus
 
 help:
 	@echo "SOLRAC Atelier — Comandos disponibles:"
@@ -33,8 +33,13 @@ endif
 check:
 	@test -f index.html || { echo "✖ Falta index.html" >&2; exit 1; }
 	@test -f TABLERO_AGENTES.md || { echo "✖ Falta TABLERO_AGENTES.md" >&2; exit 1; }
-	@python3 -B -m unittest -q scripts/test_merge_worktree.py scripts/test_portfolio_assets.py scripts/test_concierge_flow.py scripts/test_lead_pipeline.py scripts/test_ui_consistency.py scripts/test_i18n.py scripts/test_lightbox_navigation.py scripts/test_a11y_legal.py
+	@python3 -B -m unittest -q scripts/test_merge_worktree.py scripts/test_portfolio_assets.py scripts/test_concierge_flow.py scripts/test_lead_pipeline.py scripts/test_ui_consistency.py scripts/test_i18n.py scripts/test_lightbox_navigation.py scripts/test_a11y_legal.py scripts/test_audit_regressions.py
 	@echo "✔ SOLRAC Atelier verificado bajo estándar Noesis."
+
+BROWSER_PYTHON ?= python3
+
+check-browser:
+	@$(BROWSER_PYTHON) -B -m unittest -v scripts/test_browser_regressions.py
 
 test: check
 	@echo "✔ Tests de estructura completados con éxito."

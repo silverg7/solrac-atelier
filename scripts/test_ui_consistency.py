@@ -89,7 +89,7 @@ for (const prefix of ['inpage', 'modal']) {
     global.document = {getElementById: id => elements[id] ||= {dataset: {}}};
     const receipt = [{dataset: {}}, {dataset: {}}, {dataset: {}}];
     const title = {dataset: {}}, icon = {}, dialog = {scrollTop: 50};
-    global.conciergeModal = {querySelector: () => dialog};
+    global.conciergeModal = {classList: {contains: () => true}, querySelector: () => dialog};
     const card = {hidden: true, scrollIntoView: () => {},
       querySelector: selector => selector === '.feedback-title' ? title : icon,
       querySelectorAll: () => receipt};

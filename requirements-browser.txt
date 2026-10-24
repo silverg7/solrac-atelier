@@ -1,0 +1,2 @@
+# Development tests only; Chrome/Chromium is supplied by the host.
+playwright==1.62.0

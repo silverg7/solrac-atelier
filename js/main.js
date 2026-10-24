@@ -531,7 +531,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (lightboxSpecsContainer) {
       lightboxSpecsContainer.innerHTML = Object.entries(project.specs).map(([key, val]) => `
         <div class="lightbox-spec-item">
-          <span style="color: var(--text-secondary); text-transform: uppercase;">${({ element: 'Elemento', masonry: 'Alvenaria' })[key] || key.replaceAll('_', ' ')}</span>
+          <span style="color: var(--text-secondary); text-transform: uppercase;">${typeof I18N !== 'undefined' ? I18N.t(`lightbox.spec_${key}`, key) : ({ element: 'Elemento', masonry: 'Alvenaria' })[key] || key}</span>
           <span style="color: var(--text-primary); font-weight: 500;">${val}</span>
         </div>
       `).join('');
@@ -582,13 +582,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!conciergeModal) return;
 
     modalOpenTime = Date.now();
-    photoIntakes.get(conciergeModalForm)?.restore();
-
-    if (conciergeModalForm) {
-      conciergeModalForm.hidden = false;
-    }
-    if (modalFeedbackCard) {
-      modalFeedbackCard.hidden = true;
+    // Keep pending submissions and unseen receipts when the dialog is reopened.
+    if (modalFeedbackCard?.hidden) {
+      photoIntakes.get(conciergeModalForm)?.restore();
     }
 
     conciergeModal.removeAttribute('hidden');
@@ -608,11 +604,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const notesField = conciergeModalForm.querySelector('#modal_project_notes');
       if (notesField && !notesField.value) {
-        notesField.value = `Consulta sobre "${prefillProject.title}" (${prefillProject.categoryLabel}).\nPedido de direção técnica / análise de viabilidade para uma obra em: `;
+        const project = getLocalizedProject(prefillProject);
+        const template = typeof I18N !== 'undefined' ? I18N.t('inquiry.project_prefill')
+          : 'Consulta sobre "{title}" ({category}).\nPedido de direção técnica / análise de viabilidade para uma obra em: ';
+        notesField.value = template.replace(/\{(title|category)\}/g,
+          (_, key) => key === 'title' ? project.title : project.categoryLabel);
       }
     }
 
-    const firstInput = conciergeModal.querySelector('#modal_client_name');
+    const firstInput = !modalFeedbackCard?.hidden ? modalFeedbackClose
+      : conciergeModal.querySelector('#modal_client_name');
     if (typeof modalA11y !== 'undefined') {
       modalA11y.onOpen(conciergeModal, triggerEl, firstInput);
     } else if (firstInput && typeof firstInput.focus === 'function') {
@@ -744,7 +745,9 @@ document.addEventListener('DOMContentLoaded', () => {
   async function serializeIntakePhotos(form) {
     if (typeof photoIntakes === 'undefined') return [];
     const intake = photoIntakes.get(form);
-    if (!intake || !Array.isArray(intake.photos) || !intake.photos.length) return [];
+    if (!intake) return [];
+    await intake.pending;
+    if (!Array.isArray(intake.photos) || !intake.photos.length) return [];
     const encoded = [];
     for (let i = 0; i < intake.photos.length; i++) {
       const item = intake.photos[i];
@@ -788,52 +791,67 @@ document.addEventListener('DOMContentLoaded', () => {
     return await response.json();
   }
 
-  function showInquiryFeedback(prefix, form, card, payload, dossierRef, isBackendOffline) {
+  const inquiryFeedback = new Map();
+
+  function showInquiryFeedback(prefix, form, card, payload, dossierRef, isBackendOffline, updateOnly = false) {
+    if (typeof inquiryFeedback !== 'undefined') {
+      inquiryFeedback.set(prefix, { form, card, payload, dossierRef, isBackendOffline });
+    }
+    const translate = (key, fallback) => typeof I18N !== 'undefined' ? I18N.t(key, fallback) : fallback;
     form.hidden = true;
     if (!card) return;
     card.hidden = false;
 
-    // API values remain stable; user-facing text always comes from PT-PT labels.
-    const selectedLabel = (field, fallback) =>
-      form.elements.namedItem(field)?.selectedOptions?.[0]?.textContent.trim() || fallback;
+    const selectedLabel = (field, fallback) => {
+      const value = form.elements.namedItem(field)?.value;
+      const key = `inquiry.option.${value}`;
+      return translate(key, form.elements.namedItem(field)?.selectedOptions?.[0]?.textContent.trim() || fallback);
+    };
     const projectLabel = selectedLabel('project_type', 'Intervenção em pedra');
     const roleLabel = selectedLabel('client_role', 'Cliente');
     const state = isBackendOffline ? 'offline' : 'received';
     card.querySelector('.feedback-title').dataset.i18n = `feedback.title.${state}`;
-    document.getElementById(`${prefix}-feedback-desc`).dataset.i18n = `feedback.description.${state}`;
-    card.querySelector('.feedback-title').textContent = isBackendOffline
-      ? 'Pedido por enviar'
-      : 'Pedido recebido';
-    document.getElementById(`${prefix}-feedback-desc`).textContent = isBackendOffline
-      ? `Não foi possível enviar o pedido de ${payload.client_name} sobre «${projectLabel}» em ${payload.location}. Utilize o email ou o WhatsApp abaixo para concluir o envio. Referência local: ${dossierRef}.`
-      : `Obrigado, ${payload.client_name}. O seu pedido sobre «${projectLabel}» em ${payload.location} foi recebido com a referência ${dossierRef}.`;
+    const description = document.getElementById(`${prefix}-feedback-desc`);
+    description.dataset.i18n = `feedback.description.${state}`;
+    card.querySelector('.feedback-title').textContent = translate(`feedback.title.${state}`,
+      isBackendOffline ? 'Pedido por enviar' : 'Pedido recebido');
+    const template = translate(`feedback.description.${state}`, isBackendOffline
+      ? 'Não foi possível enviar o pedido de {name} sobre «{project}» em {location}. Referência local: {ref}.'
+      : 'Obrigado, {name}. O seu pedido sobre «{project}» em {location} foi recebido com a referência {ref}.');
+    const values = { name: payload.client_name, project: projectLabel, location: payload.location, ref: dossierRef };
+    description.textContent = template.replace(/\{(name|project|location|ref)\}/g, (_, key) => values[key]);
     document.getElementById(`${prefix}-receipt-ref`).textContent = dossierRef;
     const receiptValues = card.querySelectorAll('.receipt-val');
     receiptValues[1].dataset.i18n = `feedback.status.${state}`;
     receiptValues[2].dataset.i18n = `feedback.next.${state}`;
-    receiptValues[1].textContent = isBackendOffline ? 'ENVIO MANUAL NECESSÁRIO' : 'PEDIDO RECEBIDO';
-    receiptValues[2].textContent = isBackendOffline ? 'ENVIAR POR EMAIL OU WHATSAPP' : 'AGUARDAR CONTACTO DA EQUIPA';
+    receiptValues[1].textContent = translate(`feedback.status.${state}`,
+      isBackendOffline ? 'ENVIO MANUAL NECESSÁRIO' : 'PEDIDO RECEBIDO');
+    receiptValues[2].textContent = translate(`feedback.next.${state}`,
+      isBackendOffline ? 'ENVIAR POR EMAIL OU WHATSAPP' : 'AGUARDAR CONTACTO DA EQUIPA');
     // A check mark must never imply delivery when the backend could not confirm it.
     card.querySelector('.feedback-icon').textContent = isBackendOffline ? '!' : '✓';
-    const subject = encodeURIComponent(`[${dossierRef}] Pedido de consulta técnica — ${payload.client_name}`);
-    const bodyText =
-      `Referência: ${dossierRef}\n` +
-      `Nome / Gabinete: ${payload.client_name}\n` +
-      `Perfil do cliente: ${roleLabel}\n` +
-      `Email profissional: ${payload.client_email}\n` +
-      `Telefone / WhatsApp: ${payload.client_phone}\n` +
-      `Tipo de intervenção: ${projectLabel}\n` +
-      `Local da obra: ${payload.location}\n\n` +
-      `Descrição do projeto / Plantas:\n${payload.project_notes}\n`;
+    const subject = encodeURIComponent(`[${dossierRef}] ${translate('inquiry.modal.title', 'Pedido de consulta técnica')} — ${payload.client_name}`);
+    const bodyText = [
+      `${translate('feedback.reference', 'Referência:')} ${dossierRef}`,
+      `${translate('inquiry.field.client_name', 'Nome / Gabinete')}: ${payload.client_name}`,
+      `${translate('inquiry.field.client_role', 'Perfil do cliente')}: ${roleLabel}`,
+      `${translate('inquiry.field.client_email', 'Email profissional')}: ${payload.client_email}`,
+      `${translate('inquiry.field.client_phone', 'Telefone / WhatsApp')}: ${payload.client_phone}`,
+      `${translate('inquiry.field.project_type', 'Tipo de intervenção')}: ${projectLabel}`,
+      `${translate('inquiry.field.location', 'Local da obra')}: ${payload.location}`,
+      '', `${translate('inquiry.field.project_notes', 'Descrição do projeto / Plantas')}:`, payload.project_notes,
+    ].join('\n');
     document.getElementById(`${prefix}-mailto-fallback`).href =
       `mailto:director@solrac-tectonics.com?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
-    document.getElementById(`${prefix}-whatsapp-fallback`).href =
-      getWhatsAppUrl('351912345678', `SOLRAC — Pedido de consulta técnica\n\n${bodyText}\nVou anexar 1–4 fotos da obra (vista geral e pormenores). Solicito contacto e agendamento para orçamento em menos de 24 h.`);
+    document.getElementById(`${prefix}-whatsapp-fallback`).href = getWhatsAppUrl('351912345678',
+      `${translate('inquiry.photos.message', 'SOLRAC — Pedido de consulta técnica')}\n\n${bodyText}\n${translate('inquiry.photos.instructions', 'Vou anexar as fotografias da obra.')}`);
     if (typeof photoIntakes !== 'undefined') {
       const intake = photoIntakes.get(form);
       intake?.setRef(dossierRef);
+      intake?.setDelivered(!isBackendOffline);
       intake?.showInFeedback(card);
     }
+    if (updateOnly || (prefix === 'modal' && !conciergeModal.classList?.contains('active'))) return;
     if (prefix === 'modal') {
       conciergeModal.querySelector('.concierge-modal-dialog').scrollTop = 0;
     } else {
@@ -853,6 +871,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
 
       const submitBtn = conciergeModalForm.querySelector('button[type="submit"]');
+      if (submitBtn.disabled) return;
       const originalText = submitBtn.innerHTML;
 
       const formData = new FormData(conciergeModalForm);
@@ -865,6 +884,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       submitBtn.innerHTML = `<span data-i18n="inquiry.submitting">A ENVIAR PEDIDO…</span>`;
       submitBtn.disabled = true;
+      photoIntakes.get(conciergeModalForm)?.setSubmitting(true);
 
       const name = (formData.get('client_name') || '').toString().trim() || 'Cliente';
       const role = (formData.get('client_role') || 'architect').toString().trim();
@@ -907,6 +927,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       submitBtn.innerHTML = originalText;
       submitBtn.disabled = false;
+      photoIntakes.get(conciergeModalForm)?.setSubmitting(false);
     });
   }
 
@@ -922,6 +943,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
 
       const submitBtn = conciergeForm.querySelector('button[type="submit"]');
+      if (submitBtn.disabled) return;
       const originalText = submitBtn.innerHTML;
 
       const formData = new FormData(conciergeForm);
@@ -934,6 +956,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       submitBtn.innerHTML = `<span data-i18n="inquiry.submitting">A ENVIAR PEDIDO…</span>`;
       submitBtn.disabled = true;
+      photoIntakes.get(conciergeForm)?.setSubmitting(true);
 
       const name = (formData.get('client_name') || '').toString().trim() || 'Cliente';
       const role = (formData.get('client_role') || 'architect').toString().trim();
@@ -976,17 +999,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
       submitBtn.innerHTML = originalText;
       submitBtn.disabled = false;
+      photoIntakes.get(conciergeForm)?.setSubmitting(false);
     });
 
     if (inpageFeedbackReset) {
       inpageFeedbackReset.addEventListener('click', () => {
         pageLoadTime = Date.now();
+        inquiryFeedback.delete('inpage');
         conciergeForm.reset();
         conciergeForm.hidden = false;
         if (inpageFeedbackCard) inpageFeedbackCard.hidden = true;
+        document.getElementById('client_name').focus();
       });
     }
   }
+
+  document.getElementById('modal-feedback-reset')?.addEventListener('click', () => {
+    inquiryFeedback.delete('modal');
+    conciergeModalForm.reset();
+    conciergeModalForm.hidden = false;
+    modalFeedbackCard.hidden = true;
+    modalOpenTime = Date.now();
+    document.getElementById('modal_client_name').focus();
+  });
 
   /* Local photo preparation & compression (<=350 KB JPEG) for integrated
      /api/inquiry persistence (SOL-08) and resilient WhatsApp fallback. */
@@ -1032,10 +1067,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const thumbnails = root.querySelector('.photo-thumbnails');
     const status = root.querySelector('.photo-status');
     const whatsapp = root.querySelector('.photo-whatsapp');
-    const state = { ref: generateDossierRef(), photos: [], busy: false, revision: 0, statusKey: '' };
+    const state = { ref: generateDossierRef(), photos: [], busy: false, revision: 0, statusKey: '', pending: Promise.resolve(), submitting: false };
     const placeholder = document.createComment('photo intake position');
     root.before(placeholder);
-    state.restore = () => placeholder.after(root);
+    state.restore = () => { root.hidden = false; placeholder.after(root); };
+    state.setDelivered = delivered => {
+      state.delivered = delivered;
+      root.hidden = delivered && !state.photos.length;
+      input.disabled = delivered;
+      dropzone.hidden = delivered;
+      render();
+    };
+    state.setSubmitting = submitting => {
+      state.submitting = submitting;
+      root.inert = submitting;
+    };
     state.showInFeedback = card => card.querySelector('.feedback-actions').before(root);
     state.setRef = ref => { state.ref = ref; render(); };
     photoIntakes.set(form, state);
@@ -1072,13 +1118,14 @@ document.addEventListener('DOMContentLoaded', () => {
           state.statusKey = '';
           render();
         });
-        card.append(image, save, remove);
+        card.append(image, save);
+        if (!state.delivered) card.append(remove);
         thumbnails.appendChild(card);
       }
       updateWhatsApp();
     }
-    async function addPhotos(files) {
-      if (state.busy) return;
+    async function processPhotos(files) {
+      if (state.busy || state.submitting || state.delivered) return;
       const selection = Array.from(files);
       if (!selection.length) return;
       if (selection.length + state.photos.length > 4) {
@@ -1108,6 +1155,11 @@ document.addEventListener('DOMContentLoaded', () => {
       state.statusKey = failed ? 'error' : '';
       render();
     }
+    function addPhotos(files) {
+      if (state.busy || state.submitting || state.delivered) return state.pending;
+      state.pending = processPhotos(files);
+      return state.pending;
+    }
     input.addEventListener('change', () => addPhotos(input.files));
     for (const eventName of ['dragenter', 'dragover']) {
       dropzone.addEventListener(eventName, event => {
@@ -1127,6 +1179,7 @@ document.addEventListener('DOMContentLoaded', () => {
       state.revision++;
       state.photos.forEach(photo => URL.revokeObjectURL(photo.url));
       state.photos = [];
+      state.setDelivered(false);
       state.ref = generateDossierRef();
       state.statusKey = '';
       render();
@@ -1169,6 +1222,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (activeLightboxProject) {
       openLightbox(activeLightboxProject.id);
     }
+    inquiryFeedback.forEach(({ form, card, payload, dossierRef, isBackendOffline }, prefix) => {
+      showInquiryFeedback(prefix, form, card, payload, dossierRef, isBackendOffline, true);
+    });
   });
 
   // Initial render
