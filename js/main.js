@@ -225,10 +225,79 @@ document.addEventListener('DOMContentLoaded', () => {
   const lightboxInquireBtn = document.getElementById('lightbox-inquire-btn');
   let activeLightboxProject = null;
 
+  const lightboxViewer = document.querySelector('.lightbox-image-viewer');
+  const photoTab = document.getElementById('lightbox-photo-tab');
+  const technicalTab = document.getElementById('lightbox-technical-tab');
+  const technicalSheet = document.getElementById('lightbox-technical');
+  const technicalDetail = document.getElementById('technical-detail');
+  let lightboxGallery = [];
+  let lightboxIndex = -1;
+
+  function showLightboxView(technical) {
+    lightboxImage.hidden = technical;
+    technicalSheet.hidden = !technical;
+    photoTab.setAttribute('aria-pressed', String(!technical));
+    technicalTab.setAttribute('aria-pressed', String(technical));
+  }
+
+  function showTechnicalDetail() {
+    document.querySelectorAll('[data-technical]').forEach(drawing => {
+      drawing.toggleAttribute('hidden', drawing.dataset.technical !== technicalDetail.value);
+    });
+  }
+  photoTab.addEventListener('click', () => showLightboxView(false));
+  technicalTab.addEventListener('click', () => showLightboxView(true));
+  technicalDetail.addEventListener('change', showTechnicalDetail);
+
+  function navigateLightbox(step) {
+    if (!lightboxModal.classList.contains('active') || !lightboxGallery.length) return;
+    lightboxIndex = (lightboxIndex + step + lightboxGallery.length) % lightboxGallery.length;
+    openLightbox(lightboxGallery[lightboxIndex].id);
+  }
+  document.getElementById('lightbox-prev').addEventListener('click', () => navigateLightbox(-1));
+  document.getElementById('lightbox-next').addEventListener('click', () => navigateLightbox(1));
+  document.addEventListener('keydown', event => {
+    if (!lightboxModal.classList.contains('active') || conciergeModal.classList.contains('active') ||
+        event.altKey || event.ctrlKey || event.metaKey ||
+        event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      event.preventDefault();
+      navigateLightbox(event.key === 'ArrowLeft' ? -1 : 1);
+    }
+  });
+  let swipeStart = null;
+  lightboxViewer.addEventListener('touchstart', event => {
+    swipeStart = event.touches.length === 1 && !event.target.closest('button, select, a')
+      ? { x: event.touches[0].clientX, y: event.touches[0].clientY, time: Date.now() } : null;
+  }, { passive: true });
+  lightboxViewer.addEventListener('touchcancel', () => { swipeStart = null; }, { passive: true });
+  lightboxViewer.addEventListener('touchend', event => {
+    const start = swipeStart;
+    swipeStart = null;
+    if (!start || event.touches.length || event.changedTouches.length !== 1) return;
+    const dx = event.changedTouches[0].clientX - start.x;
+    const dy = event.changedTouches[0].clientY - start.y;
+    if (Date.now() - start.time < 800 && Math.abs(dx) >= 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      navigateLightbox(dx < 0 ? 1 : -1);
+    }
+  }, { passive: true });
+
   function openLightbox(projectId) {
     const baseProject = PROJECTS_DATA.find(p => p.id === projectId);
     if (!baseProject || !lightboxModal) return;
 
+    const opening = !lightboxModal.classList.contains('active');
+    if (opening) {
+      lightboxGallery = PROJECTS_DATA.filter(p => activeFilter === 'all' || p.category === activeFilter);
+      if (!lightboxGallery.some(p => p.id === projectId)) lightboxGallery = [...PROJECTS_DATA];
+      showLightboxView(false);
+    }
+    lightboxIndex = lightboxGallery.findIndex(p => p.id === projectId);
+    document.getElementById('lightbox-position').textContent = `${lightboxIndex + 1} / ${lightboxGallery.length}`;
+    if (activeLightboxProject?.id !== projectId) {
+      technicalDetail.value = baseProject.category === 'cantaria' ? 'stone' : 'masonry';
+      showTechnicalDetail();
+    }
     activeLightboxProject = baseProject;
     const project = getLocalizedProject(baseProject);
 
@@ -259,6 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!lightboxModal) return;
     lightboxModal.classList.remove('active');
     activeLightboxProject = null;
+    swipeStart = null;
     if (!conciergeModal?.classList.contains('active')) {
       document.body.style.overflow = '';
     }
@@ -288,6 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!conciergeModal) return;
 
     modalOpenTime = Date.now();
+    photoIntakes.get(conciergeModalForm)?.restore();
 
     if (conciergeModalForm) {
       conciergeModalForm.hidden = false;
@@ -488,7 +559,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById(`${prefix}-mailto-fallback`).href =
       `mailto:director@solrac-tectonics.com?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
     document.getElementById(`${prefix}-whatsapp-fallback`).href =
-      getWhatsAppUrl('351912345678', `SOLRAC — Pedido de consulta técnica\n\n${bodyText}`);
+      getWhatsAppUrl('351912345678', `SOLRAC — Pedido de consulta técnica\n\n${bodyText}\nVou anexar 1–4 fotos da obra (vista geral e pormenores). Solicito contacto e agendamento para orçamento em menos de 24 h.`);
+    if (typeof photoIntakes !== 'undefined') {
+      const intake = photoIntakes.get(form);
+      intake?.setRef(dossierRef);
+      intake?.showInFeedback(card);
+    }
     if (prefix === 'modal') {
       conciergeModal.querySelector('.concierge-modal-dialog').scrollTop = 0;
     } else {
@@ -536,16 +612,17 @@ document.addEventListener('DOMContentLoaded', () => {
         source: 'modal_form',
       };
 
-      let dossierRef = '';
+      payload.dossier_ref = photoIntakes.get(conciergeModalForm)?.ref || generateDossierRef();
+      let dossierRef = payload.dossier_ref;
       let isBackendOffline = false;
 
       try {
         const result = await transmitInquiry(payload);
-        dossierRef = result.ref || generateDossierRef();
+        dossierRef = result.ref || payload.dossier_ref;
         cacheLeadLocally(dossierRef, payload, 'persisted_remote');
       } catch (err) {
         console.warn('Backend unavailable, activating resilient direct channels fallback:', err);
-        dossierRef = generateDossierRef();
+        dossierRef = payload.dossier_ref;
         isBackendOffline = true;
         cacheLeadLocally(dossierRef, payload, 'offline_cached');
       }
@@ -603,16 +680,17 @@ document.addEventListener('DOMContentLoaded', () => {
         source: 'inpage_form',
       };
 
-      let dossierRef = '';
+      payload.dossier_ref = photoIntakes.get(conciergeForm)?.ref || generateDossierRef();
+      let dossierRef = payload.dossier_ref;
       let isBackendOffline = false;
 
       try {
         const result = await transmitInquiry(payload);
-        dossierRef = result.ref || generateDossierRef();
+        dossierRef = result.ref || payload.dossier_ref;
         cacheLeadLocally(dossierRef, payload, 'persisted_remote');
       } catch (err) {
         console.warn('Backend unavailable, activating resilient direct channels fallback:', err);
-        dossierRef = generateDossierRef();
+        dossierRef = payload.dossier_ref;
         isBackendOffline = true;
         cacheLeadLocally(dossierRef, payload, 'offline_cached');
       }
@@ -632,6 +710,154 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   }
+
+  /* Local photo preparation. Files only leave the browser when the visitor
+     saves/shares them; /api/inquiry photo persistence belongs to SOL-08. */
+  const photoIntakes = new Map();
+  const photoText = key => I18N.t(`inquiry.photos.${key}`);
+
+  async function compressPhoto(file) {
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 12 * 1024 * 1024) {
+      throw new Error('format');
+    }
+    const source = URL.createObjectURL(file);
+    const image = new Image();
+    try {
+      image.src = source;
+      await image.decode();
+      if (!image.naturalWidth || image.naturalWidth * image.naturalHeight > 40000000) throw new Error('size');
+      const canvas = document.createElement('canvas');
+      const scale = Math.min(1, 1600 / Math.max(image.naturalWidth, image.naturalHeight));
+      canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+      canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+      const context = canvas.getContext('2d');
+      if (!context) throw new Error('canvas');
+      context.fillStyle = '#ffffff';
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      let blob;
+      for (const quality of [0.82, 0.65, 0.45]) {
+        blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', quality));
+        if (!blob) throw new Error('encoding');
+        if (blob.size <= 350 * 1024) break;
+      }
+      if (blob.size > 350 * 1024) throw new Error('size');
+      return blob;
+    } finally {
+      URL.revokeObjectURL(source);
+    }
+  }
+
+  document.querySelectorAll('[data-photo-intake]').forEach(root => {
+    const form = root.closest('form');
+    const input = root.querySelector('input[type="file"]');
+    const dropzone = root.querySelector('.photo-dropzone');
+    const thumbnails = root.querySelector('.photo-thumbnails');
+    const status = root.querySelector('.photo-status');
+    const whatsapp = root.querySelector('.photo-whatsapp');
+    const state = { ref: generateDossierRef(), photos: [], busy: false, revision: 0, statusKey: '' };
+    const placeholder = document.createComment('photo intake position');
+    root.before(placeholder);
+    state.restore = () => placeholder.after(root);
+    state.showInFeedback = card => card.querySelector('.feedback-actions').before(root);
+    state.setRef = ref => { state.ref = ref; render(); };
+    photoIntakes.set(form, state);
+
+    function updateWhatsApp() {
+      const location = form.elements.namedItem('location').value.trim();
+      const project = form.elements.namedItem('project_type').selectedOptions[0].textContent.trim();
+      const text = `${photoText('message')}\n${state.ref}\n${project}\n${location}\n${photoText('instructions')}`;
+      whatsapp.href = getWhatsAppUrl('351912345678', text);
+    }
+    function render() {
+      thumbnails.replaceChildren();
+      root.querySelector('.photo-dossier').textContent = state.ref;
+      status.textContent = state.statusKey ? photoText(state.statusKey) : `${state.photos.length} / 4`;
+      for (const photo of state.photos) {
+        const card = document.createElement('div');
+        card.className = 'photo-thumbnail';
+        const image = document.createElement('img');
+        image.src = photo.url;
+        image.alt = photoText('preview');
+        image.width = 160;
+        image.height = 120;
+        const save = document.createElement('a');
+        save.href = photo.url;
+        save.download = `${state.ref}-${state.photos.indexOf(photo) + 1}.jpg`;
+        save.textContent = `${photoText('save')} · ${Math.ceil(photo.blob.size / 1024)} KB`;
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.textContent = photoText('remove');
+        remove.setAttribute('aria-label', `${photoText('remove')} ${state.photos.indexOf(photo) + 1}`);
+        remove.addEventListener('click', () => {
+          URL.revokeObjectURL(photo.url);
+          state.photos = state.photos.filter(item => item !== photo);
+          state.statusKey = '';
+          render();
+        });
+        card.append(image, save, remove);
+        thumbnails.appendChild(card);
+      }
+      updateWhatsApp();
+    }
+    async function addPhotos(files) {
+      if (state.busy) return;
+      const selection = Array.from(files);
+      if (!selection.length) return;
+      if (selection.length + state.photos.length > 4) {
+        state.statusKey = 'limit'; render(); input.value = ''; return;
+      }
+      state.busy = true;
+      input.disabled = true;
+      root.setAttribute('aria-busy', 'true');
+      state.statusKey = 'processing';
+      render();
+      const revision = state.revision;
+      let failed = false;
+      for (const file of selection) {
+        try {
+          const blob = await compressPhoto(file);
+          if (revision !== state.revision) break;
+          state.photos.push({ blob, url: URL.createObjectURL(blob) });
+          render();
+        } catch (_) {
+          failed = true;
+        }
+      }
+      state.busy = false;
+      input.disabled = false;
+      input.value = '';
+      root.setAttribute('aria-busy', 'false');
+      state.statusKey = failed ? 'error' : '';
+      render();
+    }
+    input.addEventListener('change', () => addPhotos(input.files));
+    for (const eventName of ['dragenter', 'dragover']) {
+      dropzone.addEventListener(eventName, event => {
+        event.preventDefault(); dropzone.classList.add('is-dragging');
+      });
+    }
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('is-dragging'));
+    dropzone.addEventListener('drop', event => {
+      event.preventDefault();
+      dropzone.classList.remove('is-dragging');
+      return addPhotos(event.dataTransfer.files);
+    });
+    form.addEventListener('input', updateWhatsApp);
+    form.addEventListener('change', updateWhatsApp);
+    form.addEventListener('reset', () => {
+      state.restore();
+      state.revision++;
+      state.photos.forEach(photo => URL.revokeObjectURL(photo.url));
+      state.photos = [];
+      state.ref = generateDossierRef();
+      state.statusKey = '';
+      render();
+      setTimeout(updateWhatsApp, 0);
+    });
+    document.addEventListener('languagechange', render);
+    render();
+  });
 
   /* -------------------------------------------------------------------------
      6. Header & Mobile Navigation Toggle

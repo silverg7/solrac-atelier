@@ -439,7 +439,19 @@
                 <textarea id="project_notes" name="project_notes" class="form-textarea" placeholder="Indique se já existem plantas, levantamentos estruturais ou tipos de pedra definidos…" data-i18n-placeholder="inquiry.placeholder.project_notes"></textarea>
               </div>
 
-              <button type="submit" class="btn-submit-luxury">
+              <section class="photo-intake" data-photo-intake="inpage" aria-labelledby="inpage-photos-title">
+            <h3 class="tech-label" id="inpage-photos-title" data-i18n="inquiry.photos.title">Orçamento express · fotografias da obra</h3>
+            <label class="photo-dropzone" for="inpage-photos" data-i18n="inquiry.photos.choose">Selecionar ou arrastar 1–4 fotografias</label>
+            <input class="photo-input" type="file" id="inpage-photos" accept="image/jpeg,image/png,image/webp" multiple aria-describedby="inpage-photos-help">
+            <p id="inpage-photos-help" data-i18n="inquiry.photos.help">JPG, PNG ou WebP · até 12 MB por foto. Pré-visualização e compressão locais; as fotos não são enviadas com o formulário. Guarde as versões comprimidas e anexe-as no WhatsApp.</p>
+            <div class="photo-thumbnails"></div>
+            <p class="photo-status" role="status" aria-live="polite"></p>
+            <p class="express-reference"><span data-i18n="inquiry.photos.reference">Referência local</span> <output class="photo-dossier"></output></p>
+            <a class="btn-outline photo-whatsapp" href="https://wa.me/351912345678" target="_blank" rel="noopener noreferrer" data-i18n="inquiry.photos.whatsapp">WhatsApp · pedir agendamento em menos de 24 h</a>
+            <p data-i18n="inquiry.photos.timing">Envie uma vista geral, um pormenor e a localização. Solicite contacto em menos de 24 h; o orçamento depende da análise técnica.</p>
+          </section>
+
+          <button type="submit" class="btn-submit-luxury">
                 <span data-i18n="inquiry.submit">Enviar pedido de viabilidade</span>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -532,10 +544,55 @@
   <!-- =========================================================================
        LIGHTBOX MODAL (Fullscreen Architectural Inspection)
        ========================================================================= -->
-  <div class="lightbox-modal" id="lightbox-modal" role="dialog" aria-modal="true">
+  <div class="lightbox-modal" id="lightbox-modal" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
     <div class="lightbox-dialog">
       <div class="lightbox-image-viewer">
+        <div class="lightbox-views" role="group" aria-label="Vista da obra" data-i18n-aria-label="lightbox.views">
+          <button type="button" id="lightbox-photo-tab" aria-pressed="true" aria-controls="lightbox-image" data-i18n="lightbox.photo">Fotografia</button>
+          <button type="button" id="lightbox-technical-tab" aria-pressed="false" aria-controls="lightbox-technical" data-i18n="lightbox.technical">Detalhe técnico</button>
+        </div>
         <img id="lightbox-image" alt="Pormenor de cantaria" decoding="async">
+        <div id="lightbox-technical" class="technical-sheet" hidden>
+          <label for="technical-detail" class="tech-label" data-i18n="lightbox.detail_label">Estudo construtivo</label>
+          <select id="technical-detail" class="form-select">
+            <option value="masonry" data-i18n="lightbox.masonry">Aparelho · alçado</option>
+            <option value="stone" data-i18n="lightbox.stone">Cantaria · secção</option>
+            <option value="drain" data-i18n="lightbox.drain">Drenagem · secção</option>
+          </select>
+          <svg viewBox="0 0 600 360" role="img" aria-labelledby="technical-svg-title">
+            <title id="technical-svg-title" data-i18n="lightbox.drawing">Esquemas construtivos com cotas indicativas em milímetros</title>
+            <defs>
+              <pattern id="technical-grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#1f1f1f"/></pattern>
+              <marker id="dimension-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M10 0L0 5L10 10" fill="none" stroke="currentColor"/></marker>
+            </defs>
+            <rect width="600" height="360" fill="url(#technical-grid)"/>
+            <g data-technical="masonry">
+              <path class="stone-line" d="M100 100H500V280H100ZM100 160H500M100 220H500M230 100V160M365 100V160M165 160V220M300 160V220M435 160V220M230 220V280M365 220V280"/>
+              <path class="extension-line" d="M100 90V50M500 90V50M510 100H550M510 160H550"/>
+              <path class="dimension-line" d="M100 65H500M535 100V160"/>
+              <text x="300" y="52" text-anchor="middle">1 200 mm</text><text x="548" y="135">200 mm</text>
+            </g>
+            <g data-technical="stone" hidden>
+              <path class="stone-line" d="M100 270V220H220V170H340V120H460V270ZM100 240H220M220 190H340M340 140H460M220 220V270M340 170V270"/>
+              <path class="extension-line" d="M220 160V65M340 110V65M470 120H520M350 170H520"/>
+              <path class="dimension-line" d="M220 80H340M500 120V170"/>
+              <text x="280" y="64" text-anchor="middle">300 mm</text><text x="515" y="150">150 mm</text>
+            </g>
+            <g data-technical="drain" hidden>
+              <path class="stone-line" d="M170 80H280V260H170ZM150 260H310V290H150ZM280 130H440L490 100M440 130V260H310"/>
+              <path class="extension-line" d="M300 145L425 270M300 180L390 270M300 215L355 270M310 300V325M440 270V325"/>
+              <circle class="stone-line" cx="345" cy="240" r="25"/><circle class="stone-line" cx="345" cy="240" r="18"/>
+              <path class="dimension-line" d="M310 315H440"/>
+              <text x="375" y="345" text-anchor="middle">300 mm</text><text x="365" y="205">Ø 100 mm</text>
+            </g>
+          </svg>
+          <p data-i18n="lightbox.indicative">Esquemas de princípio · cotas indicativas, não medidas da obra. Dimensionamento sujeito a levantamento e projeto.</p>
+        </div>
+        <div class="lightbox-navigation" role="group" aria-label="Navegação de obras" data-i18n-aria-label="lightbox.navigation">
+          <button type="button" id="lightbox-prev" aria-label="Obra anterior" data-i18n-aria-label="lightbox.previous"><span aria-hidden="true" data-i18n="lightbox.left">←</span></button>
+          <output id="lightbox-position" aria-live="polite" aria-atomic="true"></output>
+          <button type="button" id="lightbox-next" aria-label="Obra seguinte" data-i18n-aria-label="lightbox.next"><span aria-hidden="true" data-i18n="lightbox.right">→</span></button>
+        </div>
       </div>
       <div class="lightbox-sidebar">
         <div>
@@ -646,6 +703,18 @@
             <label class="form-label" for="modal_project_notes" data-i18n="inquiry.field.project_notes">Descrição do projeto &amp; requisitos técnicos</label>
             <textarea id="modal_project_notes" name="project_notes" class="form-textarea" placeholder="Descreva as plantas, os levantamentos, o tipo de pedra ou os requisitos do projeto…" data-i18n-placeholder="inquiry.placeholder.project_notes"></textarea>
           </div>
+
+          <section class="photo-intake" data-photo-intake="modal" aria-labelledby="modal-photos-title">
+            <h3 class="tech-label" id="modal-photos-title" data-i18n="inquiry.photos.title">Orçamento express · fotografias da obra</h3>
+            <label class="photo-dropzone" for="modal-photos" data-i18n="inquiry.photos.choose">Selecionar ou arrastar 1–4 fotografias</label>
+            <input class="photo-input" type="file" id="modal-photos" accept="image/jpeg,image/png,image/webp" multiple aria-describedby="modal-photos-help">
+            <p id="modal-photos-help" data-i18n="inquiry.photos.help">JPG, PNG ou WebP · até 12 MB por foto. Pré-visualização e compressão locais; as fotos não são enviadas com o formulário. Guarde as versões comprimidas e anexe-as no WhatsApp.</p>
+            <div class="photo-thumbnails"></div>
+            <p class="photo-status" role="status" aria-live="polite"></p>
+            <p class="express-reference"><span data-i18n="inquiry.photos.reference">Referência local</span> <output class="photo-dossier"></output></p>
+            <a class="btn-outline photo-whatsapp" href="https://wa.me/351912345678" target="_blank" rel="noopener noreferrer" data-i18n="inquiry.photos.whatsapp">WhatsApp · pedir agendamento em menos de 24 h</a>
+            <p data-i18n="inquiry.photos.timing">Envie uma vista geral, um pormenor e a localização. Solicite contacto em menos de 24 h; o orçamento depende da análise técnica.</p>
+          </section>
 
           <button type="submit" class="btn-submit-luxury">
             <span data-i18n="inquiry.submit">Enviar pedido de viabilidade</span>

@@ -1613,3 +1613,45 @@ button {
     padding: 0.85rem 1rem;
   }
 }
+
+/* SOL-07 · a drawing desk inside the archive, local photo preparation. */
+.lightbox-image-viewer { min-width: 0; padding: 5rem 1rem; touch-action: pan-y pinch-zoom; }
+.lightbox-image-viewer > img { width: 100%; height: 100%; max-width: 100%; max-height: 100%; }
+.lightbox-views { position: absolute; top: 1rem; left: 1rem; right: 1rem; display: flex; justify-content: center; gap: .5rem; }
+.lightbox-views button, .lightbox-navigation button {
+  min-height: 44px; border: 1px solid #1f1f1f; background: #070707;
+  color: var(--text-secondary); font-family: var(--font-mono); cursor: pointer; padding: .6rem 1rem;
+}
+.lightbox-views button[aria-pressed="true"] { color: #f5f5f5; border-color: #777; }
+.lightbox-navigation { position: absolute; bottom: 1rem; left: 1rem; right: 1rem; display: flex; align-items: center; justify-content: center; gap: 1.5rem; }
+.lightbox-navigation button { font-size: 1.3rem; min-width: 48px; }
+.lightbox-navigation output { min-width: 5ch; text-align: center; font-family: var(--font-mono); font-size: .75rem; }
+.technical-sheet { width: 100%; max-width: 760px; background: #070707; border: 1px solid #1f1f1f; padding: 1rem; }
+.technical-sheet .form-select { margin-top: .5rem; }
+.technical-sheet svg { display: block; width: 100%; max-height: 52vh; color: #aaa; }
+.technical-sheet svg text { fill: #ddd; font: 13px var(--font-mono); }
+.stone-line { fill: none; stroke: #ddd; stroke-width: 1.5; }
+.extension-line { fill: none; stroke: #777; stroke-width: .75; }
+.dimension-line { fill: none; stroke: #aaa; stroke-width: .75; marker-start: url(#dimension-arrow); marker-end: url(#dimension-arrow); }
+.technical-sheet p, .photo-intake p { font-size: .75rem; line-height: 1.6; color: var(--text-secondary); margin: .6rem 0; }
+.photo-intake { min-width: 0; padding-top: 1.5rem; border-top: 1px solid #1f1f1f; }
+.photo-dropzone { display: flex; align-items: center; justify-content: center; min-height: 88px; padding: 1rem; margin-top: 1rem; border: 1px dashed #777; background: #070707; font: .8rem var(--font-mono); text-align: center; cursor: pointer; }
+.photo-dropzone.is-dragging, .photo-dropzone:hover { border-color: #f5f5f5; background: #1f1f1f; }
+.photo-input { display: block; max-width: 100%; margin-top: .75rem; color: var(--text-secondary); font: .7rem var(--font-mono); }
+.photo-input::file-selector-button { min-height: 44px; margin-right: .5rem; border: 1px solid #777; color: #f5f5f5; background: #070707; cursor: pointer; }
+.photo-thumbnails { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .5rem; }
+.photo-thumbnail { min-width: 0; border: 1px solid #1f1f1f; }
+.photo-thumbnail img { display: block; width: 100%; height: 85px; object-fit: cover; filter: grayscale(1); }
+.photo-thumbnail a, .photo-thumbnail button { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 44px; padding: .3rem; background: #070707; color: #ddd; border: 0; font: .65rem var(--font-mono); text-align: center; overflow-wrap: anywhere; cursor: pointer; }
+.photo-whatsapp { display: flex; justify-content: center; white-space: normal; text-align: center; min-height: 48px; }
+.express-reference output { color: var(--text-primary); font-family: var(--font-mono); }
+.lightbox-views button:focus-visible, .lightbox-navigation button:focus-visible,
+.photo-intake :is(a, button, input):focus-visible { outline: 2px solid #f5f5f5; outline-offset: 3px; }
+@media (max-width: 1024px) {
+  .lightbox-image-viewer { height: 65svh; min-height: 440px; }
+  .technical-sheet { padding: .5rem; max-width: 520px; }
+  .technical-sheet svg { max-height: 28vh; }
+}
+@media (max-width: 480px) {
+  .photo-thumbnails { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
