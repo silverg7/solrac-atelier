@@ -75,14 +75,19 @@ com fontes remotas indisponíveis: o fallback tem de permitir leitura e ações.
 
 ### Ações e feedback
 
-- `.btn-concierge`: ação principal, superfície clara e texto escuro; hover
-  transparente com texto claro. `.btn-outline`: ação secundária, contorno.
-- `.btn-submit-luxury`: envio do formulário; durante transporte, desativado,
-  `A ENVIAR PEDIDO…`; restaurar texto e disponibilidade no fim.
+- `.btn-concierge`: ação pontual do cabeçalho/hero com superfície clara e texto escuro;
+  hover transparente com texto claro.
+- `.btn-outline`: botões com contorno arquitetónico e fundo transparente.
+- `.btn-submit-luxury`: envio do formulário; superfície clara e texto escuro; durante
+  transporte, desativado, `A ENVIAR PEDIDO…`; restaurar texto e disponibilidade no fim.
 - `.feedback-actions`: grelha de duas colunas `minmax(0, 1fr)`, gap `--space-sm`;
   primeira ação ocupa a linha inteira. Até 768px: uma coluna.
-- Ordem fixa nos dois cartões: **Enviar outro pedido / Fechar consulta** como
-  principal, **Enviar por email** e **Enviar por WhatsApp** como secundárias.
+  **Regra anti-bloque blanco:** Todas as ações de feedback são estritamente `.btn-outline`
+  (fundo transparente com contorno monocromático; primeira ação com contorno `--border-strong`).
+  Fica terminantemente proibido o uso de `.btn-concierge` ou fundos claros maciços nos cartões
+  de feedback para preservar a atmosfera mineral escura do atelier.
+- Ordem fixa nos dois cartões: **Enviar outro pedido / Fechar consulta** no topo,
+  **Enviar por email** e **Enviar por WhatsApp** nas colunas inferiores.
 - Ações do feedback: largura integral da célula, mínimo 48px de altura, texto
   centrado com quebra de linha, padding `--space-sm`, foco visível de 2px.
   Usar `<button type="button">` para ação e `<a>` para navegação/canal externo.
