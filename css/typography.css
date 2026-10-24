@@ -3,7 +3,6 @@
    TYPOGRAPHY & EDITORIAL HIERARCHY
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
 body {
   font-family: var(--font-sans);

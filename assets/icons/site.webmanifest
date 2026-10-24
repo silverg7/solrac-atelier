@@ -1,0 +1,26 @@
+{
+  "id": "../../",
+  "name": "SOLRAC TECTONICS",
+  "short_name": "SOLRAC",
+  "description": "Atelier de arquitetura tectónica e cantaria no Grande Porto e Vale do Douro.",
+  "lang": "pt-PT",
+  "start_url": "../../",
+  "scope": "../../",
+  "display": "standalone",
+  "theme_color": "#070707",
+  "background_color": "#070707",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

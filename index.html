@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
-<head>
+<head prefix="og: https://ogp.me/ns#">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-i18n="meta.title">SOLRAC TECTONICS · Cantaria &amp; Engenharia de Pedra | Porto</title>
@@ -8,15 +8,47 @@
   <meta name="keywords" content="cantaria Porto, muros de pedra estruturais, direção técnica Porto, muros de contenção Douro, restauro de património Portugal, arquitetura tectónica, mestre canteiro">
   <meta name="author" content="SOLRAC TECTONICS">
   
+  <link rel="canonical" href="https://silverg7.github.io/solrac-atelier/">
+
   <!-- Open Graph / Meta -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="SOLRAC TECTONICS · Cantaria &amp; Engenharia de Pedra">
   <meta property="og:description" content="Alvenaria ciclópica de autor, restauro de património e cantaria de precisão no Grande Porto &amp; Douro.">
+  <meta property="og:url" content="https://silverg7.github.io/solrac-atelier/">
+  <meta property="og:site_name" content="SOLRAC TECTONICS">
+  <meta property="og:locale" content="pt_PT">
+  <meta property="og:image" content="https://silverg7.github.io/solrac-atelier/assets/images/muros/muro-aparelhado-1280.webp">
+  <meta property="og:image:secure_url" content="https://silverg7.github.io/solrac-atelier/assets/images/muros/muro-aparelhado-1280.webp">
+  <meta property="og:image:type" content="image/webp">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="622">
+  <meta property="og:image:alt" content="Muro em pedra aparelhada durante a execução da obra.">
+
+  <!-- Twitter / X large image card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SOLRAC TECTONICS · Cantaria &amp; Engenharia de Pedra">
+  <meta name="twitter:description" content="Alvenaria ciclópica de autor, restauro de património e cantaria de precisão no Grande Porto &amp; Douro.">
+  <meta name="twitter:image" content="https://silverg7.github.io/solrac-atelier/assets/images/muros/muro-aparelhado-1280.webp">
+  <meta name="twitter:image:alt" content="Muro em pedra aparelhada durante a execução da obra.">
+
+  <!-- Application icons; manifest URLs resolve relative to assets/icons/. -->
+  <meta name="theme-color" content="#070707">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="icon" type="image/x-icon" sizes="16x16 32x32 48x48" href="assets/icons/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="assets/icons/site.webmanifest">
   
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="assets/images/branding/favicon.svg">
-  
-  <!-- Styles -->
+  <!-- Fonts discovered early without delaying first paint; keep a no-JS fallback. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@300;400;500&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@300;400;500&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap">
+  </noscript>
+
+  <!-- Critical local styles retain their original cascade order. -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/typography.css">
   <link rel="stylesheet" href="css/style.css">
 
   <!-- Schema.org JSON-LD -->
@@ -35,10 +67,80 @@
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": "41.1579",
-      "longitude": "-8.6291"
+      "latitude": 41.1579,
+      "longitude": -8.6291
     },
-    "priceRange": "$$$$"
+    "priceRange": "$$$$",
+    "areaServed": [
+      {
+        "@type": "AdministrativeArea",
+        "name": "Grande Porto"
+      },
+      {
+        "@type": "AdministrativeArea",
+        "name": "Vale do Douro"
+      }
+    ],
+    "knowsAbout": [
+      "Arquitetura tectónica",
+      "Cantaria de autor",
+      "Muros de contenção",
+      "Restauro de património"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Cantaria e engenharia de pedra",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Cantaria estrutural e de precisão",
+            "provider": {
+              "@id": "https://silverg7.github.io/solrac-atelier/#atelier"
+            }
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Muros de contenção em pedra",
+            "provider": {
+              "@id": "https://silverg7.github.io/solrac-atelier/#atelier"
+            }
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Restauro de património",
+            "provider": {
+              "@id": "https://silverg7.github.io/solrac-atelier/#atelier"
+            }
+          }
+        }
+      ]
+    },
+    "@id": "https://silverg7.github.io/solrac-atelier/#atelier",
+    "url": "https://silverg7.github.io/solrac-atelier/",
+    "logo": "https://silverg7.github.io/solrac-atelier/assets/icons/icon-512.png",
+    "image": {
+      "@type": "ImageObject",
+      "contentUrl": "https://silverg7.github.io/solrac-atelier/assets/images/muros/muro-aparelhado-1280.webp",
+      "width": {
+        "@type": "QuantitativeValue",
+        "value": 1280,
+        "unitCode": "E37"
+      },
+      "height": {
+        "@type": "QuantitativeValue",
+        "value": 622,
+        "unitCode": "E37"
+      },
+      "caption": "Muro em pedra aparelhada durante a execução da obra."
+    }
   }
   </script>
 </head>
