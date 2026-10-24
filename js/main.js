@@ -125,9 +125,33 @@ document.addEventListener('DOMContentLoaded', () => {
      ------------------------------------------------------------------------- */
   const projectsGrid = document.getElementById('projects-grid');
   const filterButtons = document.querySelectorAll('.filter-btn');
+  let activeFilter = 'all';
+
+  function getLocalizedProject(project) {
+    if (typeof I18N === 'undefined') return project;
+    return {
+      id: project.id,
+      category: project.category,
+      categoryLabel: I18N.t(`project.${project.id}.categoryLabel`, project.categoryLabel),
+      title: I18N.t(`project.${project.id}.title`, project.title),
+      material: I18N.t(`project.${project.id}.material`, project.material),
+      detail: I18N.t(`project.${project.id}.detail`, project.detail),
+      image: project.image,
+      imageBase: project.imageBase,
+      width: project.width,
+      height: project.height,
+      alt: I18N.t(`project.${project.id}.alt`, project.alt),
+      specs: {
+        element: I18N.t(`project.${project.id}.spec_element`, project.specs.element),
+        masonry: I18N.t(`project.${project.id}.spec_masonry`, project.specs.masonry)
+      },
+      description: I18N.t(`project.${project.id}.description`, project.description)
+    };
+  }
 
   function renderProjects(filter = 'all') {
     if (!projectsGrid) return;
+    activeFilter = filter;
     
     projectsGrid.innerHTML = '';
     
@@ -135,12 +159,16 @@ document.addEventListener('DOMContentLoaded', () => {
       ? PROJECTS_DATA 
       : PROJECTS_DATA.filter(p => p.category === filter);
 
-    filteredProjects.forEach((project) => {
+    filteredProjects.forEach((baseProject) => {
+      const project = getLocalizedProject(baseProject);
       const card = document.createElement('article');
       card.className = 'project-card';
       card.dataset.id = project.id;
       card.dataset.category = project.category;
       
+      const labelMaterial = (typeof I18N !== 'undefined') ? I18N.t('lightbox.spec_material', 'Material') : 'Material';
+      const labelDetail = (typeof I18N !== 'undefined') ? I18N.t('lightbox.spec_detail', 'Pormenor') : 'Pormenor';
+
       card.innerHTML = `
         <div class="project-thumb-wrapper">
           <img src="${project.imageBase}-640.webp"
@@ -161,9 +189,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <h3 class="project-title">${project.title}</h3>
           </div>
           <div class="project-meta-table">
-            <span class="meta-field-label">Material</span>
+            <span class="meta-field-label">${labelMaterial}</span>
             <span class="meta-field-val">${project.material}</span>
-            <span class="meta-field-label">Pormenor</span>
+            <span class="meta-field-label">${labelDetail}</span>
             <span class="meta-field-val">${project.detail}</span>
           </div>
         </div>
@@ -198,10 +226,11 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeLightboxProject = null;
 
   function openLightbox(projectId) {
-    const project = PROJECTS_DATA.find(p => p.id === projectId);
-    if (!project || !lightboxModal) return;
+    const baseProject = PROJECTS_DATA.find(p => p.id === projectId);
+    if (!baseProject || !lightboxModal) return;
 
-    activeLightboxProject = project;
+    activeLightboxProject = baseProject;
+    const project = getLocalizedProject(baseProject);
 
     lightboxImage.src = project.image;
     lightboxImage.alt = project.alt;
@@ -629,6 +658,13 @@ document.addEventListener('DOMContentLoaded', () => {
       header?.classList.add('scrolled');
     } else {
       header?.classList.remove('scrolled');
+    }
+  });
+
+  document.addEventListener('languagechange', () => {
+    renderProjects(activeFilter);
+    if (activeLightboxProject) {
+      openLightbox(activeLightboxProject.id);
     }
   });
 

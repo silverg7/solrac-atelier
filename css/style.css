@@ -283,6 +283,95 @@ button {
 }
 
 /* -------------------------------------------------------------------------
+   Language Switcher & I18N Layout Stability (CLS=0 Architecture)
+   ------------------------------------------------------------------------- */
+.lang-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.6rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  user-select: none;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  padding: 0.15rem 0.3rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+  line-height: 1;
+}
+
+.lang-btn:hover {
+  color: var(--text-primary);
+}
+
+.lang-btn.active {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.lang-sep {
+  color: var(--border-medium);
+  font-size: 0.65rem;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.mobile-nav-header {
+  display: none;
+}
+
+/* Zero Layout Shift (CLS=0) Reservations for Multi-Language Swapping */
+.nav-link {
+  white-space: nowrap;
+}
+
+.hero-title {
+  min-height: 2.2em;
+}
+
+.hero-badge {
+  white-space: nowrap;
+}
+
+.hero-actions .btn-concierge,
+.hero-actions .btn-outline {
+  min-width: 10.5rem;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.filter-btn {
+  white-space: nowrap;
+}
+
+.stat-item {
+  min-height: 4.8rem;
+}
+
+.method-step {
+  min-height: 12rem;
+}
+
+.btn-submit-luxury {
+  white-space: nowrap;
+  min-height: 3.2rem;
+}
+
+/* -------------------------------------------------------------------------
    Hero Section (Monolithic Architectural Impact)
    ------------------------------------------------------------------------- */
 .hero {
@@ -1381,11 +1470,19 @@ button {
   .nav {
     display: none;
   }
-  .header-cta {
+  .header-cta #header-concierge-btn {
     display: none;
   }
   .mobile-toggle {
     display: flex;
+  }
+  .mobile-nav-header {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.25rem;
+    border-bottom: 1px solid var(--border-subtle);
   }
   .header.menu-open .nav {
     display: flex;
