@@ -345,21 +345,21 @@
           
           <div class="concierge-manifesto">
             <div class="section-header" style="margin-bottom: 1.5rem;">
-              <span class="section-num">04 / PEDIDO DE CONSULTA TÉCNICA</span>
-              <h2 class="section-title">Consulta para arquitetos &amp; proprietários</h2>
+              <span class="section-num" data-i18n="inquiry.section">04 / PEDIDO DE CONSULTA TÉCNICA</span>
+              <h2 class="section-title" data-i18n="inquiry.title">Consulta para arquitetos &amp; proprietários</h2>
             </div>
             
-            <p class="lead">
+            <p class="lead" data-i18n="inquiry.intro">
               A SOLRAC aceita um número limitado de obras por ano para assegurar a presença direta da direção técnica e do mestre canteiro em cada fase crítica.
             </p>
             
-            <p>
+            <p data-i18n="inquiry.collaboration">
               Colaboramos com gabinetes de arquitetura, entidades de conservação do património e proprietários na Foz do Douro, Nevogilde, Gaia e nas quintas do Vale do Douro.
             </p>
 
             <div style="margin-top: 2rem; border-left: 2px solid var(--text-primary); padding-left: 1.5rem;">
-              <div class="tech-label" style="margin-bottom: 0.5rem;">ÁREA GEOGRÁFICA PRINCIPAL</div>
-              <p style="color: var(--text-primary); margin: 0; font-size: 0.9rem;">
+              <div class="tech-label" style="margin-bottom: 0.5rem;" data-i18n="inquiry.region.label">ÁREA GEOGRÁFICA PRINCIPAL</div>
+              <p style="color: var(--text-primary); margin: 0; font-size: 0.9rem;" data-i18n="inquiry.region.value">
                 Foz do Douro · Nevogilde · Matosinhos Sul · Vila Nova de Gaia · Vale do Douro (Pinhão, Régua) · Minho &amp; Galiza.
               </p>
             </div>
@@ -371,59 +371,59 @@
               
               <!-- Anti-Spam Honeypot Trap (invisible to humans) -->
               <div class="visual-trap" aria-hidden="true">
-                <label for="website_trap">Deixar em branco</label>
+                <label for="website_trap" data-i18n="inquiry.field.website_trap">Deixar em branco</label>
                 <input type="text" id="website_trap" name="website_trap" tabindex="-1" autocomplete="off">
               </div>
 
               <div class="form-row">
                 <div class="form-group">
-                  <label class="form-label" for="client_name">Nome / Gabinete</label>
-                  <input type="text" id="client_name" name="client_name" class="form-input" placeholder="Ex.: Gabinete de Arquitetura Sampaio" required>
+                  <label class="form-label" for="client_name" data-i18n="inquiry.field.client_name">Nome / Gabinete</label>
+                  <input type="text" id="client_name" name="client_name" class="form-input" placeholder="Ex.: Gabinete de Arquitetura Sampaio" required data-i18n-placeholder="inquiry.placeholder.client_name">
                 </div>
                 <div class="form-group">
-                  <label class="form-label" for="client_role">Perfil do cliente</label>
+                  <label class="form-label" for="client_role" data-i18n="inquiry.field.client_role">Perfil do cliente</label>
                   <select id="client_role" name="client_role" class="form-select">
-                    <option value="architect">Gabinete de arquitetura</option>
-                    <option value="private_owner">Proprietário particular</option>
-                    <option value="developer">Promotor imobiliário / Gestor de património</option>
+                    <option value="architect" data-i18n="inquiry.option.architect">Gabinete de arquitetura</option>
+                    <option value="private_owner" data-i18n="inquiry.option.private_owner">Proprietário particular</option>
+                    <option value="developer" data-i18n="inquiry.option.developer">Promotor imobiliário / Gestor de património</option>
                   </select>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group">
-                  <label class="form-label" for="client_email">Email profissional</label>
-                  <input type="email" id="client_email" name="client_email" class="form-input" placeholder="gabinete@arquitetura.pt" required>
+                  <label class="form-label" for="client_email" data-i18n="inquiry.field.client_email">Email profissional</label>
+                  <input type="email" id="client_email" name="client_email" class="form-input" placeholder="gabinete@arquitetura.pt" required data-i18n-placeholder="inquiry.placeholder.client_email">
                 </div>
                 <div class="form-group">
-                  <label class="form-label" for="client_phone">Telefone / WhatsApp</label>
-                  <input type="tel" id="client_phone" name="client_phone" class="form-input" placeholder="+351 9xx xxx xxx">
+                  <label class="form-label" for="client_phone" data-i18n="inquiry.field.client_phone">Telefone / WhatsApp</label>
+                  <input type="tel" id="client_phone" name="client_phone" class="form-input" placeholder="+351 9xx xxx xxx" data-i18n-placeholder="inquiry.placeholder.client_phone">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group">
-                  <label class="form-label" for="project_type">Tipo de intervenção</label>
+                  <label class="form-label" for="project_type" data-i18n="inquiry.field.project_type">Tipo de intervenção</label>
                   <select id="project_type" name="project_type" class="form-select">
-                    <option value="structural_wall">Muro de contenção ciclópico</option>
-                    <option value="heritage_restoration">Restauro de pedra em quinta / solar / património</option>
-                    <option value="bespoke_stonework">Cantaria de autor / Portais</option>
-                    <option value="full_direction">Direção técnica integral &amp; cantaria</option>
+                    <option value="structural_wall" data-i18n="inquiry.option.structural_wall">Muro de contenção ciclópico</option>
+                    <option value="heritage_restoration" data-i18n="inquiry.option.heritage_restoration">Restauro de pedra em quinta / solar / património</option>
+                    <option value="bespoke_stonework" data-i18n="inquiry.option.bespoke_stonework">Cantaria de autor / Portais</option>
+                    <option value="full_direction" data-i18n="inquiry.option.full_direction">Direção técnica integral &amp; cantaria</option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label class="form-label" for="location">Local da obra</label>
-                  <input type="text" id="location" name="location" class="form-input" placeholder="Ex.: Foz do Douro, Porto" required>
+                  <label class="form-label" for="location" data-i18n="inquiry.field.location">Local da obra</label>
+                  <input type="text" id="location" name="location" class="form-input" placeholder="Ex.: Foz do Douro, Porto" required data-i18n-placeholder="inquiry.placeholder.location">
                 </div>
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="project_notes">Descrição do projeto &amp; requisitos técnicos</label>
-                <textarea id="project_notes" name="project_notes" class="form-textarea" placeholder="Indique se já existem plantas, levantamentos estruturais ou tipos de pedra definidos…"></textarea>
+                <label class="form-label" for="project_notes" data-i18n="inquiry.field.project_notes">Descrição do projeto &amp; requisitos técnicos</label>
+                <textarea id="project_notes" name="project_notes" class="form-textarea" placeholder="Indique se já existem plantas, levantamentos estruturais ou tipos de pedra definidos…" data-i18n-placeholder="inquiry.placeholder.project_notes"></textarea>
               </div>
 
               <button type="submit" class="btn-submit-luxury">
-                <span>Enviar pedido de viabilidade</span>
+                <span data-i18n="inquiry.submit">Enviar pedido de viabilidade</span>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                   <polyline points="12 5 19 12 12 19"></polyline>
@@ -438,27 +438,27 @@
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
               </div>
-              <span class="tech-label">ESTADO DO PEDIDO</span>
-              <h3 class="feedback-title">Pedido de consulta</h3>
-              <p class="feedback-desc" id="inpage-feedback-desc"></p>
+              <span class="tech-label" data-i18n="feedback.label">ESTADO DO PEDIDO</span>
+              <h3 class="feedback-title" data-i18n="feedback.title.initial">Pedido de consulta</h3>
+              <p class="feedback-desc" id="inpage-feedback-desc" data-i18n="feedback.description.initial"></p>
               <div class="feedback-receipt">
                 <div class="receipt-item">
-                  <span class="receipt-label">REFERÊNCIA:</span>
+                  <span class="receipt-label" data-i18n="feedback.reference">REFERÊNCIA:</span>
                   <span class="receipt-val font-mono" id="inpage-receipt-ref"></span>
                 </div>
                 <div class="receipt-item">
-                  <span class="receipt-label">ESTADO:</span>
-                  <span class="receipt-val font-mono">PEDIDO RECEBIDO</span>
+                  <span class="receipt-label" data-i18n="feedback.status.label">ESTADO:</span>
+                  <span class="receipt-val font-mono" data-i18n="feedback.status.received">PEDIDO RECEBIDO</span>
                 </div>
                 <div class="receipt-item">
-                  <span class="receipt-label">PRÓXIMO PASSO:</span>
-                  <span class="receipt-val font-mono">AGUARDAR CONTACTO DA EQUIPA</span>
+                  <span class="receipt-label" data-i18n="feedback.next.label">PRÓXIMO PASSO:</span>
+                  <span class="receipt-val font-mono" data-i18n="feedback.next.received">AGUARDAR CONTACTO DA EQUIPA</span>
                 </div>
               </div>
               <div class="feedback-actions">
-                <button type="button" class="btn-concierge" id="inpage-feedback-reset">Enviar outro pedido</button>
-                <a href="mailto:director@solrac-tectonics.com" class="btn-outline" id="inpage-mailto-fallback">Enviar por email</a>
-                <a href="https://wa.me/351912345678" target="_blank" rel="noopener noreferrer" class="btn-outline" id="inpage-whatsapp-fallback">Enviar por WhatsApp</a>
+                <button type="button" class="btn-concierge" id="inpage-feedback-reset" data-i18n="feedback.reset">Enviar outro pedido</button>
+                <a href="mailto:director@solrac-tectonics.com" class="btn-outline" id="inpage-mailto-fallback" data-i18n="feedback.email">Enviar por email</a>
+                <a href="https://wa.me/351912345678" target="_blank" rel="noopener noreferrer" class="btn-outline" id="inpage-whatsapp-fallback" data-i18n="feedback.whatsapp">Enviar por WhatsApp</a>
               </div>
             </div>
           </div>
@@ -552,27 +552,27 @@
     <div class="concierge-modal-dialog">
       <div class="concierge-modal-header">
         <div>
-          <span class="tech-label">CONSULTA PRIVADA · DIREÇÃO TÉCNICA</span>
-          <h2 class="concierge-modal-title" id="concierge-modal-title">Consulta técnica privada</h2>
-          <p class="concierge-modal-subtitle">
+          <span class="tech-label" data-i18n="inquiry.modal.label">CONSULTA PRIVADA · DIREÇÃO TÉCNICA</span>
+          <h2 class="concierge-modal-title" id="concierge-modal-title" data-i18n="inquiry.modal.title">Consulta técnica privada</h2>
+          <p class="concierge-modal-subtitle" data-i18n="inquiry.modal.intro">
             Canal direto para gabinetes de arquitetura, entidades de conservação do património e proprietários no Grande Porto e Vale do Douro.
           </p>
         </div>
-        <button type="button" class="concierge-close-btn" id="concierge-modal-close" aria-label="Fechar consulta técnica">✕ FECHAR [ESC]</button>
+        <button type="button" class="concierge-close-btn" id="concierge-modal-close" aria-label="Fechar consulta técnica" data-i18n-aria-label="inquiry.modal.closeLabel" data-i18n="inquiry.modal.close">✕ FECHAR [ESC]</button>
       </div>
 
       <div class="concierge-direct-strip">
         <a href="mailto:director@solrac-tectonics.com" class="direct-strip-item">
-          <span class="strip-label">EMAIL DIRETO</span>
+          <span class="strip-label" data-i18n="inquiry.direct.email">EMAIL DIRETO</span>
           <span class="strip-val font-mono">director@solrac-tectonics.com</span>
         </a>
         <a href="tel:+351912345678" class="direct-strip-item">
-          <span class="strip-label">TELEFONE / WHATSAPP</span>
+          <span class="strip-label" data-i18n="inquiry.direct.phone">TELEFONE / WHATSAPP</span>
           <span class="strip-val font-mono">+351 912 345 678</span>
         </a>
         <div class="direct-strip-item capacity-status">
-          <span class="strip-label">RESERVA DE CAPACIDADE</span>
-          <span class="strip-val font-mono"><span class="status-dot"></span> 3.º/4.º TRIMESTRE 2026 DISPONÍVEL</span>
+          <span class="strip-label" data-i18n="inquiry.direct.capacity">RESERVA DE CAPACIDADE</span>
+          <span class="strip-val font-mono"><span class="status-dot"></span><span data-i18n="inquiry.direct.availability">3.º/4.º TRIMESTRE 2026 DISPONÍVEL</span></span>
         </div>
       </div>
 
@@ -580,58 +580,58 @@
         <form class="concierge-modal-form" id="concierge-modal-form">
           <!-- Anti-Spam Honeypot Trap (invisible to humans) -->
           <div class="visual-trap" aria-hidden="true">
-            <label for="modal_website_trap">Deixar em branco</label>
+            <label for="modal_website_trap" data-i18n="inquiry.field.website_trap">Deixar em branco</label>
             <input type="text" id="modal_website_trap" name="website_trap" tabindex="-1" autocomplete="off">
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label class="form-label" for="modal_client_name">Nome / Gabinete</label>
-              <input type="text" id="modal_client_name" name="client_name" class="form-input" placeholder="Ex.: Gabinete de Arquitetura Sampaio" required>
+              <label class="form-label" for="modal_client_name" data-i18n="inquiry.field.client_name">Nome / Gabinete</label>
+              <input type="text" id="modal_client_name" name="client_name" class="form-input" placeholder="Ex.: Gabinete de Arquitetura Sampaio" required data-i18n-placeholder="inquiry.placeholder.client_name">
             </div>
             <div class="form-group">
-              <label class="form-label" for="modal_client_role">Perfil do cliente</label>
+              <label class="form-label" for="modal_client_role" data-i18n="inquiry.field.client_role">Perfil do cliente</label>
               <select id="modal_client_role" name="client_role" class="form-select">
-                <option value="architect">Gabinete de arquitetura</option>
-                <option value="private_owner">Proprietário particular</option>
-                <option value="developer">Promotor imobiliário / Gestor de património</option>
+                <option value="architect" data-i18n="inquiry.option.architect">Gabinete de arquitetura</option>
+                <option value="private_owner" data-i18n="inquiry.option.private_owner">Proprietário particular</option>
+                <option value="developer" data-i18n="inquiry.option.developer">Promotor imobiliário / Gestor de património</option>
               </select>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label class="form-label" for="modal_client_email">Email profissional</label>
-              <input type="email" id="modal_client_email" name="client_email" class="form-input" placeholder="gabinete@arquitetura.pt" required>
+              <label class="form-label" for="modal_client_email" data-i18n="inquiry.field.client_email">Email profissional</label>
+              <input type="email" id="modal_client_email" name="client_email" class="form-input" placeholder="gabinete@arquitetura.pt" required data-i18n-placeholder="inquiry.placeholder.client_email">
             </div>
             <div class="form-group">
-              <label class="form-label" for="modal_client_phone">Telefone / WhatsApp</label>
-              <input type="tel" id="modal_client_phone" name="client_phone" class="form-input" placeholder="+351 9xx xxx xxx">
+              <label class="form-label" for="modal_client_phone" data-i18n="inquiry.field.client_phone">Telefone / WhatsApp</label>
+              <input type="tel" id="modal_client_phone" name="client_phone" class="form-input" placeholder="+351 9xx xxx xxx" data-i18n-placeholder="inquiry.placeholder.client_phone">
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label class="form-label" for="modal_project_type">Tipo de intervenção</label>
+              <label class="form-label" for="modal_project_type" data-i18n="inquiry.field.project_type">Tipo de intervenção</label>
               <select id="modal_project_type" name="project_type" class="form-select">
-                <option value="structural_wall">Muro de contenção ciclópico</option>
-                <option value="heritage_restoration">Restauro de pedra em quinta / solar / património</option>
-                <option value="bespoke_stonework">Cantaria de autor / Portais</option>
-                <option value="full_direction">Direção técnica integral &amp; cantaria</option>
+                <option value="structural_wall" data-i18n="inquiry.option.structural_wall">Muro de contenção ciclópico</option>
+                <option value="heritage_restoration" data-i18n="inquiry.option.heritage_restoration">Restauro de pedra em quinta / solar / património</option>
+                <option value="bespoke_stonework" data-i18n="inquiry.option.bespoke_stonework">Cantaria de autor / Portais</option>
+                <option value="full_direction" data-i18n="inquiry.option.full_direction">Direção técnica integral &amp; cantaria</option>
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label" for="modal_location">Local da obra</label>
-              <input type="text" id="modal_location" name="location" class="form-input" placeholder="Ex.: Foz do Douro, Porto" required>
+              <label class="form-label" for="modal_location" data-i18n="inquiry.field.location">Local da obra</label>
+              <input type="text" id="modal_location" name="location" class="form-input" placeholder="Ex.: Foz do Douro, Porto" required data-i18n-placeholder="inquiry.placeholder.location">
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="modal_project_notes">Descrição do projeto &amp; requisitos técnicos</label>
-            <textarea id="modal_project_notes" name="project_notes" class="form-textarea" placeholder="Descreva as plantas, os levantamentos, o tipo de pedra ou os requisitos do projeto…"></textarea>
+            <label class="form-label" for="modal_project_notes" data-i18n="inquiry.field.project_notes">Descrição do projeto &amp; requisitos técnicos</label>
+            <textarea id="modal_project_notes" name="project_notes" class="form-textarea" placeholder="Descreva as plantas, os levantamentos, o tipo de pedra ou os requisitos do projeto…" data-i18n-placeholder="inquiry.placeholder.project_notes"></textarea>
           </div>
 
           <button type="submit" class="btn-submit-luxury">
-            <span>Enviar pedido de viabilidade</span>
+            <span data-i18n="inquiry.submit">Enviar pedido de viabilidade</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
@@ -645,33 +645,33 @@
               <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
           </div>
-          <span class="tech-label">ESTADO DO PEDIDO</span>
-          <h3 class="feedback-title">Pedido de consulta</h3>
-          <p class="feedback-desc" id="modal-feedback-desc"></p>
+          <span class="tech-label" data-i18n="feedback.label">ESTADO DO PEDIDO</span>
+          <h3 class="feedback-title" data-i18n="feedback.title.initial">Pedido de consulta</h3>
+          <p class="feedback-desc" id="modal-feedback-desc" data-i18n="feedback.description.initial"></p>
           <div class="feedback-receipt">
             <div class="receipt-item">
-              <span class="receipt-label">REFERÊNCIA:</span>
+              <span class="receipt-label" data-i18n="feedback.reference">REFERÊNCIA:</span>
               <span class="receipt-val font-mono" id="modal-receipt-ref"></span>
             </div>
             <div class="receipt-item">
-              <span class="receipt-label">ESTADO:</span>
-              <span class="receipt-val font-mono">PEDIDO RECEBIDO</span>
+              <span class="receipt-label" data-i18n="feedback.status.label">ESTADO:</span>
+              <span class="receipt-val font-mono" data-i18n="feedback.status.received">PEDIDO RECEBIDO</span>
             </div>
             <div class="receipt-item">
-              <span class="receipt-label">PRÓXIMO PASSO:</span>
-              <span class="receipt-val font-mono">AGUARDAR CONTACTO DA EQUIPA</span>
+              <span class="receipt-label" data-i18n="feedback.next.label">PRÓXIMO PASSO:</span>
+              <span class="receipt-val font-mono" data-i18n="feedback.next.received">AGUARDAR CONTACTO DA EQUIPA</span>
             </div>
           </div>
           <div class="feedback-actions">
-            <button type="button" class="btn-concierge" id="modal-feedback-close">Fechar consulta</button>
-            <a href="mailto:director@solrac-tectonics.com" class="btn-outline" id="modal-mailto-fallback">Enviar por email</a>
-            <a href="https://wa.me/351912345678" target="_blank" rel="noopener noreferrer" class="btn-outline" id="modal-whatsapp-fallback">Enviar por WhatsApp</a>
+            <button type="button" class="btn-concierge" id="modal-feedback-close" data-i18n="feedback.close">Fechar consulta</button>
+            <a href="mailto:director@solrac-tectonics.com" class="btn-outline" id="modal-mailto-fallback" data-i18n="feedback.email">Enviar por email</a>
+            <a href="https://wa.me/351912345678" target="_blank" rel="noopener noreferrer" class="btn-outline" id="modal-whatsapp-fallback" data-i18n="feedback.whatsapp">Enviar por WhatsApp</a>
           </div>
         </div>
       </div>
 
       <div class="concierge-modal-footer">
-        <a href="#inquiry" class="modal-section-jump" id="modal-jump-section">Ver a secção de consulta técnica na página ↓</a>
+        <a href="#inquiry" class="modal-section-jump" id="modal-jump-section" data-i18n="inquiry.modal.jump">Ver a secção de consulta técnica na página ↓</a>
       </div>
     </div>
   </div>

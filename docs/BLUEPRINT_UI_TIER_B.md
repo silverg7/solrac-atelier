@@ -22,12 +22,12 @@ integrar; uma captura isolada ou um teste de sintaxe não encerra a tarefa.
 | `index.html` | Estrutura, rótulos, placeholders, ARIA e ações | PT-PT; preservar IDs, âncoras, `name`, `value` e canais de contacto |
 | `js/main.js` · `PROJECTS_DATA` | Arquivo fotográfico, filtros e lightbox | Traduzir apresentação sem inventar factos; conservar IDs, categorias, caminhos e dimensões |
 | `js/main.js` · `showInquiryFeedback` | Confirmação, falha de envio e canais manuais | Única fonte da apresentação dinâmica dos dois formulários |
-| `scripts/test_concierge_flow.py` | Contratos de interface e execução do renderer | Acrescentar cobertura de comportamento quando houver uma regressão real |
+| `scripts/test_ui_consistency.py` | Paleta, identificadores i18n, scroll e execução do renderer | Acrescentar cobertura de comportamento quando houver uma regressão real |
 | `scripts/test_lead_pipeline.py` | API local, antispam, persistência e resiliência | Manter o contrato do pedido; testar sem contactos reais |
 | `scripts/test_portfolio_assets.py` | Integridade e orçamento de imagens | Não regravar assets numa correção de CSS |
 | `docs/BRANDING.md` | Contexto editorial da marca | Para implementação, os tokens e este contrato fixam os valores exatos |
 
-A variante bilingue com seletor e persistência pertence a SOL-06. A interface
+O seletor de idiomas e a persistência de preferência pertencem a SOL-06. A interface
 atual tem uma única língua de sistema, `pt-PT`; SOL-BUG-02 não cria um motor i18n.
 
 ## 2. Tokens obrigatórios
@@ -106,6 +106,10 @@ retirar o atributo/alterar a propriedade `hidden` no JavaScript.
 
 ### Formulários e idioma
 
+- Identificadores `data-i18n` nos rótulos/opções/ações dos formulários e cartões;
+  placeholders usam `data-i18n-placeholder`, ARIA usa `data-i18n-aria-label`.
+  Nos estados dinâmicos, atualizar também a chave `feedback.*.received/offline`.
+  As chaves são ganchos estáveis para SOL-06; não há tradução automática neste ticket.
 - Documento com `<html lang="pt-PT">`; rótulos, ajuda, opções, feedback,
   placeholders, texto ARIA e mensagens geradas em português de Portugal.
 - Léxico: **ficheiro**, **telemóvel/telefone**, **gabinete**, **pedido**,
@@ -176,13 +180,14 @@ retirar o atributo/alterar a propriedade `hidden` no JavaScript.
 
 `make check` executa testes de estrutura/recursos, integração Git, pipeline de
 leads e o renderer de feedback em Node. Deteta a paleta cromática, tokens,
-contrato de `hidden`, hierarquia das ações e estados online/offline dos dois
+contrato de `hidden`, cobertura de identificadores i18n, hierarquia das ações,
+contrato de scroll e estados online/offline dos dois
 cartões. Geometria, scroll e renderização exigem também navegador real; não
 considerar os testes estáticos como evidência visual.
 
 ## 6. Verificação de SOL-BUG-02 · 24-10-2026
 
-- `make check`: 31 testes aprovados; `git diff --check`: sem erros.
+- `make check`: 33 testes aprovados; `git diff --check`: sem erros.
 - Chromium/Playwright em servidor HTTP local: 20 cenários (cinco viewports ×
   dois formulários × API confirmada/falha de rede), repetidos com fontes remotas
   bloqueadas e com carregamento normal de fontes: 40 cenários aprovados.

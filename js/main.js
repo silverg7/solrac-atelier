@@ -429,6 +429,9 @@ document.addEventListener('DOMContentLoaded', () => {
       form.elements.namedItem(field)?.selectedOptions?.[0]?.textContent.trim() || fallback;
     const projectLabel = selectedLabel('project_type', 'Intervenção em pedra');
     const roleLabel = selectedLabel('client_role', 'Cliente');
+    const state = isBackendOffline ? 'offline' : 'received';
+    card.querySelector('.feedback-title').dataset.i18n = `feedback.title.${state}`;
+    document.getElementById(`${prefix}-feedback-desc`).dataset.i18n = `feedback.description.${state}`;
     card.querySelector('.feedback-title').textContent = isBackendOffline
       ? 'Pedido por enviar'
       : 'Pedido recebido';
@@ -437,6 +440,8 @@ document.addEventListener('DOMContentLoaded', () => {
       : `Obrigado, ${payload.client_name}. O seu pedido sobre «${projectLabel}» em ${payload.location} foi recebido com a referência ${dossierRef}.`;
     document.getElementById(`${prefix}-receipt-ref`).textContent = dossierRef;
     const receiptValues = card.querySelectorAll('.receipt-val');
+    receiptValues[1].dataset.i18n = `feedback.status.${state}`;
+    receiptValues[2].dataset.i18n = `feedback.next.${state}`;
     receiptValues[1].textContent = isBackendOffline ? 'ENVIO MANUAL NECESSÁRIO' : 'PEDIDO RECEBIDO';
     receiptValues[2].textContent = isBackendOffline ? 'ENVIAR POR EMAIL OU WHATSAPP' : 'AGUARDAR CONTACTO DA EQUIPA';
     // A check mark must never imply delivery when the backend could not confirm it.
@@ -478,7 +483,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      submitBtn.innerHTML = `<span>A ENVIAR PEDIDO…</span>`;
+      submitBtn.innerHTML = `<span data-i18n="inquiry.submitting">A ENVIAR PEDIDO…</span>`;
       submitBtn.disabled = true;
 
       const name = (formData.get('client_name') || '').toString().trim() || 'Cliente';
@@ -545,7 +550,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      submitBtn.innerHTML = `<span>A ENVIAR PEDIDO…</span>`;
+      submitBtn.innerHTML = `<span data-i18n="inquiry.submitting">A ENVIAR PEDIDO…</span>`;
       submitBtn.disabled = true;
 
       const name = (formData.get('client_name') || '').toString().trim() || 'Cliente';
