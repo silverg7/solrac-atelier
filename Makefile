@@ -33,7 +33,7 @@ endif
 check:
 	@test -f index.html || { echo "✖ Falta index.html" >&2; exit 1; }
 	@test -f TABLERO_AGENTES.md || { echo "✖ Falta TABLERO_AGENTES.md" >&2; exit 1; }
-	@python3 -B -m unittest -q scripts/test_merge_worktree.py scripts/test_portfolio_assets.py
+	@python3 -B -m unittest -q scripts/test_merge_worktree.py scripts/test_portfolio_assets.py scripts/test_concierge_flow.py
 	@echo "✔ SOLRAC Atelier verificado bajo estándar Noesis."
 
 test: check

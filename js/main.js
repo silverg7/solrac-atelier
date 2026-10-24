@@ -194,10 +194,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const lightboxDesc = document.getElementById('lightbox-desc');
   const lightboxSpecsContainer = document.getElementById('lightbox-specs');
   const lightboxClose = document.getElementById('lightbox-close');
+  const lightboxInquireBtn = document.getElementById('lightbox-inquire-btn');
+  let activeLightboxProject = null;
 
   function openLightbox(projectId) {
     const project = PROJECTS_DATA.find(p => p.id === projectId);
     if (!project || !lightboxModal) return;
+
+    activeLightboxProject = project;
 
     lightboxImage.src = project.image;
     lightboxImage.alt = project.alt;
@@ -225,7 +229,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function closeLightbox() {
     if (!lightboxModal) return;
     lightboxModal.classList.remove('active');
-    document.body.style.overflow = '';
+    activeLightboxProject = null;
+    if (!conciergeModal?.classList.contains('active')) {
+      document.body.style.overflow = '';
+    }
   }
 
   if (lightboxClose) {
@@ -238,54 +245,272 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && lightboxModal?.classList.contains('active')) {
+  /* -------------------------------------------------------------------------
+     4. Concierge Desk Modal & Lead Flow (High-End Architecture)
+     ------------------------------------------------------------------------- */
+  const conciergeModal = document.getElementById('concierge-modal');
+  const conciergeModalClose = document.getElementById('concierge-modal-close');
+  const conciergeModalForm = document.getElementById('concierge-modal-form');
+  const modalFeedbackCard = document.getElementById('modal-feedback-card');
+  const modalFeedbackClose = document.getElementById('modal-feedback-close');
+  const modalJumpSection = document.getElementById('modal-jump-section');
+
+  function openConciergeModal(prefillProject = null) {
+    if (!conciergeModal) return;
+
+    conciergeModal.removeAttribute('hidden');
+    // Force layout flush for smooth CSS opacity transition
+    void conciergeModal.offsetWidth;
+    conciergeModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // Pre-fill if originating from a specific archive project
+    if (prefillProject && conciergeModalForm) {
+      const typeSelect = conciergeModalForm.querySelector('#modal_project_type');
+      if (typeSelect) {
+        if (prefillProject.category === 'muros') typeSelect.value = 'structural_wall';
+        else if (prefillProject.category === 'quintas') typeSelect.value = 'heritage_restoration';
+        else if (prefillProject.category === 'cantaria') typeSelect.value = 'bespoke_stonework';
+      }
+
+      const notesField = conciergeModalForm.querySelector('#modal_project_notes');
+      if (notesField && !notesField.value) {
+        notesField.value = `Inquiry regarding "${prefillProject.title}" (${prefillProject.categoryLabel}).\nRequesting technical direction / feasibility analysis for site in: `;
+      }
+    }
+
+    const firstInput = conciergeModal.querySelector('#modal_client_name');
+    if (firstInput) {
+      setTimeout(() => firstInput.focus(), 150);
+    }
+  }
+
+  function closeConciergeModal() {
+    if (!conciergeModal) return;
+    conciergeModal.classList.remove('active');
+    setTimeout(() => {
+      if (!conciergeModal.classList.contains('active')) {
+        conciergeModal.setAttribute('hidden', '');
+      }
+    }, 400);
+
+    if (!lightboxModal?.classList.contains('active')) {
+      document.body.style.overflow = '';
+    }
+  }
+
+  if (conciergeModalClose) {
+    conciergeModalClose.addEventListener('click', closeConciergeModal);
+  }
+
+  if (conciergeModal) {
+    conciergeModal.addEventListener('click', (e) => {
+      if (e.target === conciergeModal) closeConciergeModal();
+    });
+  }
+
+  if (modalFeedbackClose) {
+    modalFeedbackClose.addEventListener('click', closeConciergeModal);
+  }
+
+  if (modalJumpSection) {
+    modalJumpSection.addEventListener('click', () => {
+      closeConciergeModal();
+    });
+  }
+
+  // Lightbox "Inquire on Similar Commission" button
+  if (lightboxInquireBtn) {
+    lightboxInquireBtn.addEventListener('click', () => {
+      const project = activeLightboxProject;
       closeLightbox();
+      openConciergeModal(project);
+    });
+  }
+
+  // Global triggers with [data-concierge-open]
+  document.querySelectorAll('[data-concierge-open]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      // If mobile menu was open, close it
+      header?.classList.remove('menu-open');
+      mobileToggle?.setAttribute('aria-expanded', 'false');
+      openConciergeModal();
+    });
+  });
+
+  // Global ESC key management
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (conciergeModal?.classList.contains('active')) {
+        closeConciergeModal();
+      } else if (lightboxModal?.classList.contains('active')) {
+        closeLightbox();
+      } else if (header?.classList.contains('menu-open')) {
+        header.classList.remove('menu-open');
+        mobileToggle?.setAttribute('aria-expanded', 'false');
+      }
     }
   });
 
-  /* -------------------------------------------------------------------------
-     4. High-Ticket Concierge Inquiry Form
-     ------------------------------------------------------------------------- */
-  const conciergeForm = document.getElementById('concierge-form');
-  if (conciergeForm) {
-    conciergeForm.addEventListener('submit', (e) => {
+  function generateDossierRef() {
+    const year = new Date().getFullYear();
+    const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+    let code = '';
+    for (let i = 0; i < 4; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return `SOL-${year}-${code}`;
+  }
+
+  // Concierge Modal Form Submission
+  if (conciergeModalForm) {
+    conciergeModalForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      
-      const submitBtn = conciergeForm.querySelector('button[type="submit"]');
+
+      const submitBtn = conciergeModalForm.querySelector('button[type="submit"]');
       const originalText = submitBtn.innerHTML;
-      
-      submitBtn.innerHTML = `<span>PROCESSING TECHNICAL INQUIRY...</span>`;
+
+      submitBtn.innerHTML = `<span>TRANSMITTING TECHNICAL DOSSIER...</span>`;
       submitBtn.disabled = true;
 
-      // Extract details
-      const formData = new FormData(conciergeForm);
-      const name = formData.get('client_name') || 'Client';
+      const formData = new FormData(conciergeModalForm);
+      const name = formData.get('client_name') || 'Principal';
+      const email = formData.get('client_email') || '';
+      const phone = formData.get('client_phone') || '';
       const projectType = formData.get('project_type') || 'Stone Commission';
-      const location = formData.get('location') || 'Grande Porto';
-      
+      const location = formData.get('location') || 'Grande Porto / Douro';
+      const notes = formData.get('project_notes') || '';
+      const dossierRef = generateDossierRef();
+
       setTimeout(() => {
-        submitBtn.innerHTML = `<span>✓ INQUIRY TRANSMITTED SUCCESSFULLY</span>`;
-        submitBtn.style.background = '#222';
-        submitBtn.style.color = '#55ff55';
-        submitBtn.style.borderColor = '#55ff55';
-        
-        alert(`Thank you, ${name}.\n\nYour technical inquiry regarding "${projectType}" in ${location} has been registered with priority technical direction status.\n\nThe Technical Director & Master Craftsman will be in touch within 24 business hours.`);
-        
-        conciergeForm.reset();
-        setTimeout(() => {
-          submitBtn.innerHTML = originalText;
-          submitBtn.disabled = false;
-          submitBtn.style = '';
-        }, 5000);
-      }, 1200);
+        conciergeModalForm.hidden = true;
+        if (modalFeedbackCard) {
+          modalFeedbackCard.hidden = false;
+
+          const descEl = document.getElementById('modal-feedback-desc');
+          if (descEl) {
+            descEl.textContent = `Thank you, ${name}. Your commission feasibility inquiry regarding "${projectType}" in ${location} has been registered with priority technical status.`;
+          }
+
+          const refEl = document.getElementById('modal-receipt-ref');
+          if (refEl) {
+            refEl.textContent = dossierRef;
+          }
+
+          const mailtoBtn = document.getElementById('modal-mailto-fallback');
+          if (mailtoBtn) {
+            const subject = encodeURIComponent(`[${dossierRef}] Technical Direction Commission Inquiry - ${name}`);
+            const body = encodeURIComponent(
+              `Dossier Ref: ${dossierRef}\n` +
+              `Principal/Studio: ${name}\n` +
+              `Professional Email: ${email}\n` +
+              `Phone/WhatsApp: ${phone}\n` +
+              `Nature of Commission: ${projectType}\n` +
+              `Location: ${location}\n\n` +
+              `Technical Brief / Blueprints:\n${notes}\n`
+            );
+            mailtoBtn.href = `mailto:director@solrac-tectonics.com?subject=${subject}&body=${body}`;
+          }
+        }
+
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }, 700);
     });
   }
 
   /* -------------------------------------------------------------------------
-     5. Header Scroll Blur Effect
+     5. High-Ticket In-Page Concierge Form (Section 04)
+     ------------------------------------------------------------------------- */
+  const conciergeForm = document.getElementById('concierge-form');
+  const inpageFeedbackCard = document.getElementById('inpage-feedback-card');
+  const inpageFeedbackReset = document.getElementById('inpage-feedback-reset');
+
+  if (conciergeForm) {
+    conciergeForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const submitBtn = conciergeForm.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+
+      submitBtn.innerHTML = `<span>TRANSMITTING TECHNICAL INQUIRY...</span>`;
+      submitBtn.disabled = true;
+
+      const formData = new FormData(conciergeForm);
+      const name = formData.get('client_name') || 'Principal';
+      const email = formData.get('client_email') || '';
+      const phone = formData.get('client_phone') || '';
+      const projectType = formData.get('project_type') || 'Stone Commission';
+      const location = formData.get('location') || 'Grande Porto';
+      const notes = formData.get('project_notes') || '';
+      const dossierRef = generateDossierRef();
+
+      setTimeout(() => {
+        conciergeForm.hidden = true;
+        if (inpageFeedbackCard) {
+          inpageFeedbackCard.hidden = false;
+
+          const descEl = document.getElementById('inpage-feedback-desc');
+          if (descEl) {
+            descEl.textContent = `Thank you, ${name}. Your commission feasibility dossier regarding "${projectType}" in ${location} has been transmitted to Technical Direction.`;
+          }
+
+          const refEl = document.getElementById('inpage-receipt-ref');
+          if (refEl) {
+            refEl.textContent = dossierRef;
+          }
+
+          const mailtoBtn = document.getElementById('inpage-mailto-fallback');
+          if (mailtoBtn) {
+            const subject = encodeURIComponent(`[${dossierRef}] Commission Feasibility Intake - ${name}`);
+            const body = encodeURIComponent(
+              `Dossier Ref: ${dossierRef}\n` +
+              `Principal/Studio: ${name}\n` +
+              `Professional Email: ${email}\n` +
+              `Phone/WhatsApp: ${phone}\n` +
+              `Nature of Commission: ${projectType}\n` +
+              `Location: ${location}\n\n` +
+              `Technical Brief / Blueprints:\n${notes}\n`
+            );
+            mailtoBtn.href = `mailto:director@solrac-tectonics.com?subject=${subject}&body=${body}`;
+          }
+        }
+
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }, 700);
+    });
+
+    if (inpageFeedbackReset) {
+      inpageFeedbackReset.addEventListener('click', () => {
+        conciergeForm.reset();
+        conciergeForm.hidden = false;
+        if (inpageFeedbackCard) inpageFeedbackCard.hidden = true;
+      });
+    }
+  }
+
+  /* -------------------------------------------------------------------------
+     6. Header & Mobile Navigation Toggle
      ------------------------------------------------------------------------- */
   const header = document.querySelector('.header');
+  const mobileToggle = document.getElementById('mobile-toggle');
+
+  if (mobileToggle && header) {
+    mobileToggle.addEventListener('click', () => {
+      const isOpen = header.classList.toggle('menu-open');
+      mobileToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    document.querySelectorAll('.nav-link').forEach((link) => {
+      link.addEventListener('click', () => {
+        header.classList.remove('menu-open');
+        mobileToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
   window.addEventListener('scroll', () => {
     if (window.scrollY > 40) {
       header?.classList.add('scrolled');

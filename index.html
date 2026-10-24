@@ -71,20 +71,28 @@
           </div>
         </a>
 
-        <nav>
+        <nav class="nav" id="main-nav">
           <ul class="nav-links">
             <li><a href="#works" class="nav-link">Selected Works</a></li>
             <li><a href="#dual-mastery" class="nav-link">The Dual Mastery</a></li>
             <li><a href="#method" class="nav-link">The Method</a></li>
             <li><a href="#inquiry" class="nav-link">Private Consultation</a></li>
           </ul>
+          <div class="mobile-nav-cta">
+            <a href="#inquiry" class="btn-concierge" data-concierge-open style="width: 100%; justify-content: center;">
+              Private Concierge Desk
+            </a>
+            <a href="mailto:director@solrac-tectonics.com" class="font-mono text-muted" style="font-size: 0.72rem; text-align: center; text-decoration: none;">
+              director@solrac-tectonics.com
+            </a>
+          </div>
         </nav>
 
         <div class="header-cta">
-          <a href="#inquiry" class="btn-concierge">Private Inquiry</a>
+          <a href="#inquiry" class="btn-concierge" id="header-concierge-btn" data-concierge-open>Private Inquiry</a>
         </div>
 
-        <button class="mobile-toggle" aria-label="Menu">
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="main-nav">
           <span></span>
           <span></span>
         </button>
@@ -417,6 +425,35 @@
               </button>
 
             </form>
+
+            <div class="concierge-feedback-card" id="inpage-feedback-card" hidden>
+              <div class="feedback-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <span class="tech-label">FEASIBILITY DOSSIER TRANSMITTED</span>
+              <h3 class="feedback-title">Technical Priority Registered</h3>
+              <p class="feedback-desc" id="inpage-feedback-desc"></p>
+              <div class="feedback-receipt">
+                <div class="receipt-item">
+                  <span class="receipt-label">DOSSIER REF:</span>
+                  <span class="receipt-val font-mono" id="inpage-receipt-ref"></span>
+                </div>
+                <div class="receipt-item">
+                  <span class="receipt-label">STATUS:</span>
+                  <span class="receipt-val font-mono">ASSIGNED TO TECHNICAL DIRECTOR</span>
+                </div>
+                <div class="receipt-item">
+                  <span class="receipt-label">SLA:</span>
+                  <span class="receipt-val font-mono">RESPONSE WITHIN 24 BUSINESS HOURS</span>
+                </div>
+              </div>
+              <div class="feedback-actions">
+                <button type="button" class="btn-outline" id="inpage-feedback-reset">Submit Another Commission</button>
+                <a href="mailto:director@solrac-tectonics.com" class="btn-concierge" id="inpage-mailto-fallback">Open Direct Email Client</a>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -453,7 +490,7 @@
             <p style="font-size: 0.85rem; line-height: 1.8;">
               Quantity Surveyor &amp; Master Craftsman<br>
               Direct Channel for Architectural Studios<br>
-              <strong style="color: var(--text-primary); font-family: var(--font-mono);">director@solrac-tectonics.com</strong>
+              <a href="mailto:director@solrac-tectonics.com" class="footer-contact-link">director@solrac-tectonics.com</a>
             </p>
           </div>
         </div>
@@ -493,10 +530,135 @@
         </div>
 
         <div>
-          <a href="#inquiry" onclick="document.getElementById('lightbox-modal').classList.remove('active'); document.body.style.overflow='';" class="btn-concierge" style="width: 100%; justify-content: center;">
+          <button type="button" id="lightbox-inquire-btn" class="btn-concierge" style="width: 100%; justify-content: center;">
             Inquire on Similar Commission
-          </a>
+          </button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       CONCIERGE MODAL (Private Technical Consultation Desk)
+       ========================================================================= -->
+  <div class="concierge-modal" id="concierge-modal" role="dialog" aria-modal="true" aria-labelledby="concierge-modal-title" hidden>
+    <div class="concierge-modal-dialog">
+      <div class="concierge-modal-header">
+        <div>
+          <span class="tech-label">DIRECT CONCIERGE · TECHNICAL DIRECTION</span>
+          <h2 class="concierge-modal-title" id="concierge-modal-title">Private Technical Consultation</h2>
+          <p class="concierge-modal-subtitle">
+            Direct priority channel for architectural practices, heritage trusts, and private estate owners in Grande Porto and Douro Valley.
+          </p>
+        </div>
+        <button type="button" class="concierge-close-btn" id="concierge-modal-close" aria-label="Close Concierge Modal">✕ CLOSE [ESC]</button>
+      </div>
+
+      <div class="concierge-direct-strip">
+        <a href="mailto:director@solrac-tectonics.com" class="direct-strip-item">
+          <span class="strip-label">DIRECT ENCRYPTED DESK</span>
+          <span class="strip-val font-mono">director@solrac-tectonics.com</span>
+        </a>
+        <a href="tel:+351912345678" class="direct-strip-item">
+          <span class="strip-label">DIRECT VOICE / WHATSAPP</span>
+          <span class="strip-val font-mono">+351 912 345 678</span>
+        </a>
+        <div class="direct-strip-item capacity-status">
+          <span class="strip-label">CAPACITY RESERVATION</span>
+          <span class="strip-val font-mono"><span class="status-dot"></span> Q3/Q4 2026 OPEN</span>
+        </div>
+      </div>
+
+      <div class="concierge-modal-body">
+        <form class="concierge-modal-form" id="concierge-modal-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="modal_client_name">Principal / Studio Name</label>
+              <input type="text" id="modal_client_name" name="client_name" class="form-input" placeholder="e.g., Sampaio Architecture Studio" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="modal_client_role">Client Profile</label>
+              <select id="modal_client_role" name="client_role" class="form-select">
+                <option value="architect">Architectural Practice</option>
+                <option value="private_owner">Private Estate Owner</option>
+                <option value="developer">Luxury Developer / Heritage Manager</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="modal_client_email">Professional Email</label>
+              <input type="email" id="modal_client_email" name="client_email" class="form-input" placeholder="studio@architecture.com" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="modal_client_phone">Direct Phone / WhatsApp</label>
+              <input type="tel" id="modal_client_phone" name="client_phone" class="form-input" placeholder="+351 9xx xxx xxx">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="modal_project_type">Nature of Commission</label>
+              <select id="modal_project_type" name="project_type" class="form-select">
+                <option value="structural_wall">Structural Cyclopean Retaining Wall</option>
+                <option value="heritage_restoration">Quinta / Solar / Heritage Stone Restoration</option>
+                <option value="bespoke_stonework">Bespoke Architectural Stonework / Portals</option>
+                <option value="full_direction">Complete Technical Direction &amp; Stonecraft</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="modal_location">Location of Project</label>
+              <input type="text" id="modal_location" name="location" class="form-input" placeholder="e.g., Foz do Douro, Porto" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="modal_project_notes">Project Brief &amp; Technical Requirements</label>
+            <textarea id="modal_project_notes" name="project_notes" class="form-textarea" placeholder="Detail blueprints, survey status, stone type, or specific architectural brief..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit-luxury">
+            <span>Transmit Feasibility Inquiry</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </form>
+
+        <div class="concierge-feedback-card" id="modal-feedback-card" hidden>
+          <div class="feedback-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="tech-label">FEASIBILITY DOSSIER TRANSMITTED</span>
+          <h3 class="feedback-title">Technical Priority Registered</h3>
+          <p class="feedback-desc" id="modal-feedback-desc"></p>
+          <div class="feedback-receipt">
+            <div class="receipt-item">
+              <span class="receipt-label">DOSSIER REF:</span>
+              <span class="receipt-val font-mono" id="modal-receipt-ref"></span>
+            </div>
+            <div class="receipt-item">
+              <span class="receipt-label">STATUS:</span>
+              <span class="receipt-val font-mono">ASSIGNED TO TECHNICAL DIRECTOR</span>
+            </div>
+            <div class="receipt-item">
+              <span class="receipt-label">SLA:</span>
+              <span class="receipt-val font-mono">RESPONSE WITHIN 24 BUSINESS HOURS</span>
+            </div>
+          </div>
+          <div class="feedback-actions">
+            <button type="button" class="btn-outline" id="modal-feedback-close">Close Desk</button>
+            <a href="mailto:director@solrac-tectonics.com" class="btn-concierge" id="modal-mailto-fallback">Open Direct Email Client</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="concierge-modal-footer">
+        <a href="#inquiry" class="modal-section-jump" id="modal-jump-section">Or review full capacity reservation section on page ↓</a>
       </div>
     </div>
   </div>
