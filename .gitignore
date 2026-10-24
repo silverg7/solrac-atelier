@@ -7,8 +7,12 @@ Thumbs.db
 __pycache__/
 *.py[cod]
 
-# Logs & scratch
+# Logs, runtime lead storage & scratch
 *.log
 scratch/
 .cache/
 .worktrees/
+data/*.jsonl
+data/*.lock
+data/photos/
+!data/.gitkeep

@@ -44,6 +44,9 @@
 </head>
 <body>
 
+  <!-- WCAG 2.1 AA Skip-to-Content Link -->
+  <a href="#main-content" class="skip-link" id="skip-to-content" data-i18n="a11y.skip_to_content">Saltar para o conteúdo principal</a>
+
   <!-- Subtle Architectural Grid Backdrop -->
   <div class="bg-grid-overlay"></div>
 
@@ -114,6 +117,8 @@
         </button>
       </div>
     </header>
+
+    <main id="main-content" tabindex="-1">
 
     <!-- =========================================================================
          HERO SECTION (High-End Monolithic Impact)
@@ -443,13 +448,15 @@
             <h3 class="tech-label" id="inpage-photos-title" data-i18n="inquiry.photos.title">Orçamento express · fotografias da obra</h3>
             <label class="photo-dropzone" for="inpage-photos" data-i18n="inquiry.photos.choose">Selecionar ou arrastar 1–4 fotografias</label>
             <input class="photo-input" type="file" id="inpage-photos" accept="image/jpeg,image/png,image/webp" multiple aria-describedby="inpage-photos-help">
-            <p id="inpage-photos-help" data-i18n="inquiry.photos.help">JPG, PNG ou WebP · até 12 MB por foto. Pré-visualização e compressão locais; as fotos não são enviadas com o formulário. Guarde as versões comprimidas e anexe-as no WhatsApp.</p>
+            <p id="inpage-photos-help" data-i18n="inquiry.photos.help">JPG, PNG ou WebP · até 12 MB por foto (máx. 4). Pré-visualização e compressão locais com envio integrado no formulário; se offline, guarde e anexe no WhatsApp.</p>
             <div class="photo-thumbnails"></div>
             <p class="photo-status" role="status" aria-live="polite"></p>
             <p class="express-reference"><span data-i18n="inquiry.photos.reference">Referência local</span> <output class="photo-dossier"></output></p>
             <a class="btn-outline photo-whatsapp" href="https://wa.me/351912345678" target="_blank" rel="noopener noreferrer" data-i18n="inquiry.photos.whatsapp">WhatsApp · pedir agendamento em menos de 24 h</a>
             <p data-i18n="inquiry.photos.timing">Envie uma vista geral, um pormenor e a localização. Solicite contacto em menos de 24 h; o orçamento depende da análise técnica.</p>
           </section>
+
+              <p class="form-rgpd-notice" data-i18n="inquiry.rgpd_notice">Tratamento confidencial exclusivo para análise técnica e orçamentação pela Direção Técnica SOLRAC (RGPD · UE 2016/679), sem cedência comercial a terceiros.</p>
 
           <button type="submit" class="btn-submit-luxury">
                 <span data-i18n="inquiry.submit">Enviar pedido de viabilidade</span>
@@ -497,6 +504,8 @@
       </div>
     </section>
 
+    </main>
+
     <!-- =========================================================================
          FOOTER
          ========================================================================= -->
@@ -531,6 +540,35 @@
           </div>
         </div>
 
+        <div class="footer-legal" id="footer-legal" role="region" aria-label="Informação legal, fiscal e proteção de dados" data-i18n-aria-label="footer.legal.aria_label">
+          <div class="footer-legal-item">
+            <span class="footer-legal-label" data-i18n="footer.legal.fiscal_label">IDENTIFICAÇÃO FISCAL &amp; ESTALEIRO</span>
+            <p class="footer-legal-text" data-i18n="footer.legal.fiscal_text">
+              SOLRAC TECTONICS · Estaleiro Operacional: Grande Porto &amp; Vale do Douro, Portugal · NIF/NIPC e habilitação técnica IMPIC constantes na proposta e contrato de empreitada · Foro: Comarca do Porto · RAL: CICAP Porto (Lei n.º 144/2015).
+            </p>
+          </div>
+
+          <div class="footer-legal-item">
+            <span class="footer-legal-label" data-i18n="footer.legal.rgpd_label">PRIVACIDADE &amp; RGPD (UE 2016/679)</span>
+            <p class="footer-legal-text">
+              <span data-i18n="footer.legal.rgpd_text">Plataforma isenta de cookies de rastreamento ou analítica de terceiros. Dados e fotografias tratados exclusivamente para viabilidade técnica e orçamentação (Lei n.º 58/2019). Direitos RGPD:</span>
+              <a href="mailto:director@solrac-tectonics.com" class="footer-contact-link">director@solrac-tectonics.com</a>
+            </p>
+          </div>
+
+          <div class="footer-legal-item footer-legal-lre">
+            <span class="footer-legal-label" data-i18n="footer.legal.lre_label">CONFORMIDADE REGULATÓRIA · PORTUGAL</span>
+            <a href="https://www.livroreclamacoes.pt" id="livro-reclamacoes-link" class="footer-lre-link" target="_blank" rel="noopener noreferrer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M4 4h16v16H4z"/>
+                <path d="M8 9h8M8 13h8M8 17h5"/>
+              </svg>
+              <span data-i18n="footer.legal.lre_link">LIVRO DE RECLAMAÇÕES ELETRÓNICO ↗</span>
+            </a>
+            <span class="footer-legal-meta" data-i18n="footer.legal.lre_meta">Direção-Geral do Consumidor · DL n.º 156/2005</span>
+          </div>
+        </div>
+
         <div class="footer-bottom">
           <span data-i18n="footer.copyright">&copy; 2026 SOLRAC TECTONICS. TODOS OS DIREITOS RESERVADOS.</span>
           <span data-i18n="footer.tagline">TECTÓNICA ARQUITETÓNICA MONOCROMÁTICA · PORTUGAL</span>
@@ -544,7 +582,7 @@
   <!-- =========================================================================
        LIGHTBOX MODAL (Fullscreen Architectural Inspection)
        ========================================================================= -->
-  <div class="lightbox-modal" id="lightbox-modal" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
+  <div class="lightbox-modal" id="lightbox-modal" role="dialog" aria-modal="true" aria-labelledby="lightbox-title" tabindex="-1">
     <div class="lightbox-dialog">
       <div class="lightbox-image-viewer">
         <div class="lightbox-views" role="group" aria-label="Vista da obra" data-i18n-aria-label="lightbox.views">
@@ -622,7 +660,7 @@
   <!-- =========================================================================
        CONCIERGE MODAL (Consulta técnica privada Desk)
        ========================================================================= -->
-  <div class="concierge-modal" id="concierge-modal" role="dialog" aria-modal="true" aria-labelledby="concierge-modal-title" hidden>
+  <div class="concierge-modal" id="concierge-modal" role="dialog" aria-modal="true" aria-labelledby="concierge-modal-title" tabindex="-1" hidden>
     <div class="concierge-modal-dialog">
       <div class="concierge-modal-header">
         <div>
@@ -708,13 +746,15 @@
             <h3 class="tech-label" id="modal-photos-title" data-i18n="inquiry.photos.title">Orçamento express · fotografias da obra</h3>
             <label class="photo-dropzone" for="modal-photos" data-i18n="inquiry.photos.choose">Selecionar ou arrastar 1–4 fotografias</label>
             <input class="photo-input" type="file" id="modal-photos" accept="image/jpeg,image/png,image/webp" multiple aria-describedby="modal-photos-help">
-            <p id="modal-photos-help" data-i18n="inquiry.photos.help">JPG, PNG ou WebP · até 12 MB por foto. Pré-visualização e compressão locais; as fotos não são enviadas com o formulário. Guarde as versões comprimidas e anexe-as no WhatsApp.</p>
+            <p id="modal-photos-help" data-i18n="inquiry.photos.help">JPG, PNG ou WebP · até 12 MB por foto (máx. 4). Pré-visualização e compressão locais com envio integrado no formulário; se offline, guarde e anexe no WhatsApp.</p>
             <div class="photo-thumbnails"></div>
             <p class="photo-status" role="status" aria-live="polite"></p>
             <p class="express-reference"><span data-i18n="inquiry.photos.reference">Referência local</span> <output class="photo-dossier"></output></p>
             <a class="btn-outline photo-whatsapp" href="https://wa.me/351912345678" target="_blank" rel="noopener noreferrer" data-i18n="inquiry.photos.whatsapp">WhatsApp · pedir agendamento em menos de 24 h</a>
             <p data-i18n="inquiry.photos.timing">Envie uma vista geral, um pormenor e a localização. Solicite contacto em menos de 24 h; o orçamento depende da análise técnica.</p>
           </section>
+
+          <p class="form-rgpd-notice" data-i18n="inquiry.rgpd_notice">Tratamento confidencial exclusivo para análise técnica e orçamentação pela Direção Técnica SOLRAC (RGPD · UE 2016/679), sem cedência comercial a terceiros.</p>
 
           <button type="submit" class="btn-submit-luxury">
             <span data-i18n="inquiry.submit">Enviar pedido de viabilidade</span>

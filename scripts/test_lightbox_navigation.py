@@ -175,7 +175,7 @@ for(let i=0;i<2;i++){
             self.assertIn(element,ids)
         self.assertIn('scripts/test_lightbox_navigation.py',(ROOT / 'Makefile').read_text())
         self.assertIn('cotas indicativas',self.html)
-        self.assertIn('fotos não são enviadas com o formulário',self.html)
+        self.assertIn('envio integrado no formulário',self.html)
 
 
 if __name__ == '__main__':

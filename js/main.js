@@ -168,6 +168,11 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const labelMaterial = (typeof I18N !== 'undefined') ? I18N.t('lightbox.spec_material', 'Material') : 'Material';
       const labelDetail = (typeof I18N !== 'undefined') ? I18N.t('lightbox.spec_detail', 'Pormenor') : 'Pormenor';
+      const labelOpenProject = (typeof I18N !== 'undefined') ? I18N.t('a11y.open_project', 'Inspecionar obra') : 'Inspecionar obra';
+
+      card.tabIndex = 0;
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-label', `${labelOpenProject}: ${project.title} — ${project.categoryLabel}`);
 
       card.innerHTML = `
         <div class="project-thumb-wrapper">
@@ -197,7 +202,13 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
 
-      card.addEventListener('click', () => openLightbox(project.id));
+      card.addEventListener('click', () => openLightbox(project.id, card));
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openLightbox(project.id, card);
+        }
+      });
       projectsGrid.appendChild(card);
     });
   }
@@ -211,6 +222,212 @@ document.addEventListener('DOMContentLoaded', () => {
       renderProjects(filter);
     });
   });
+
+  /* -------------------------------------------------------------------------
+     2.5 Accessibility: Strict Modal Focus Trap & Skip-to-Content (SOL-08)
+     ------------------------------------------------------------------------- */
+  const FOCUSABLE_SELECTOR = [
+    'a[href]',
+    'button:not([disabled])',
+    'input:not([disabled]):not([type="hidden"])',
+    'select:not([disabled])',
+    'textarea:not([disabled])',
+    '[tabindex]:not([tabindex="-1"])'
+  ].join(', ');
+
+  const siteWrapper = document.querySelector('.site-wrapper');
+  const skipToContentLink = document.getElementById('skip-to-content');
+  const mainContentLandmark = document.getElementById('main-content');
+
+  if (skipToContentLink && mainContentLandmark) {
+    skipToContentLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (typeof mainContentLandmark.focus === 'function') {
+        mainContentLandmark.focus();
+      }
+      if (typeof mainContentLandmark.scrollIntoView === 'function') {
+        mainContentLandmark.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      }
+    });
+  }
+
+  const modalA11y = (() => {
+    const triggers = new Map();
+
+    function isFocusableVisible(el, boundaryRoot = null) {
+      if (!el || el.disabled) return false;
+      const tabAttr = typeof el.getAttribute === 'function' ? el.getAttribute('tabindex') : null;
+      if (tabAttr === '-1') return false;
+
+      let cur = el;
+      while (cur && cur !== document.body && cur !== document.documentElement) {
+        if (cur.hidden === true || (typeof cur.hasAttribute === 'function' && cur.hasAttribute('hidden'))) {
+          return false;
+        }
+        if (cur !== boundaryRoot && typeof cur.getAttribute === 'function' && cur.getAttribute('aria-hidden') === 'true') {
+          return false;
+        }
+        if (typeof window !== 'undefined' && typeof window.getComputedStyle === 'function') {
+          const computed = window.getComputedStyle(cur);
+          if (computed && (computed.display === 'none' || computed.visibility === 'hidden')) {
+            return false;
+          }
+        }
+        if (boundaryRoot && cur === boundaryRoot) break;
+        cur = cur.parentElement || null;
+      }
+      return true;
+    }
+
+    function getFocusableElements(modal) {
+      if (!modal || typeof modal.querySelectorAll !== 'function') return [];
+      return Array.from(modal.querySelectorAll(FOCUSABLE_SELECTOR)).filter((el) => isFocusableVisible(el, modal));
+    }
+
+    function getActiveModal() {
+      if (typeof conciergeModal !== 'undefined' && conciergeModal && conciergeModal.classList.contains('active')) {
+        return conciergeModal;
+      }
+      if (typeof lightboxModal !== 'undefined' && lightboxModal && lightboxModal.classList.contains('active')) {
+        return lightboxModal;
+      }
+      return null;
+    }
+
+    function syncBackgroundState() {
+      if (!siteWrapper) return;
+      const active = getActiveModal();
+      if (active) {
+        if (typeof siteWrapper.setAttribute === 'function') {
+          siteWrapper.setAttribute('aria-hidden', 'true');
+        }
+        siteWrapper.inert = true;
+      } else {
+        if (typeof siteWrapper.removeAttribute === 'function') {
+          siteWrapper.removeAttribute('aria-hidden');
+        }
+        siteWrapper.inert = false;
+      }
+    }
+
+    function resolveTriggerElement(record) {
+      if (!record) return null;
+      const { element, id, projectId } = record;
+      if (element && element.isConnected !== false && isFocusableVisible(element)) {
+        return element;
+      }
+      if (projectId && typeof document.querySelector === 'function') {
+        const cardMatch = document.querySelector(`.project-card[data-id="${projectId}"]`);
+        if (cardMatch && isFocusableVisible(cardMatch)) return cardMatch;
+      }
+      if (id && typeof document.getElementById === 'function') {
+        const byId = document.getElementById(id);
+        if (byId && isFocusableVisible(byId)) return byId;
+      }
+      const fallbackToggle = typeof document.getElementById === 'function' ? document.getElementById('mobile-toggle') : null;
+      if (fallbackToggle && isFocusableVisible(fallbackToggle)) {
+        return fallbackToggle;
+      }
+      const fallbackHeaderCta = typeof document.getElementById === 'function' ? document.getElementById('header-concierge-btn') : null;
+      if (fallbackHeaderCta && isFocusableVisible(fallbackHeaderCta)) {
+        return fallbackHeaderCta;
+      }
+      if (mainContentLandmark) {
+        return mainContentLandmark;
+      }
+      return element || null;
+    }
+
+    function onOpen(modal, explicitTrigger = null, preferredFocus = null) {
+      if (!modal) return;
+      const candidate = explicitTrigger || document.activeElement || null;
+      const insideModal = candidate && typeof modal.contains === 'function' && modal.contains(candidate);
+      if (candidate && candidate !== document.body && candidate !== document.documentElement && !insideModal) {
+        triggers.set(modal, {
+          element: candidate,
+          id: candidate.id || '',
+          projectId: candidate.dataset ? (candidate.dataset.id || '') : ''
+        });
+      }
+      syncBackgroundState();
+      const focusables = getFocusableElements(modal);
+      const initialTarget = (preferredFocus && isFocusableVisible(preferredFocus, modal))
+        ? preferredFocus
+        : (focusables[0] || modal);
+      if (initialTarget && typeof initialTarget.focus === 'function') {
+        initialTarget.focus();
+      }
+    }
+
+    function onClose(modal, options = {}) {
+      if (!modal) return;
+      const restoreFocus = options.restoreFocus !== false;
+      const saved = triggers.get(modal) || null;
+      triggers.delete(modal);
+      syncBackgroundState();
+      if (restoreFocus && !getActiveModal() && saved) {
+        const target = resolveTriggerElement(saved);
+        if (target && typeof target.focus === 'function') {
+          target.focus();
+        }
+      }
+    }
+
+    function getTrigger(modal) {
+      const saved = triggers.get(modal);
+      return saved ? saved.element : null;
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab' || e.altKey || e.ctrlKey || e.metaKey) return;
+      const activeModal = getActiveModal();
+      if (!activeModal) return;
+
+      const focusables = getFocusableElements(activeModal);
+      if (!focusables.length) {
+        e.preventDefault();
+        if (typeof activeModal.focus === 'function') activeModal.focus();
+        return;
+      }
+
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const current = document.activeElement;
+      const inside = current && (
+        (typeof activeModal.contains === 'function' && activeModal.contains(current)) ||
+        focusables.includes(current)
+      );
+
+      if (e.shiftKey) {
+        if (!inside || current === first || current === activeModal) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (!inside || current === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    });
+
+    document.addEventListener('focusin', (e) => {
+      const activeModal = getActiveModal();
+      if (!activeModal || !e.target) return;
+      const inside = e.target === activeModal || (
+        typeof activeModal.contains === 'function' && activeModal.contains(e.target)
+      );
+      if (!inside) {
+        const focusables = getFocusableElements(activeModal);
+        const redirectTarget = focusables[0] || activeModal;
+        if (redirectTarget && typeof redirectTarget.focus === 'function') {
+          redirectTarget.focus();
+        }
+      }
+    });
+
+    return { onOpen, onClose, getTrigger, getFocusableElements, getActiveModal };
+  })();
 
   /* -------------------------------------------------------------------------
      3. Fullscreen Lightbox Modal
@@ -282,7 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, { passive: true });
 
-  function openLightbox(projectId) {
+  function openLightbox(projectId, triggerEl = null) {
     const baseProject = PROJECTS_DATA.find(p => p.id === projectId);
     if (!baseProject || !lightboxModal) return;
 
@@ -322,20 +539,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     lightboxModal.classList.add('active');
     document.body.style.overflow = 'hidden';
+    if (opening && typeof modalA11y !== 'undefined') {
+      modalA11y.onOpen(lightboxModal, triggerEl, lightboxClose);
+    }
   }
 
-  function closeLightbox() {
+  function closeLightbox(options = {}) {
     if (!lightboxModal) return;
+    const wasActive = lightboxModal.classList.contains('active');
     lightboxModal.classList.remove('active');
     activeLightboxProject = null;
     swipeStart = null;
     if (!conciergeModal?.classList.contains('active')) {
       document.body.style.overflow = '';
     }
+    if (wasActive && typeof modalA11y !== 'undefined') {
+      modalA11y.onClose(lightboxModal, options);
+    }
   }
 
   if (lightboxClose) {
-    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxClose.addEventListener('click', () => closeLightbox());
   }
 
   if (lightboxModal) {
@@ -354,7 +578,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalFeedbackClose = document.getElementById('modal-feedback-close');
   const modalJumpSection = document.getElementById('modal-jump-section');
 
-  function openConciergeModal(prefillProject = null) {
+  function openConciergeModal(prefillProject = null, triggerEl = null) {
     if (!conciergeModal) return;
 
     modalOpenTime = Date.now();
@@ -389,13 +613,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const firstInput = conciergeModal.querySelector('#modal_client_name');
-    if (firstInput) {
-      setTimeout(() => firstInput.focus(), 150);
+    if (typeof modalA11y !== 'undefined') {
+      modalA11y.onOpen(conciergeModal, triggerEl, firstInput);
+    } else if (firstInput && typeof firstInput.focus === 'function') {
+      firstInput.focus();
     }
   }
 
-  function closeConciergeModal() {
+  function closeConciergeModal(options = {}) {
     if (!conciergeModal) return;
+    const wasActive = conciergeModal.classList.contains('active');
     conciergeModal.classList.remove('active');
     setTimeout(() => {
       if (!conciergeModal.classList.contains('active')) {
@@ -406,10 +633,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!lightboxModal?.classList.contains('active')) {
       document.body.style.overflow = '';
     }
+    if (wasActive && typeof modalA11y !== 'undefined') {
+      modalA11y.onClose(conciergeModal, options);
+    }
   }
 
   if (conciergeModalClose) {
-    conciergeModalClose.addEventListener('click', closeConciergeModal);
+    conciergeModalClose.addEventListener('click', () => closeConciergeModal());
   }
 
   if (conciergeModal) {
@@ -419,12 +649,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (modalFeedbackClose) {
-    modalFeedbackClose.addEventListener('click', closeConciergeModal);
+    modalFeedbackClose.addEventListener('click', () => closeConciergeModal());
   }
 
   if (modalJumpSection) {
     modalJumpSection.addEventListener('click', () => {
-      closeConciergeModal();
+      closeConciergeModal({ restoreFocus: false });
     });
   }
 
@@ -432,8 +662,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (lightboxInquireBtn) {
     lightboxInquireBtn.addEventListener('click', () => {
       const project = activeLightboxProject;
-      closeLightbox();
-      openConciergeModal(project);
+      const originTrigger = typeof modalA11y !== 'undefined' ? modalA11y.getTrigger(lightboxModal) : null;
+      closeLightbox({ restoreFocus: false });
+      openConciergeModal(project, originTrigger);
     });
   }
 
@@ -444,7 +675,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // If mobile menu was open, close it
       header?.classList.remove('menu-open');
       mobileToggle?.setAttribute('aria-expanded', 'false');
-      openConciergeModal();
+      openConciergeModal(null, btn);
     });
   });
 
@@ -452,12 +683,18 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       if (conciergeModal?.classList.contains('active')) {
-        closeConciergeModal();
+        e.preventDefault();
+        closeConciergeModal({ restoreFocus: true });
       } else if (lightboxModal?.classList.contains('active')) {
-        closeLightbox();
+        e.preventDefault();
+        closeLightbox({ restoreFocus: true });
       } else if (header?.classList.contains('menu-open')) {
+        e.preventDefault();
         header.classList.remove('menu-open');
         mobileToggle?.setAttribute('aria-expanded', 'false');
+        if (typeof mobileToggle?.focus === 'function') {
+          mobileToggle.focus();
+        }
       }
     }
   });
@@ -484,16 +721,48 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const storageKey = 'solrac_dossier_vault';
       const existing = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      const compactPayload = { ...payload };
+      if (Array.isArray(compactPayload.photos)) {
+        compactPayload.photos = compactPayload.photos.map((p) => ({
+          name: p.name || '',
+          mime_type: p.mime_type || 'image/jpeg',
+          size_bytes: p.size_bytes || 0,
+        }));
+      }
       existing.push({
         ref: ref,
         timestamp: new Date().toISOString(),
         status: status,
-        payload: payload,
+        payload: compactPayload,
       });
       localStorage.setItem(storageKey, JSON.stringify(existing));
     } catch (_) {
       // Storage unavailable or private mode
     }
+  }
+
+  async function serializeIntakePhotos(form) {
+    if (typeof photoIntakes === 'undefined') return [];
+    const intake = photoIntakes.get(form);
+    if (!intake || !Array.isArray(intake.photos) || !intake.photos.length) return [];
+    const encoded = [];
+    for (let i = 0; i < intake.photos.length; i++) {
+      const item = intake.photos[i];
+      if (!item || !item.blob) continue;
+      const dataUrl = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result || ''));
+        reader.onerror = () => reject(new Error('photo_encode_error'));
+        reader.readAsDataURL(item.blob);
+      });
+      encoded.push({
+        name: item.name || `${intake.ref}-${i + 1}.jpg`,
+        mime_type: item.blob.type || 'image/jpeg',
+        size_bytes: item.blob.size,
+        data: dataUrl,
+      });
+    }
+    return encoded;
   }
 
   async function transmitInquiry(payload) {
@@ -570,6 +839,12 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       card.scrollIntoView({ block: 'start', behavior: 'instant' });
     }
+    const primaryAction = document.getElementById(
+      prefix === 'modal' ? 'modal-feedback-close' : 'inpage-feedback-reset'
+    );
+    if (primaryAction && typeof primaryAction.focus === 'function') {
+      primaryAction.focus();
+    }
   }
 
   // Concierge Modal Form Submission
@@ -617,6 +892,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let isBackendOffline = false;
 
       try {
+        payload.photos = await serializeIntakePhotos(conciergeModalForm);
         const result = await transmitInquiry(payload);
         dossierRef = result.ref || payload.dossier_ref;
         cacheLeadLocally(dossierRef, payload, 'persisted_remote');
@@ -685,6 +961,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let isBackendOffline = false;
 
       try {
+        payload.photos = await serializeIntakePhotos(conciergeForm);
         const result = await transmitInquiry(payload);
         dossierRef = result.ref || payload.dossier_ref;
         cacheLeadLocally(dossierRef, payload, 'persisted_remote');
@@ -711,8 +988,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* Local photo preparation. Files only leave the browser when the visitor
-     saves/shares them; /api/inquiry photo persistence belongs to SOL-08. */
+  /* Local photo preparation & compression (<=350 KB JPEG) for integrated
+     /api/inquiry persistence (SOL-08) and resilient WhatsApp fallback. */
   const photoIntakes = new Map();
   const photoText = key => I18N.t(`inquiry.photos.${key}`);
 
@@ -818,7 +1095,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
           const blob = await compressPhoto(file);
           if (revision !== state.revision) break;
-          state.photos.push({ blob, url: URL.createObjectURL(blob) });
+          state.photos.push({ blob, url: URL.createObjectURL(blob), name: file.name || '' });
           render();
         } catch (_) {
           failed = true;
