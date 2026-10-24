@@ -13,110 +13,110 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       "id": "muro-curvo",
       "category": "muros",
-      "categoryLabel": "Retaining Wall",
-      "title": "Curved Retaining Wall",
-      "material": "Stone masonry",
-      "detail": "Curved alignment",
+      "categoryLabel": "Muro de contenção",
+      "title": "Muro de contenção curvo",
+      "material": "Alvenaria de pedra",
+      "detail": "Alinhamento curvo",
       "image": "assets/images/muros/muro-curvo-1920.webp",
       "imageBase": "assets/images/muros/muro-curvo",
       "width": 1920,
       "height": 1082,
-      "alt": "Curved stone retaining wall following the edge of a landscaped plot.",
+      "alt": "Muro de contenção curvo em pedra junto ao limite de um terreno ajardinado.",
       "specs": {
-        "element": "Curved alignment",
-        "masonry": "Exposed stonework"
+        "element": "Alinhamento curvo",
+        "masonry": "Pedra à vista"
       },
-      "description": "Masonry follows the curve of the terrain, with staggered joints and a continuous stone face."
+      "description": "A alvenaria acompanha a curva do terreno, com juntas desencontradas e uma face contínua de pedra."
     },
     {
       "id": "muro-aparelhado",
       "category": "muros",
-      "categoryLabel": "Retaining Wall",
-      "title": "Dressed Stone Boundary Wall",
-      "material": "Stone masonry",
-      "detail": "Dressed courses",
+      "categoryLabel": "Muro de contenção",
+      "title": "Muro de delimitação em cantaria aparelhada",
+      "material": "Alvenaria de pedra",
+      "detail": "Fiadas aparelhadas",
       "image": "assets/images/muros/muro-aparelhado-1920.webp",
       "imageBase": "assets/images/muros/muro-aparelhado",
       "width": 1920,
       "height": 933,
-      "alt": "Long wall of dressed stone blocks beside a recessed entrance.",
+      "alt": "Muro longo de blocos de pedra aparelhada junto a uma entrada recuada.",
       "specs": {
-        "element": "Dressed courses",
-        "masonry": "Exposed stonework"
+        "element": "Fiadas aparelhadas",
+        "masonry": "Pedra à vista"
       },
-      "description": "A continuous wall of squared stone, showing the coursing, joint pattern and return at the entrance."
+      "description": "Muro contínuo de pedra esquadriada, com fiadas, juntas e remate junto à entrada visíveis."
     },
     {
       "id": "portal-rural",
       "category": "quintas",
-      "categoryLabel": "Rural Masonry",
-      "title": "Stone Gable & Entrance Surround",
-      "material": "Stone masonry",
-      "detail": "Entrance surround",
+      "categoryLabel": "Alvenaria rural",
+      "title": "Empena e guarnição de entrada em pedra",
+      "material": "Alvenaria de pedra",
+      "detail": "Guarnição de entrada",
       "image": "assets/images/quintas/portal-rural-1920.webp",
       "imageBase": "assets/images/quintas/portal-rural",
       "width": 1920,
       "height": 933,
-      "alt": "Rural stone gable with a dressed stone entrance surround during rehabilitation.",
+      "alt": "Empena rural em pedra com guarnição de entrada em cantaria durante a reabilitação.",
       "specs": {
-        "element": "Entrance surround",
-        "masonry": "Exposed stonework"
+        "element": "Guarnição de entrada",
+        "masonry": "Pedra à vista"
       },
-      "description": "An existing rural masonry shell with a pitched gable and dressed blocks framing the entrance."
+      "description": "Estrutura rural de alvenaria existente com empena inclinada e blocos aparelhados a enquadrar a entrada."
     },
     {
       "id": "reabilitacao-pedra",
       "category": "quintas",
-      "categoryLabel": "Rural Masonry",
-      "title": "Rural Stonework Rehabilitation",
-      "material": "Stone masonry",
-      "detail": "Doorway jambs",
+      "categoryLabel": "Alvenaria rural",
+      "title": "Reabilitação de alvenaria rural",
+      "material": "Alvenaria de pedra",
+      "detail": "Ombreiras do vão",
       "image": "assets/images/quintas/reabilitacao-pedra-1920.webp",
       "imageBase": "assets/images/quintas/reabilitacao-pedra",
       "width": 1920,
       "height": 1080,
-      "alt": "Interior of a rural stone building with dressed doorway jambs and exposed masonry.",
+      "alt": "Interior de um edifício rural em pedra com ombreiras aparelhadas e alvenaria à vista.",
       "specs": {
-        "element": "Doorway jambs",
-        "masonry": "Exposed stonework"
+        "element": "Ombreiras do vão",
+        "masonry": "Pedra à vista"
       },
-      "description": "Exposed masonry walls and dressed doorway elements photographed during the rehabilitation of a rural building."
+      "description": "Paredes de alvenaria à vista e elementos aparelhados dos vãos, fotografados durante a reabilitação de um edifício rural."
     },
     {
       "id": "escada-detalhe",
       "category": "cantaria",
-      "categoryLabel": "Dressed Stonework",
-      "title": "Staircase · Stone Joint Detail",
-      "material": "Stone masonry",
-      "detail": "Diagonal stone course",
+      "categoryLabel": "Cantaria aparelhada",
+      "title": "Escada · Pormenor de junta em pedra",
+      "material": "Alvenaria de pedra",
+      "detail": "Fiada de pedra diagonal",
       "image": "assets/images/cantaria/escada-detalhe-1920.webp",
       "imageBase": "assets/images/cantaria/escada-detalhe",
       "width": 1920,
       "height": 933,
-      "alt": "Close view of a diagonal dressed stone course meeting the masonry beneath a staircase.",
+      "alt": "Pormenor de uma fiada diagonal de cantaria na ligação à alvenaria sob uma escada.",
       "specs": {
-        "element": "Diagonal stone course",
-        "masonry": "Exposed stonework"
+        "element": "Fiada de pedra diagonal",
+        "masonry": "Pedra à vista"
       },
-      "description": "A close study of the joint between the dressed diagonal stone course and the supporting masonry beneath the stairs."
+      "description": "Pormenor da junta entre a fiada diagonal aparelhada e a alvenaria de apoio sob a escada."
     },
     {
       "id": "degraus-macicos",
       "category": "cantaria",
-      "categoryLabel": "Dressed Stonework",
-      "title": "Solid Stone Entrance Steps",
-      "material": "Stone masonry",
-      "detail": "Solid stone steps",
+      "categoryLabel": "Cantaria aparelhada",
+      "title": "Degraus de entrada em pedra maciça",
+      "material": "Alvenaria de pedra",
+      "detail": "Degraus de pedra maciça",
       "image": "assets/images/cantaria/degraus-macicos-1920.webp",
       "imageBase": "assets/images/cantaria/degraus-macicos",
       "width": 1920,
       "height": 933,
-      "alt": "Wide solid stone entrance steps with dressed risers and side returns.",
+      "alt": "Degraus largos de entrada em pedra maciça com espelhos aparelhados e remates laterais.",
       "specs": {
-        "element": "Solid stone steps",
-        "masonry": "Exposed stonework"
+        "element": "Degraus de pedra maciça",
+        "masonry": "Pedra à vista"
       },
-      "description": "A broad flight of stone steps, with continuous horizontal lines and dressed side returns, photographed on site."
+      "description": "Lanço largo de degraus de pedra com linhas horizontais contínuas e remates laterais aparelhados, fotografado em obra."
     }
   ];
 
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="project-meta-table">
             <span class="meta-field-label">Material</span>
             <span class="meta-field-val">${project.material}</span>
-            <span class="meta-field-label">Detail</span>
+            <span class="meta-field-label">Pormenor</span>
             <span class="meta-field-val">${project.detail}</span>
           </div>
         </div>
@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (lightboxSpecsContainer) {
       lightboxSpecsContainer.innerHTML = Object.entries(project.specs).map(([key, val]) => `
         <div class="lightbox-spec-item">
-          <span style="color: var(--text-secondary); text-transform: uppercase;">${key.replace('_', ' ')}</span>
+          <span style="color: var(--text-secondary); text-transform: uppercase;">${({ element: 'Elemento', masonry: 'Alvenaria' })[key] || key.replaceAll('_', ' ')}</span>
           <span style="color: var(--text-primary); font-weight: 500;">${val}</span>
         </div>
       `).join('');
@@ -284,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const notesField = conciergeModalForm.querySelector('#modal_project_notes');
       if (notesField && !notesField.value) {
-        notesField.value = `Inquiry regarding "${prefillProject.title}" (${prefillProject.categoryLabel}).\nRequesting technical direction / feasibility analysis for site in: `;
+        notesField.value = `Consulta sobre "${prefillProject.title}" (${prefillProject.categoryLabel}).\nPedido de direção técnica / análise de viabilidade para uma obra em: `;
       }
     }
 
@@ -419,6 +419,49 @@ document.addEventListener('DOMContentLoaded', () => {
     return await response.json();
   }
 
+  function showInquiryFeedback(prefix, form, card, payload, dossierRef, isBackendOffline) {
+    form.hidden = true;
+    if (!card) return;
+    card.hidden = false;
+
+    // API values remain stable; user-facing text always comes from PT-PT labels.
+    const selectedLabel = (field, fallback) =>
+      form.elements.namedItem(field)?.selectedOptions?.[0]?.textContent.trim() || fallback;
+    const projectLabel = selectedLabel('project_type', 'Intervenção em pedra');
+    const roleLabel = selectedLabel('client_role', 'Cliente');
+    card.querySelector('.feedback-title').textContent = isBackendOffline
+      ? 'Pedido por enviar'
+      : 'Pedido recebido';
+    document.getElementById(`${prefix}-feedback-desc`).textContent = isBackendOffline
+      ? `Não foi possível enviar o pedido de ${payload.client_name} sobre «${projectLabel}» em ${payload.location}. Utilize o email ou o WhatsApp abaixo para concluir o envio. Referência local: ${dossierRef}.`
+      : `Obrigado, ${payload.client_name}. O seu pedido sobre «${projectLabel}» em ${payload.location} foi recebido com a referência ${dossierRef}.`;
+    document.getElementById(`${prefix}-receipt-ref`).textContent = dossierRef;
+    const receiptValues = card.querySelectorAll('.receipt-val');
+    receiptValues[1].textContent = isBackendOffline ? 'ENVIO MANUAL NECESSÁRIO' : 'PEDIDO RECEBIDO';
+    receiptValues[2].textContent = isBackendOffline ? 'ENVIAR POR EMAIL OU WHATSAPP' : 'AGUARDAR CONTACTO DA EQUIPA';
+    // A check mark must never imply delivery when the backend could not confirm it.
+    card.querySelector('.feedback-icon').textContent = isBackendOffline ? '!' : '✓';
+    const subject = encodeURIComponent(`[${dossierRef}] Pedido de consulta técnica — ${payload.client_name}`);
+    const bodyText =
+      `Referência: ${dossierRef}\n` +
+      `Nome / Gabinete: ${payload.client_name}\n` +
+      `Perfil do cliente: ${roleLabel}\n` +
+      `Email profissional: ${payload.client_email}\n` +
+      `Telefone / WhatsApp: ${payload.client_phone}\n` +
+      `Tipo de intervenção: ${projectLabel}\n` +
+      `Local da obra: ${payload.location}\n\n` +
+      `Descrição do projeto / Plantas:\n${payload.project_notes}\n`;
+    document.getElementById(`${prefix}-mailto-fallback`).href =
+      `mailto:director@solrac-tectonics.com?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
+    document.getElementById(`${prefix}-whatsapp-fallback`).href =
+      getWhatsAppUrl('351912345678', `SOLRAC — Pedido de consulta técnica\n\n${bodyText}`);
+    if (prefix === 'modal') {
+      conciergeModal.querySelector('.concierge-modal-dialog').scrollTop = 0;
+    } else {
+      card.scrollIntoView({ block: 'start', behavior: 'instant' });
+    }
+  }
+
   // Concierge Modal Form Submission
   if (conciergeModalForm) {
     conciergeModalForm.addEventListener('submit', async (e) => {
@@ -435,14 +478,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      submitBtn.innerHTML = `<span>TRANSMITTING TECHNICAL DOSSIER...</span>`;
+      submitBtn.innerHTML = `<span>A ENVIAR PEDIDO…</span>`;
       submitBtn.disabled = true;
 
-      const name = (formData.get('client_name') || '').toString().trim() || 'Principal';
+      const name = (formData.get('client_name') || '').toString().trim() || 'Cliente';
       const role = (formData.get('client_role') || 'architect').toString().trim();
       const email = (formData.get('client_email') || '').toString().trim();
       const phone = (formData.get('client_phone') || '').toString().trim();
-      const projectType = (formData.get('project_type') || 'Stone Commission').toString().trim();
+      const projectType = (formData.get('project_type') || 'bespoke_stonework').toString().trim();
       const location = (formData.get('location') || '').toString().trim() || 'Grande Porto / Douro';
       const notes = (formData.get('project_notes') || '').toString().trim();
 
@@ -473,61 +516,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cacheLeadLocally(dossierRef, payload, 'offline_cached');
       }
 
-      conciergeModalForm.hidden = true;
-      if (modalFeedbackCard) {
-        modalFeedbackCard.hidden = false;
-
-        const descEl = document.getElementById('modal-feedback-desc');
-        if (descEl) {
-          if (isBackendOffline) {
-            descEl.textContent = `Thank you, ${name}. Your commission feasibility inquiry regarding "${projectType}" in ${location} has been registered under reference ${dossierRef}. Our local ingestion node is currently offline; please complete instant transmission via direct email or WhatsApp below.`;
-          } else {
-            descEl.textContent = `Thank you, ${name}. Your commission feasibility inquiry regarding "${projectType}" in ${location} has been registered with priority technical status in our transactional log.`;
-          }
-        }
-
-        const refEl = document.getElementById('modal-receipt-ref');
-        if (refEl) {
-          refEl.textContent = dossierRef;
-        }
-
-        const statusEl = modalFeedbackCard.querySelector('.feedback-receipt .receipt-item:nth-child(2) .receipt-val');
-        if (statusEl) {
-          statusEl.textContent = isBackendOffline
-            ? 'DIRECT CHANNEL DISPATCH REQUIRED'
-            : 'ASSIGNED TO TECHNICAL DIRECTOR';
-        }
-
-        const subject = encodeURIComponent(`[${dossierRef}] Technical Direction Commission Inquiry - ${name}`);
-        const bodyText =
-          `Dossier Ref: ${dossierRef}\n` +
-          `Principal/Studio: ${name}\n` +
-          `Client Profile: ${role}\n` +
-          `Professional Email: ${email}\n` +
-          `Phone/WhatsApp: ${phone}\n` +
-          `Nature of Commission: ${projectType}\n` +
-          `Location: ${location}\n\n` +
-          `Technical Brief / Blueprints:\n${notes}\n`;
-
-        const mailtoBtn = document.getElementById('modal-mailto-fallback');
-        if (mailtoBtn) {
-          mailtoBtn.href = `mailto:director@solrac-tectonics.com?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
-        }
-
-        const whatsappBtn = document.getElementById('modal-whatsapp-fallback');
-        if (whatsappBtn) {
-          const waText =
-            `*SOLRAC TECTONICS — Commission Inquiry [${dossierRef}]*\n\n` +
-            `• Principal: ${name}\n` +
-            `• Profile: ${role}\n` +
-            `• Email: ${email}\n` +
-            `• Phone: ${phone}\n` +
-            `• Commission: ${projectType}\n` +
-            `• Location: ${location}\n\n` +
-            `*Brief / Blueprints:*\n${notes}`;
-          whatsappBtn.href = getWhatsAppUrl('351912345678', waText);
-        }
-      }
+      showInquiryFeedback('modal', conciergeModalForm, modalFeedbackCard, payload, dossierRef, isBackendOffline);
 
       submitBtn.innerHTML = originalText;
       submitBtn.disabled = false;
@@ -556,14 +545,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      submitBtn.innerHTML = `<span>TRANSMITTING TECHNICAL INQUIRY...</span>`;
+      submitBtn.innerHTML = `<span>A ENVIAR PEDIDO…</span>`;
       submitBtn.disabled = true;
 
-      const name = (formData.get('client_name') || '').toString().trim() || 'Principal';
+      const name = (formData.get('client_name') || '').toString().trim() || 'Cliente';
       const role = (formData.get('client_role') || 'architect').toString().trim();
       const email = (formData.get('client_email') || '').toString().trim();
       const phone = (formData.get('client_phone') || '').toString().trim();
-      const projectType = (formData.get('project_type') || 'Stone Commission').toString().trim();
+      const projectType = (formData.get('project_type') || 'bespoke_stonework').toString().trim();
       const location = (formData.get('location') || '').toString().trim() || 'Grande Porto';
       const notes = (formData.get('project_notes') || '').toString().trim();
 
@@ -594,61 +583,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cacheLeadLocally(dossierRef, payload, 'offline_cached');
       }
 
-      conciergeForm.hidden = true;
-      if (inpageFeedbackCard) {
-        inpageFeedbackCard.hidden = false;
-
-        const descEl = document.getElementById('inpage-feedback-desc');
-        if (descEl) {
-          if (isBackendOffline) {
-            descEl.textContent = `Thank you, ${name}. Your commission feasibility dossier regarding "${projectType}" in ${location} has been compiled under reference ${dossierRef}. Our local ingestion node is currently offline; please complete instant transmission via direct email or WhatsApp below.`;
-          } else {
-            descEl.textContent = `Thank you, ${name}. Your commission feasibility dossier regarding "${projectType}" in ${location} has been transmitted to Technical Direction and logged in the secure register.`;
-          }
-        }
-
-        const refEl = document.getElementById('inpage-receipt-ref');
-        if (refEl) {
-          refEl.textContent = dossierRef;
-        }
-
-        const statusEl = inpageFeedbackCard.querySelector('.feedback-receipt .receipt-item:nth-child(2) .receipt-val');
-        if (statusEl) {
-          statusEl.textContent = isBackendOffline
-            ? 'DIRECT CHANNEL DISPATCH REQUIRED'
-            : 'ASSIGNED TO TECHNICAL DIRECTOR';
-        }
-
-        const subject = encodeURIComponent(`[${dossierRef}] Commission Feasibility Intake - ${name}`);
-        const bodyText =
-          `Dossier Ref: ${dossierRef}\n` +
-          `Principal/Studio: ${name}\n` +
-          `Client Profile: ${role}\n` +
-          `Professional Email: ${email}\n` +
-          `Phone/WhatsApp: ${phone}\n` +
-          `Nature of Commission: ${projectType}\n` +
-          `Location: ${location}\n\n` +
-          `Technical Brief / Blueprints:\n${notes}\n`;
-
-        const mailtoBtn = document.getElementById('inpage-mailto-fallback');
-        if (mailtoBtn) {
-          mailtoBtn.href = `mailto:director@solrac-tectonics.com?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
-        }
-
-        const whatsappBtn = document.getElementById('inpage-whatsapp-fallback');
-        if (whatsappBtn) {
-          const waText =
-            `*SOLRAC TECTONICS — Commission Inquiry [${dossierRef}]*\n\n` +
-            `• Principal: ${name}\n` +
-            `• Profile: ${role}\n` +
-            `• Email: ${email}\n` +
-            `• Phone: ${phone}\n` +
-            `• Commission: ${projectType}\n` +
-            `• Location: ${location}\n\n` +
-            `*Brief / Blueprints:*\n${notes}`;
-          whatsappBtn.href = getWhatsAppUrl('351912345678', waText);
-        }
-      }
+      showInquiryFeedback('inpage', conciergeForm, inpageFeedbackCard, payload, dossierRef, isBackendOffline);
 
       submitBtn.innerHTML = originalText;
       submitBtn.disabled = false;

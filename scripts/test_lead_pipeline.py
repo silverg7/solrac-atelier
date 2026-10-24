@@ -296,7 +296,7 @@ class FrontendLeadResilienceTests(unittest.TestCase):
         self.assertIn("catch (err)", self.js_text)
         self.assertIn("solrac_dossier_vault", self.js_text)
         self.assertIn("getWhatsAppUrl", self.js_text)
-        self.assertIn("DIRECT CHANNEL DISPATCH REQUIRED", self.js_text)
+        self.assertIn("ENVIO MANUAL NECESSÁRIO", self.js_text)
 
     def test_data_directory_ready(self):
         data_dir = ROOT / "data"

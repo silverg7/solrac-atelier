@@ -15,6 +15,10 @@
   padding: 0;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 html {
   scroll-behavior: smooth;
   background-color: var(--bg-primary);
@@ -53,8 +57,9 @@ button {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
+  height: 100dvh;
   pointer-events: none;
   z-index: 1;
   background-image: 
@@ -320,8 +325,7 @@ button {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: #55ff55;
-  box-shadow: 0 0 8px rgba(85, 255, 85, 0.6);
+  background-color: var(--text-primary);
 }
 
 .hero-main-grid {
@@ -862,7 +866,7 @@ button {
 
 .form-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
   min-width: 0;
   max-width: 100%;
@@ -903,6 +907,7 @@ button {
 
 /* Feedback Card for Successful Inquiry (No intrusive alert boxes) */
 .concierge-feedback-card {
+  scroll-margin-top: calc(var(--header-height) + var(--space-sm));
   background: var(--bg-surface);
   border: 1px solid var(--border-medium);
   padding: var(--space-xl);
@@ -920,9 +925,9 @@ button {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  border: 1px solid #55ff55;
-  background: rgba(85, 255, 85, 0.08);
-  color: #55ff55;
+  border: 1px solid var(--text-primary);
+  background: var(--bg-surface-elevated);
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -965,6 +970,7 @@ button {
   gap: 1rem;
   font-size: 0.75rem;
   flex-wrap: wrap;
+  min-width: 0;
 }
 
 .receipt-label {
@@ -981,12 +987,42 @@ button {
 }
 
 .feedback-actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 0.5rem;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+  width: 100%;
+  max-width: 520px;
+}
+
+.feedback-actions > :first-child {
+  grid-column: 1 / -1;
+}
+
+.feedback-actions > .btn-concierge,
+.feedback-actions > .btn-outline {
+  min-height: 48px;
+  min-width: 0;
+  width: 100%;
   justify-content: center;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  padding: var(--space-sm);
+  font-size: var(--text-micro);
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+}
+
+.feedback-actions > :focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 3px;
+}
+
+.feedback-desc, .receipt-val, .concierge-modal-title,
+.concierge-modal-subtitle, .modal-section-jump {
+  overflow-wrap: anywhere;
 }
 
 /* -------------------------------------------------------------------------
@@ -996,9 +1032,10 @@ button {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
-  background: rgba(5, 5, 5, 0.94);
+  height: 100dvh;
+  background: var(--bg-overlay);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   z-index: 9999;
@@ -1008,7 +1045,7 @@ button {
   opacity: 0;
   padding: var(--space-sm);
   transition: opacity var(--transition-normal);
-  overflow-y: auto;
+  overflow: hidden;
   box-sizing: border-box;
 }
 
@@ -1022,7 +1059,11 @@ button {
   border: 1px solid var(--border-medium);
   width: 100%;
   max-width: 760px;
-  max-height: 90vh;
+  max-height: 100%;
+  min-width: 0;
+  min-height: 0;
+  flex: 0 1 auto;
+  overscroll-behavior-y: contain;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -1120,7 +1161,8 @@ button {
 
 .concierge-modal-body {
   padding: 1.75rem 2rem;
-  overflow-y: auto;
+  min-width: 0;
+  flex-shrink: 0;
 }
 
 .concierge-modal-form {
@@ -1169,9 +1211,10 @@ button {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
-  background: rgba(5, 5, 5, 0.96);
+  height: 100dvh;
+  background: var(--bg-overlay);
   backdrop-filter: blur(20px);
   z-index: 9999;
   display: none;
@@ -1188,7 +1231,7 @@ button {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: 1.6fr 1fr;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
   overflow: hidden;
 }
 
@@ -1209,6 +1252,8 @@ button {
 }
 
 .lightbox-sidebar {
+  min-width: 0;
+  overflow-wrap: anywhere;
   background: var(--bg-surface);
   border-left: 1px solid var(--border-medium);
   padding: var(--space-xl);
@@ -1301,7 +1346,7 @@ button {
     border-right: none;
   }
   .duality-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1314,11 +1359,21 @@ button {
     gap: var(--space-xl);
   }
   .lightbox-dialog {
-    grid-template-columns: 1fr;
+    display: block;
     overflow-y: auto;
+    overscroll-behavior-y: contain;
+  }
+  .lightbox-sidebar {
+    overflow-y: visible;
+    padding: var(--space-md);
+    gap: var(--space-md);
   }
   .lightbox-image-viewer {
+    padding: var(--space-md);
     height: 50vh;
+  }
+  .lightbox-image-viewer img {
+    max-height: 100%;
   }
 }
 
@@ -1383,6 +1438,11 @@ button {
     width: 100%;
     text-align: center;
   }
+  .duality-card {
+    min-width: 0;
+    padding: var(--space-md);
+    overflow-wrap: anywhere;
+  }
   .projects-grid {
     grid-template-columns: 1fr;
   }
@@ -1419,12 +1479,24 @@ button {
     padding: 0;
   }
   .concierge-modal-dialog {
-    max-height: 100vh;
-    height: 100vh;
+    max-height: 100%;
+    height: 100%;
     border: none;
   }
   .concierge-modal-header {
     padding: 1.25rem 1rem;
+    flex-wrap: wrap;
+  }
+  .concierge-modal-header > div {
+    min-width: 0;
+    flex: 1 1 240px;
+  }
+  .concierge-close-btn {
+    margin-left: auto;
+    min-height: 44px;
+  }
+  .feedback-actions {
+    grid-template-columns: minmax(0, 1fr);
   }
   .concierge-modal-title {
     font-size: 1.25rem;

@@ -7,24 +7,21 @@
   /* -------------------------------------------------------------------------
      Monochrome Tonal Palette (Strict High-End Architecture)
      ------------------------------------------------------------------------- */
-  --bg-primary: #080808;
-  --bg-surface: #0f0f0f;
-  --bg-surface-elevated: #151515;
-  --bg-surface-hover: #1b1b1b;
-  --bg-overlay: rgba(8, 8, 8, 0.94);
+  --bg-primary: #070707;
+  --bg-surface: #0d0d0d;
+  --bg-surface-elevated: #1f1f1f;
+  --bg-surface-hover: #1f1f1f;
+  --bg-overlay: rgba(7, 7, 7, 0.94);
   
   --border-subtle: rgba(255, 255, 255, 0.08);
   --border-medium: rgba(255, 255, 255, 0.16);
   --border-strong: rgba(255, 255, 255, 0.32);
   --border-light: rgba(255, 255, 255, 0.65);
 
-  --text-primary: #f5f5f3;        /* Travertine white */
-  --text-secondary: #9e9e99;      /* Granite dust */
-  --text-muted: #5e5e5a;          /* Basalt dark */
-  --text-inverse: #080808;
-
-  --accent-gold-mineral: #d8c29d; /* Subtle raw sandstone / gold undertone */
-  --accent-granite-blue: #4a5568;
+  --text-primary: #f5f5f5;        /* Travertine white */
+  --text-secondary: #a0a0a0;      /* Granite dust */
+  --text-muted: #858585;          /* Basalt dark */
+  --text-inverse: #070707;
 
   /* -------------------------------------------------------------------------
      Typography Scale
