@@ -1,91 +1,210 @@
 <!doctype html>
 <html lang="pt-PT">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dossier de entrega | SOLRAC Atelier</title>
-  <style>
-    @page { size: A4; margin: 17mm 18mm 18mm; }
-    :root { color-scheme: light; --ink: #171717; --muted: #626262; --rule: #c8c8c8; --paper: #fff; }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; background: var(--paper); color: var(--ink); }
-    body { font: 10.5pt/1.52 "Arial", "Helvetica Neue", sans-serif; }
-    .sheet { position: relative; min-height: 260mm; page-break-after: always; }
-    .sheet:last-child { page-break-after: auto; }
-    .topline, .folio { display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: .14em; font-size: 8pt; color: var(--muted); }
-    .topline { border-bottom: 1px solid var(--ink); padding-bottom: 4mm; }
-    .cover { display: flex; flex-direction: column; justify-content: space-between; min-height: 245mm; padding-top: 33mm; }
-    .eyebrow { font-size: 8pt; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
-    h1, h2, h3, p { margin-top: 0; }
-    h1 { max-width: 145mm; margin: 10mm 0 7mm; font: 400 33pt/1.08 Georgia, "Times New Roman", serif; letter-spacing: -.025em; }
-    .subtitle { max-width: 115mm; font: 15pt/1.4 Georgia, "Times New Roman", serif; color: #444; }
-    .cover-mark { width: 100%; height: 53mm; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); display: flex; align-items: center; justify-content: space-between; margin: 13mm 0; }
-    .stone-mark { width: 39mm; height: 39mm; border: 1px solid #777; transform: rotate(45deg); position: relative; }
-    .stone-mark::before, .stone-mark::after { content: ""; position: absolute; inset: 7mm; border: 1px solid #aaa; }
-    .stone-mark::after { inset: 14mm; }
-    .cover-meta { text-align: right; color: var(--muted); font-size: 9pt; line-height: 1.9; }
-    .cover-footer { border-top: 1px solid var(--ink); padding-top: 4mm; display: flex; justify-content: space-between; font-size: 8pt; letter-spacing: .1em; text-transform: uppercase; }
-    .folio { position: absolute; bottom: 0; left: 0; right: 0; padding-top: 3mm; border-top: 1px solid var(--rule); }
-    h2 { font: 400 23pt/1.15 Georgia, "Times New Roman", serif; margin: 12mm 0 5mm; }
-    h3 { font-size: 11pt; margin-bottom: 2mm; }
-    .intro { color: #444; max-width: 145mm; margin-bottom: 9mm; }
-    .step { display: grid; grid-template-columns: 13mm 1fr; gap: 4mm; padding: 5mm 0; border-top: 1px solid var(--rule); break-inside: avoid; }
-    .num { font: 19pt/1 Georgia, serif; color: #777; }
-    .step p { margin-bottom: 0; color: #444; }
-    .note { margin: 7mm 0; padding: 4mm 5mm; border-left: 2px solid var(--ink); background: #f3f3f3; color: #333; break-inside: avoid; }
-    .checklist { list-style: none; margin: 0; padding: 0; }
-    .checklist li { padding: 3mm 0 3mm 8mm; border-bottom: 1px solid #ddd; position: relative; }
-    .checklist li::before { content: "□"; position: absolute; left: 0; color: #555; }
-    .contact { border-top: 1px solid var(--ink); margin-top: 9mm; padding-top: 5mm; color: var(--muted); font-size: 9pt; }
-    @media screen { body { background: #e9e9e9; padding: 12mm; } .sheet { max-width: 174mm; margin: 0 auto 12mm; padding: 0 0 12mm; background: white; } }
-    @media print {
-      .sheet { min-height: 260mm; }
-      .sheet:last-of-type h2 { margin-top: 8mm; margin-bottom: 3mm; }
-      .sheet:last-of-type .intro { margin-bottom: 5mm; }
-      .sheet:last-of-type .step { padding: 3mm 0; }
-      .sheet:last-of-type .note { margin: 4mm 0; padding: 3mm 4mm; }
-      .sheet:last-of-type .checklist li { padding-top: 2mm; padding-bottom: 2mm; }
-      .sheet:last-of-type .contact { margin-top: 5mm; padding-top: 3mm; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Guia SOLRAC para Carlos: pedidos, fotografias, acompanhamento e manutenção. Inclui apêndice de operação técnica.">
+<title>SOLRAC Atelier | Guia de utilização para Carlos</title>
+<style>
+@page { size: A4; margin: 0; }
+:root { color-scheme: light; --ink: #171717; --muted: #555; --rule: #b8b8b8; --soft: #f1f1f1; }
+* { box-sizing: border-box; }
+html,body { margin:0; padding:0; color:var(--ink); background:#fff; }
+body { font:10.6pt/1.5 Arial,"Liberation Sans",sans-serif; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.sheet { position:relative; width:210mm; height:297mm; padding:17mm 19mm 22mm; break-after:page; }
+.sheet:last-child { break-after:auto; }
+.running-head,.folio { display:flex; justify-content:space-between; align-items:baseline; gap:8mm; font-size:7.8pt; line-height:1.3; text-transform:uppercase; letter-spacing:.13em; }
+.running-head { padding-bottom:4mm; border-bottom:.3mm solid var(--ink); }
+.running-head span:last-child { text-align:right; color:var(--muted); }
+.folio { position:absolute; bottom:13mm; left:19mm; right:19mm; padding-top:3mm; border-top:.2mm solid var(--rule); color:var(--muted); }
+h1,h2,h3,p,figure { margin:0; }
+h1,h2 { font-family:Georgia,"Liberation Serif",serif; font-weight:400; }
+h2 { margin:3mm 0 4mm; font-size:29pt; line-height:1.06; letter-spacing:-.025em; }
+h3 { margin-bottom:2mm; font-size:11pt; line-height:1.3; }
+p+p { margin-top:3mm; }
+.kicker { margin-top:8mm; color:var(--muted); font-size:8pt; letter-spacing:.17em; text-transform:uppercase; }
+.intro { max-width:162mm; margin-bottom:6mm; color:#444; font-size:11.1pt; line-height:1.5; }
+.small { font-size:9.2pt; line-height:1.5; color:#444; }
+.rule { border-top:.2mm solid var(--rule); }
+.two-col { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7mm; }
+.note { margin-top:6mm; padding:4.5mm 5mm; border-left:.7mm solid var(--ink); background:var(--soft); }
+.note h3 { font-size:10.2pt; }
+.note p { font-size:10pt; line-height:1.5; }
+.steps { counter-reset:step; }
+.step { display:grid; grid-template-columns:11mm 1fr; column-gap:4mm; padding:4.5mm 0; border-top:.2mm solid var(--rule); break-inside:avoid; }
+.step::before { counter-increment:step; content:"0" counter(step); color:#666; font:22pt/1 Georgia,"Liberation Serif",serif; }
+.step p { color:#444; }
+.requests .step { padding:3.5mm 0; }
+.rows { margin:0; padding:0; list-style:none; }
+.rows li { display:grid; grid-template-columns:5mm 1fr; gap:3mm; padding:3mm 0; border-bottom:.2mm solid #d3d3d3; break-inside:avoid; }
+.rows li::before { content:""; display:block; width:2.4mm; height:2.4mm; border:.25mm solid #666; margin-top:1.5mm; }
+.tag { display:inline-block; font-size:7.6pt; line-height:1.2; text-transform:uppercase; letter-spacing:.12em; }
+.path { font:8.5pt/1.45 "DejaVu Sans Mono",monospace; }
+pre { margin:2mm 0 0; padding:3mm 3.5mm; background:var(--soft); font:8.4pt/1.55 "DejaVu Sans Mono",monospace; white-space:pre-wrap; overflow-wrap:anywhere; }
+a { color:inherit; text-decoration:none; }
+table { width:100%; border-collapse:collapse; font-size:10pt; line-height:1.5; }
+th,td { text-align:left; vertical-align:top; padding:3mm 0; border-bottom:.2mm solid var(--rule); }
+th { font-size:7.8pt; text-transform:uppercase; letter-spacing:.09em; }
+td:first-child { width:43mm; padding-right:5mm; font-weight:700; }
+.cover { background:#0d0d0d; color:#fff; }
+.cover .running-head { border-color:#777; }
+.cover .running-head span:last-child,.cover .folio { color:#c1c1c1; }
+.cover .folio { border-color:#777; }
+.wordmark { margin-top:13mm; font:46pt/1 Georgia,"Liberation Serif",serif; letter-spacing:.12em; }
+.brand-line { margin-top:3mm; color:#c6c6c6; font-size:8pt; text-transform:uppercase; letter-spacing:.15em; }
+.cover-image { position:relative; margin-top:10mm; height:91mm; border-top:.25mm solid #777; border-bottom:.25mm solid #777; }
+.cover-image img { display:block; width:100%; height:100%; object-fit:cover; object-position:68% 42%; filter:grayscale(1); }
+.cover-image::after { content:""; position:absolute; left:64%; top:-3mm; bottom:-3mm; width:.2mm; background:rgba(255,255,255,.55); }
+.cover-caption { margin-top:3mm; display:flex; justify-content:space-between; color:#c1c1c1; font-size:7.5pt; letter-spacing:.09em; text-transform:uppercase; }
+.cover h1 { margin-top:11mm; font-size:31pt; line-height:1.08; letter-spacing:-.015em; }
+.cover-subtitle { margin-top:4mm; max-width:145mm; font-size:10.7pt; line-height:1.5; color:#d1d1d1; }
+.cover-meta { display:grid; grid-template-columns:1fr 1fr; gap:7mm; margin-top:9mm; padding-top:4mm; border-top:.2mm solid #777; }
+.cover-meta p { margin-top:1.5mm; font-size:10pt; }
+.cover-meta .tag { color:#b9b9b9; }
+.contents { margin-top:7mm; }
+.contents a { display:flex; justify-content:space-between; gap:8mm; padding:3mm 0; border-top:.2mm solid var(--rule); }
+.contents .num { color:#666; font-size:9pt; }
+.role { padding-top:4mm; border-top:.3mm solid var(--ink); }
+.role p { color:#444; font-size:10.1pt; }
+.role .tag { margin-bottom:3mm; color:#555; }
+.response-target { display:grid; grid-template-columns:35mm 1fr; align-items:center; gap:5mm; margin:4mm 0; padding:3mm 0; border-top:.3mm solid var(--ink); border-bottom:.2mm solid var(--rule); }
+.response-target .value { font:35pt/1 Georgia,"Liberation Serif",serif; }
+.response-target p { font-size:10pt; }
+blockquote { margin:3mm 0 0; font:12.2pt/1.5 Georgia,"Liberation Serif",serif; }
+.photo-pair { margin:5mm 0 4mm; }
+.photo-pair .two-col { gap:4mm; }
+.photo-pair img { display:block; width:100%; height:40mm; object-fit:cover; filter:grayscale(1); }
+figcaption { margin-top:2.5mm; color:#555; font-size:8pt; line-height:1.45; }
+.photo-label { margin-top:2mm; font-size:8pt; text-transform:uppercase; letter-spacing:.1em; }
+.technical h2 { font-size:26pt; }
+.command { margin-top:3mm; break-inside:avoid; }
+.technical pre { padding:2.5mm 3.5mm; }
+.command h3 { margin:0; font-size:10pt; }
+.technical .intro { margin-bottom:4mm; font-size:10.5pt; }
+.technical .note { margin-top:5mm; padding:4mm 5mm; }
+.technical .note p { font-size:9.4pt; }
+.technical .small { font-size:9pt; }
+@media screen {
+ body { background:#dedede; padding:10mm 0; }
+ .sheet { background:#fff; margin:0 auto 10mm; box-shadow:0 1mm 4mm #0002; }
+ .sheet.cover { background:#0d0d0d; }
+}
+</style>
 </head>
 <body>
-  <section class="sheet">
-    <div class="topline"><span>SOLRAC Atelier</span><span>Entrega ao cliente · 2026</span></div>
-    <div class="cover">
-      <div>
-        <div class="eyebrow">Guia de utilização e acompanhamento</div>
-        <h1>O seu atelier,<br>em boas mãos.</h1>
-        <p class="subtitle">Um guia simples para acompanhar pedidos, imagens e presença digital da SOLRAC.</p>
-        <div class="cover-mark"><div class="stone-mark" aria-hidden="true"></div><div class="cover-meta">PEDRAS · PROJECTO · OFÍCIO<br>GRANDE PORTO &amp; DOURO<br><br>GUIA DE ENTREGA<br>CARLOS</div></div>
-      </div>
-      <div class="cover-footer"><span>Dossier executivo</span><span>Uso quotidiano</span></div>
-    </div>
-    <div class="folio"><span>SOLRAC · GUIA DO CLIENTE</span><span>01 / 03</span></div>
-  </section>
+<section class="sheet cover" id="capa" aria-labelledby="cover-title">
+<header class="running-head"><span>Atelier de cantaria e arquitetura em pedra</span><span>Grande Porto · Douro</span></header>
+<div class="wordmark">SOLRAC</div>
+<p class="brand-line">Atelier · Pedra, detalhe e execução</p>
+<figure class="cover-image"><img src="../assets/images/hero/cantaria-esquina-1920.webp" alt="Pormenor de uma esquina em pedra, com diferentes tamanhos e texturas de blocos."></figure>
+<div class="cover-caption"><span>Matéria / pormenor</span><span>Arquivo fotográfico SOLRAC</span></div>
+<h1 id="cover-title">Guia de utilização<br>&amp; acompanhamento</h1>
+<p class="cover-subtitle">Pedidos de orçamento, fotografias e manutenção do site.<br>Uma referência prática para o trabalho de todos os dias.</p>
+<div class="cover-meta"><div><span class="tag">Preparado para</span><p>Carlos</p></div><div><span class="tag">Edição revista</span><p>25 de outubro de 2026</p></div></div>
+<footer class="folio"><span>Guia de utilização · Edição 02</span><span>01 / 06</span></footer>
+</section>
 
-  <section class="sheet">
-    <div class="topline"><span>SOLRAC Atelier</span><span>01 · Pedidos e imagens</span></div>
-    <h2>Acompanhar cada pedido</h2>
-    <p class="intro">O Concierge reúne os pedidos de orçamento recebidos no site. Cada pedido contém os contactos do cliente, o local da obra, uma descrição e, quando enviadas, fotografias de referência.</p>
-    <div class="step"><div class="num">01</div><div><h3>Consultar os novos pedidos</h3><p>Abra a área de pedidos do Concierge e veja os registos por ordem de chegada. Leia a descrição, confirme o local e identifique o tipo de trabalho antes de preparar a resposta.</p></div></div>
-    <div class="step"><div class="num">02</div><div><h3>Preparar o orçamento</h3><p>Use os dados recebidos para avaliar o pedido. Se faltarem medidas, acesso à obra, prazo pretendido ou outro elemento, peça essa informação antes de fechar o valor. Confirme sempre o âmbito e as condições com o cliente.</p></div></div>
-    <div class="step"><div class="num">03</div><div><h3>Ver as fotografias</h3><p>Quando o pedido incluir imagens, abra os ficheiros associados ao registo. Observe o estado da pedra, os pormenores e o contexto da obra. As fotografias ajudam na primeira avaliação, mas não substituem a visita quando esta for necessária.</p></div></div>
-    <div class="note"><strong>Boa prática</strong><br>Associe a conversa à referência do pedido. Assim, é mais fácil encontrar a informação se o cliente voltar a contactar.</div>
-    <div class="folio"><span>SOLRAC · GUIA DO CLIENTE</span><span>02 / 03</span></div>
-  </section>
+<section class="sheet" id="funcionamento" aria-labelledby="site-title">
+<header class="running-head"><span>SOLRAC Atelier</span><span>01 / Funcionamento</span></header>
+<p class="kicker">Uma referência para Carlos</p>
+<h2 id="site-title">O site, no dia a dia.</h2>
+<p class="intro">O site apresenta os trabalhos da SOLRAC e permite iniciar uma conversa sobre uma obra. O Concierge é o formulário de contacto: recolhe a informação necessária para uma primeira avaliação.</p>
+<div class="steps">
+<div class="step"><div><h3>Apresentar o trabalho</h3><p>O visitante pode explorar o portefólio, abrir as fotografias de cada obra e consultar o site em português, inglês ou espanhol.</p></div></div>
+<div class="step"><div><h3>Recolher o pedido</h3><p>O formulário reúne nome, email, local da obra e os restantes dados preenchidos. O visitante pode juntar até quatro fotografias.</p></div></div>
+<div class="step"><div><h3>Dar seguimento</h3><p>Quando o serviço de receção está ativo, o pedido fica guardado com uma referência. Carlos analisa a informação recebida e contacta o interessado para esclarecer o próximo passo.</p></div></div>
+</div>
+<div class="note"><h3>Como consultar os pedidos</h3><p>A consulta é feita no computador ou servidor que guarda os registos, através de uma ferramenta local. O site atual não inclui uma área de gestão com início de sessão nem envia alertas automáticos por email. A operação técnica está descrita na página 6.</p></div>
+<nav class="contents" aria-label="Conteúdo deste guia">
+<a href="#pedidos"><span>Consultar e acompanhar pedidos</span><span class="num">03</span></a>
+<a href="#fotografias"><span>Ver fotografias e confirmar o envio</span><span class="num">04</span></a>
+<a href="#manutencao"><span>Manter o site e resolver imprevistos</span><span class="num">05</span></a>
+<a href="#operacao"><span>Apêndice para a manutenção técnica</span><span class="num">06</span></a>
+</nav>
+<footer class="folio"><span>Guia de utilização · Carlos</span><span>02 / 06</span></footer>
+</section>
 
-  <section class="sheet">
-    <div class="topline"><span>SOLRAC Atelier</span><span>02 · Resposta e manutenção</span></div>
-    <h2>Responder e cuidar</h2>
-    <p class="intro">Uma resposta atempada transmite atenção e permite esclarecer o próximo passo, mesmo quando o orçamento ainda está a ser preparado.</p>
-    <div class="step"><div class="num">04</div><div><h3>Responder por WhatsApp em menos de 24 horas</h3><p>Contacte o cliente pelo número indicado, idealmente no próprio dia e sempre no prazo de 24 horas. Confirme a recepção do pedido, agradeça o contacto e diga quando poderá enviar o orçamento ou que informação ainda precisa.</p></div></div>
-    <div class="note"><strong>Mensagem de exemplo</strong><br>“Olá, [nome]. Recebemos o seu pedido [referência]. Obrigado pelo contacto. Vamos analisar a informação e damos-lhe uma resposta até [dia/hora]. Se possível, envie também [elemento em falta].”</div>
-    <div class="step"><div class="num">05</div><div><h3>Manter o site actualizado</h3><p>Reveja periodicamente os contactos, horários, serviços e projectos apresentados. Confirme que os formulários continuam a chegar ao Concierge e que as fotografias publicadas correspondem a trabalhos autorizados. Para alterações, reúna o texto e as imagens finais antes de pedir a actualização.</p></div></div>
-    <h3 style="margin-top:8mm">Rotina recomendada</h3>
-    <ul class="checklist"><li>Verificar novos pedidos todos os dias úteis.</li><li>Responder e registar o próximo passo de cada conversa.</li><li>Confirmar que os orçamentos enviados tiveram seguimento.</li><li>Rever contactos e conteúdo do site uma vez por mês.</li></ul>
-    <div class="contact">Dúvidas ou necessidade de apoio? Contacte a equipa SOLRAC pelo canal habitual. Guarde este guia junto da informação de acesso ao site e ao Concierge.</div>
-    <div class="folio"><span>SOLRAC · GUIA DO CLIENTE</span><span>03 / 03</span></div>
-  </section>
+<section class="sheet requests" id="pedidos" aria-labelledby="requests-title">
+<header class="running-head"><span>SOLRAC Atelier</span><span>02 / Pedidos e resposta</span></header>
+<p class="kicker">Uma rotina simples</p>
+<h2 id="requests-title">Receber. Ler. Responder.</h2>
+<p class="intro">No início de cada dia útil, consulte os novos pedidos ou peça uma exportação a quem acompanha a manutenção. Guarde a referência em toda a correspondência sobre a mesma obra.</p>
+<div class="two-col">
+<div class="role"><span class="tag">Carlos / acompanhamento</span><p>Analisa os pedidos, esclarece o trabalho pretendido, combina uma visita quando necessário e prepara a proposta.</p></div>
+<div class="role"><span class="tag">Manutenção / operação</span><p>Consulta os registos locais, disponibiliza a lista e as fotografias a Carlos e acompanha o funcionamento do serviço.</p></div>
+</div>
+<div class="steps" style="margin-top:6mm">
+<div class="step"><div><h3>Identificar o pedido</h3><p>Confirme o nome, o contacto, o local da obra e a referência. Leia a descrição e veja se existem fotografias antes de responder.</p></div></div>
+<div class="step"><div><h3>Esclarecer o que falta</h3><p>Peça as medidas, os acessos, o prazo pretendido ou as imagens necessárias. Quando a avaliação o exigir, proponha uma visita antes de fechar o orçamento.</p></div></div>
+<div class="step"><div><h3>Registar o próximo passo</h3><p>Anote a data da resposta e o que ficou combinado: informação em falta, visita ou envio da proposta. Use uma lista de acompanhamento própria ou a conversa com o cliente.</p></div></div>
+</div>
+<div class="response-target"><div class="value">24 h</div><p><strong>Objetivo recomendado para a primeira resposta.</strong><br>Confirme a receção, mesmo que a análise ainda esteja em curso. Use WhatsApp se houver número disponível; caso contrário, responda por email.</p></div>
+<span class="tag">Mensagem de exemplo / adaptar antes de enviar</span>
+<blockquote>Olá, [nome]. Obrigado pelo contacto com a SOLRAC. Recebemos o seu pedido [referência]. Para avançarmos, precisamos de [informação]. Voltamos a falar até [dia/hora].</blockquote>
+<footer class="folio"><span>Guia de utilização · Carlos</span><span>03 / 06</span></footer>
+</section>
+
+<section class="sheet" id="fotografias" aria-labelledby="photos-title">
+<header class="running-head"><span>SOLRAC Atelier</span><span>03 / Fotografias e envio</span></header>
+<p class="kicker">Informação que ajuda a avaliar</p>
+<h2 id="photos-title">Ver o conjunto.<br>Perceber o detalhe.</h2>
+<p class="intro">Uma imagem geral mostra o contexto; uma imagem próxima ajuda a observar a pedra, as juntas e os remates. As fotografias apoiam a primeira conversa e não substituem uma visita quando necessária.</p>
+<figure class="photo-pair">
+<div class="two-col"><div><img src="../assets/images/muros/muro-curvo-1280.webp" alt="Pormenor do aparelho de pedra do muro curvo, no portefólio SOLRAC."><p class="photo-label">01 / Pormenor do aparelho</p></div><div><img src="../assets/images/muros/muro-curvo-vista-2-1280.webp" alt="Vista de conjunto do mesmo muro curvo, no portefólio SOLRAC."><p class="photo-label">02 / Vista de conjunto</p></div></div>
+<figcaption>Exemplo com duas fotografias do mesmo trabalho, já incluídas no portefólio. Não são imagens de um pedido recebido.</figcaption>
+</figure>
+<h3 style="margin-top:5mm">Ao consultar as imagens de um pedido</h3>
+<ul class="rows">
+<li><span>Associe as fotografias à referência correta e confirme que todos os ficheiros abrem.</span></li>
+<li><span>Se faltarem contexto ou pormenores, peça uma vista mais ampla e uma imagem próxima da zona de intervenção.</span></li>
+<li><span>Evite reenviar contactos, moradas e fotografias a pessoas sem relação com o trabalho. Combine a autorização antes de publicar imagens.</span></li>
+</ul>
+<div class="note"><h3>«Pedido recebido» ou «Pedido por enviar»?</h3><p><strong>Pedido recebido:</strong> o serviço confirmou o registo. As fotografias aceites ficam associadas à referência.</p><p><strong>Pedido por enviar:</strong> o site não confirmou a receção. O visitante deve abrir email ou WhatsApp e concluir o envio nessa aplicação. As fotografias têm de ser anexadas manualmente.</p></div>
+<p class="small" style="margin-top:4mm">A ferramenta local indica os caminhos dos ficheiros de imagem. As fotografias recebidas não ficam expostas numa galeria pública do site.</p>
+<footer class="folio"><span>Guia de utilização · Carlos</span><span>04 / 06</span></footer>
+</section>
+
+<section class="sheet" id="manutencao" aria-labelledby="maintenance-title">
+<header class="running-head"><span>SOLRAC Atelier</span><span>04 / Continuidade</span></header>
+<p class="kicker">Cuidar do que se apresenta</p>
+<h2 id="maintenance-title">Manter o site útil.</h2>
+<p class="intro">Reveja o site uma vez por mês e sempre que mudarem os contactos ou os serviços. Para uma atualização, reúna os textos finais e as fotografias antes de os entregar à pessoa responsável pela manutenção.</p>
+<h3>Revisão mensal</h3>
+<ul class="rows">
+<li><span>Confirmar email, telefone e destino do botão de WhatsApp.</span></li>
+<li><span>Abrir o portefólio no telemóvel e no computador; verificar fotografias e legendas.</span></li>
+<li><span>Rever os textos em português e pedir a atualização das versões inglesa e espanhola quando houver alterações.</span></li>
+<li><span>Combinar com a manutenção um pedido de teste identificado e confirmar a receção e as imagens.</span></li>
+</ul>
+<h3 style="margin-top:7mm">Se alguma coisa falhar</h3>
+<table aria-label="Situações e ações recomendadas">
+<thead><tr><th>Situação</th><th>O que fazer</th></tr></thead>
+<tbody>
+<tr><td>Um pedido não aparece</td><td>Peça a referência e a hora aproximada. Verifique se o envio foi confirmado no site ou concluído por email/WhatsApp; peça à manutenção que procure o registo.</td></tr>
+<tr><td>Faltam fotografias</td><td>Confirme se foram anexadas. No envio manual por email ou WhatsApp, peça ao cliente que junte os ficheiros na própria aplicação.</td></tr>
+<tr><td>Um contacto ou uma imagem está errado</td><td>Envie à manutenção a página, uma captura do problema e o texto ou ficheiro correto.</td></tr>
+</tbody>
+</table>
+<div class="note"><h3>Antes de iniciar a utilização com clientes</h3><p>Confirme os contactos reais, quem consulta os pedidos e como chegam a Carlos. Faça um envio de teste no endereço publicado. Este guia descreve a utilização; a verificação final da instalação deve acompanhar a entrega do site.</p></div>
+<footer class="folio"><span>Guia de utilização · Carlos</span><span>05 / 06</span></footer>
+</section>
+
+<section class="sheet technical" id="operacao" aria-labelledby="technical-title">
+<header class="running-head"><span>SOLRAC Atelier</span><span>Apêndice / Manutenção técnica</span></header>
+<p class="kicker">Referência de operação local</p>
+<h2 id="technical-title">Consultar e guardar os registos.</h2>
+<p class="intro">Para quem acompanha a instalação. Execute estes comandos na pasta do projeto, no computador ou servidor que recebe os pedidos. A ferramenta usa Python 3 e não exige pacotes adicionais.</p>
+<div class="command"><h3>1. Listar os pedidos guardados</h3><pre>python3 scripts/leads.py --list</pre><p class="small" style="margin-top:1.5mm">Mostra referência, data, nome, email, tipo de intervenção e local. Uma lista vazia não comprova que o serviço publicado está a receber pedidos.</p></div>
+<div class="command"><h3>2. Exportar para consulta e acompanhamento</h3><pre>python3 scripts/leads.py --export-csv ~/pedidos-solrac.csv
+python3 scripts/leads.py --export-json ~/pedidos-solrac.json</pre><p class="small" style="margin-top:1.5mm">O CSV inclui contactos e descrição. O JSON mantém também a informação das fotografias; nenhum dos formatos inclui os ficheiros de imagem.</p></div>
+<div class="command"><h3>3. Localizar as fotografias de cada referência</h3><pre>python3 scripts/leads.py --show-photos</pre><p class="small" style="margin-top:1.5mm">Abra os caminhos apresentados no sistema de ficheiros. Se aparecer «ficheiro em falta», verifique o armazenamento antes de dar o pedido por completo.</p></div>
+<div class="command"><h3>4. Usar uma cópia dos dados noutra localização</h3><pre>python3 scripts/leads.py --file /copia/data/inquiries.jsonl --list</pre><p class="small" style="margin-top:1.5mm">Substitua o caminho pelo da cópia. Para consultar imagens, preserve a pasta <span class="path">photos/</span> ao lado de <span class="path">inquiries.jsonl</span>.</p></div>
+<div class="note"><h3>Cópia de segurança e acesso</h3><p>Guarde em conjunto <span class="path">data/inquiries.jsonl</span> e <span class="path">data/photos/</span>, num local reservado. Os dados recebidos e as imagens não são incluídos no Git. Restrinja o acesso às exportações e às cópias de segurança.</p></div>
+<div class="two-col" style="margin-top:5mm">
+<div class="rule" style="padding-top:3mm"><h3 style="font-size:10pt">Teste local</h3><p class="small"><span class="path">make serve</span> inicia o serviço em <span class="path">http://localhost:8080</span>. Um alojamento apenas estático não executa a receção nem guarda pedidos.</p></div>
+<div class="rule" style="padding-top:3mm"><h3 style="font-size:10pt">Verificação na entrega</h3><p class="small">Confirme email e WhatsApp reais na configuração, o serviço de receção no endereço publicado e o acesso reservado aos dados. O registo não gera notificações automáticas.</p></div>
+</div>
+<footer class="folio"><span>Guia de utilização · Operação técnica</span><span>06 / 06</span></footer>
+</section>
 </body>
 </html>
