@@ -30,13 +30,14 @@ else
 	@cd "$(SCOPE_ROOT)" && bash "$(SCOPE_ROOT)/scripts/sync_local.sh"
 endif
 
+PYTHON ?= $(if $(wildcard $(SCOPE_ROOT)/.venv/bin/python3),$(SCOPE_ROOT)/.venv/bin/python3,python3)
+BROWSER_PYTHON ?= $(PYTHON)
+
 check:
 	@test -f index.html || { echo "✖ Falta index.html" >&2; exit 1; }
 	@test -f TABLERO_AGENTES.md || { echo "✖ Falta TABLERO_AGENTES.md" >&2; exit 1; }
-	@python3 -B -m unittest -q scripts/test_merge_worktree.py scripts/test_portfolio_assets.py scripts/test_concierge_flow.py scripts/test_lead_pipeline.py scripts/test_ui_consistency.py scripts/test_i18n.py scripts/test_lightbox_navigation.py scripts/test_a11y_legal.py scripts/test_audit_regressions.py scripts/test_performance_seo.py scripts/test_visual_chroma.py
+	@$(PYTHON) -B -m unittest -q scripts/test_merge_worktree.py scripts/test_portfolio_assets.py scripts/test_concierge_flow.py scripts/test_lead_pipeline.py scripts/test_ui_consistency.py scripts/test_i18n.py scripts/test_lightbox_navigation.py scripts/test_a11y_legal.py scripts/test_audit_regressions.py scripts/test_performance_seo.py scripts/test_visual_chroma.py
 	@echo "✔ SOLRAC Atelier verificado bajo estándar Noesis."
-
-BROWSER_PYTHON ?= python3
 
 check-browser:
 	@$(BROWSER_PYTHON) -B -m unittest -v scripts/test_browser_regressions.py

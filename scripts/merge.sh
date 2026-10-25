@@ -146,6 +146,93 @@ else
     echo "  Commit: ${SHA_AFTER:0:8}"
 fi
 
+# ── Poda (NOE-PODA-RAMAS-20261014) ────────────────────────────────────────────
+# Cerrojo mecánico de "trabajo terminado = merge y poda". Solo tras un push con
+# éxito: retira worktrees fusionados y limpios, y borra ramas fusionadas locales y
+# remotas. Nunca toca worktrees sucios, bloqueados o recién creados (punta igual a
+# la de origin antes del push), ni ramas sin fusionar. Un fallo sale con die().
+# Los worktrees de Claude Desktop (<checkout principal>/.claude/worktrees/) son de la
+# app: retirarlos deja a la sesión viva sin entorno (NOE-BUG-MERGE-PODA-CCD-20261015).
+podar() {
+    local exclusiva="${NOESIS_PODA_RAMA:-}"
+    local fresh="$1" path="" head="" branch="" locked=0 line wt_branch app_dir
+    local -a wt_paths=() wt_branches=() wt_heads=() wt_locked=() protegidas=("master" "main")
+    local -a podados=()
+
+    run_step "Podar referencias remotas" git fetch --prune origin
+    if [[ -z "$exclusiva" ]]; then
+        git worktree prune || die "git worktree prune falló."
+    else
+        git check-ref-format "refs/heads/$exclusiva" || die "NOESIS_PODA_RAMA inválida."
+    fi
+
+    while IFS= read -r line; do
+        case "$line" in
+            "worktree "*) path="${line#worktree }" ;;
+            "HEAD "*) head="${line#HEAD }" ;;
+            "branch refs/heads/"*) branch="${line#branch refs/heads/}" ;;
+            locked|"locked "*) locked=1 ;;
+            "")
+                if [[ -n "$path" ]]; then
+                    wt_paths+=("$path"); wt_heads+=("$head"); wt_branches+=("$branch"); wt_locked+=("$locked")
+                fi
+                path="" head="" branch="" locked=0
+                ;;
+        esac
+    done < <(git worktree list --porcelain; echo)
+
+    local i
+    app_dir="${wt_paths[0]}/.claude/worktrees/"
+    for i in "${!wt_paths[@]}"; do
+        path="${wt_paths[$i]}" wt_branch="${wt_branches[$i]}"
+        [[ -n "$wt_branch" ]] || continue
+        if [[ -n "$exclusiva" && "$wt_branch" != "$exclusiva" ]]; then
+            protegidas+=("$wt_branch")
+            continue
+        fi
+        if [[ $i -eq 0 || "$path" -ef "$REPO" || "${wt_locked[$i]}" -eq 1 || "${wt_heads[$i]}" == "$fresh" \
+            || "$path/" == "$app_dir"* ]] \
+            || ! git merge-base --is-ancestor "refs/heads/$wt_branch" "$BRANCH"; then
+            protegidas+=("$wt_branch")
+            continue
+        fi
+        line="$(git -C "$path" status --porcelain)" || die "No se pudo leer el estado del worktree $path."
+        if [[ -n "$line" ]]; then
+            protegidas+=("$wt_branch")
+            continue
+        fi
+        git worktree remove "$path" || die "No se pudo retirar el worktree $path."
+        podados+=("worktree $path")
+    done
+
+    while IFS= read -r branch; do
+        [[ -n "$branch" ]] || continue
+        [[ -z "$exclusiva" || "$branch" == "$exclusiva" ]] || continue
+        printf '%s\n' "${protegidas[@]}" | grep -qxF -- "$branch" && continue
+        git branch -d -- "$branch" >/dev/null || die "No se pudo borrar la rama local $branch."
+        podados+=("rama local $branch")
+    done < <(git for-each-ref --merged "$BRANCH" --format='%(refname:short)' refs/heads/)
+
+    local -a remotas=()
+    while IFS= read -r branch; do
+        [[ -n "$branch" && "$branch" != "HEAD" ]] || continue
+        [[ -z "$exclusiva" || "$branch" == "$exclusiva" ]] || continue
+        printf '%s\n' "${protegidas[@]}" | grep -qxF -- "$branch" && continue
+        remotas+=("$branch")
+    done < <(git for-each-ref --merged "$REMOTE_REF" --format='%(refname:lstrip=3)' refs/remotes/origin/)
+    if [[ ${#remotas[@]} -gt 0 ]]; then
+        run_step "Borrar ramas remotas fusionadas" git push origin --delete "${remotas[@]}"
+        for branch in "${remotas[@]}"; do podados+=("rama remota origin/$branch"); done
+    fi
+
+    if [[ ${#podados[@]} -eq 0 ]]; then
+        ok "Poda: nada que podar."
+    else
+        ok "Poda completada (${#podados[@]}):"
+        printf '  - %s\n' "${podados[@]}"
+    fi
+}
+
 # Modo worktree: la rama local $BRANCH sigue a lo publicado sin tocar el árbol ajeno.
 # Si está en checkout en $MAIN, fast-forward allí (git lo rechaza solo si los cambios
 # sin commitear chocan con ficheros publicados); si no, se mueve la referencia.
@@ -169,14 +256,15 @@ sincronizar_local() {
 
 # ── Push ──────────────────────────────────────────────────────────────────────
 if git remote | grep -q "^origin$"; then
+    FRESH_TIP="$(git rev-parse --verify -q "$REMOTE_REF" || true)"
     echo ""
     echo -e "${BOLD}[merge] Push a origin/$REMOTE_BRANCH...${RESET}"
     run_step "Push" git push origin "HEAD:$REMOTE_BRANCH"
     ok "Merge y push completados en origin/$REMOTE_BRANCH."
-fi
-
-if [[ $WORKTREE_MODE -eq 1 ]]; then
-    sincronizar_local
+    if [[ $WORKTREE_MODE -eq 1 ]]; then
+        sincronizar_local
+    fi
+    podar "$FRESH_TIP"
 fi
 
 ok "Ciclo completo: ${SECONDS} s."
