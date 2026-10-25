@@ -25,6 +25,7 @@ class Element {
   setAttribute(k, v) { this.attributes[k] = String(v); }
   toggleAttribute(k, on) { if(on) this.attributes[k] = ''; else delete this.attributes[k]; }
   closest() { return null; }
+  querySelectorAll() { return this.children; }
   replaceChildren() { this.children = []; }
   append(...elements) { this.children.push(...elements); }
   appendChild(el) { this.children.push(el); }

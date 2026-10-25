@@ -12,6 +12,11 @@
 
   const TRANSLATIONS = {
     pt: {
+      "lightbox.photos": "Fotografias desta obra",
+      "lightbox.angle_conjunto": "Conjunto",
+      "lightbox.angle_aparejo": "Aparelho",
+      "lightbox.angle_textura": "Textura",
+      "lightbox.angle_remate": "Remate",
       "lightbox.views": "Vista da obra",
       "lightbox.photo": "Fotografia",
       "lightbox.technical": "Detalhe técnico",
@@ -267,6 +272,11 @@
     },
 
     en: {
+      "lightbox.photos": "Photographs of this project",
+      "lightbox.angle_conjunto": "Overview",
+      "lightbox.angle_aparejo": "Masonry",
+      "lightbox.angle_textura": "Texture",
+      "lightbox.angle_remate": "Finishing detail",
       "lightbox.views": "Project view",
       "lightbox.photo": "Photograph",
       "lightbox.technical": "Technical detail",
@@ -522,6 +532,11 @@
     },
 
     es: {
+      "lightbox.photos": "Fotografías de esta obra",
+      "lightbox.angle_conjunto": "Conjunto",
+      "lightbox.angle_aparejo": "Aparejo",
+      "lightbox.angle_textura": "Textura",
+      "lightbox.angle_remate": "Remate",
       "lightbox.views": "Vista de la obra",
       "lightbox.photo": "Fotografía",
       "lightbox.technical": "Detalle técnico",

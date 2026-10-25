@@ -171,6 +171,10 @@ class DOMNode {
     }
     return this;
   }
+  replaceChildren(...nodes) {
+    this.children = [];
+    this.append(...nodes);
+  }
   getAttribute(k) {
     return Object.prototype.hasOwnProperty.call(this.attributes, k) ? this.attributes[k] : null;
   }
@@ -267,6 +271,7 @@ document.documentElement = new DOMNode('html');
 document.body = new DOMNode('body');
 document.documentElement.append(document.body);
 document.activeElement = document.body;
+document.createElement = (tag) => new DOMNode(tag);
 
 const {
   skipLink,
@@ -310,7 +315,8 @@ const {
   const lightboxPrev = new DOMNode('button', 'lightbox-prev');
   const lightboxPos = new DOMNode('output', 'lightbox-position');
   const lightboxNext = new DOMNode('button', 'lightbox-next');
-  lbViewer.append(lbPhotoTab, lbTechnicalTab, lbImage, lbTechnicalSheet, lightboxPrev, lightboxPos, lightboxNext);
+  const lbPhotos = new DOMNode('div', 'lightbox-photos');
+  lbViewer.append(lbPhotoTab, lbTechnicalTab, lbImage, lbTechnicalSheet, lbPhotos, lightboxPrev, lightboxPos, lightboxNext);
   const lbClose = new DOMNode('button', 'lightbox-close');
   const lbCategory = new DOMNode('span', 'lightbox-category');
   const lbTitle = new DOMNode('h2', 'lightbox-title');
@@ -401,6 +407,7 @@ let lbFocusables = modalA11y.getFocusableElements(lightboxModal).map((n) => n.id
 assert.deepEqual(lbFocusables, [
   'lightbox-photo-tab',
   'lightbox-technical-tab',
+  'lightbox-photo-0',
   'lightbox-prev',
   'lightbox-next',
   'lightbox-close',

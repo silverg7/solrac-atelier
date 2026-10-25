@@ -1645,6 +1645,15 @@ button {
 .lightbox-navigation { position: absolute; bottom: 1rem; left: 1rem; right: 1rem; display: flex; align-items: center; justify-content: center; gap: 1.5rem; }
 .lightbox-navigation button { font-size: 1.3rem; min-width: 48px; }
 .lightbox-navigation output { min-width: 5ch; text-align: center; font-family: var(--font-mono); font-size: .75rem; }
+/* SOL-11: fixed photo space and a separate selector within each work. */
+.lightbox-image-viewer { padding-bottom: 11rem; min-height: 0; }
+.lightbox-photos { position: absolute; bottom: 4.8rem; left: 1rem; right: 1rem; display: flex; justify-content: center; gap: .5rem; }
+.lightbox-photos[hidden] { display: none; }
+.lightbox-photos button { min-width: 0; min-height: 64px; padding: .3rem; border: 1px solid #777; background: #070707; color: #aaa; cursor: pointer; font: .65rem var(--font-mono); }
+.lightbox-photos button[aria-pressed="true"] { border-color: #f5f5f5; color: #f5f5f5; }
+.lightbox-photos button:focus-visible { outline: 2px solid #f5f5f5; outline-offset: 3px; }
+.lightbox-photos img { display: block; width: 64px; height: 40px; object-fit: cover; margin: 0 auto .3rem; box-shadow: none; }
+.lightbox-photos span { display: block; }
 .technical-sheet { width: 100%; max-width: 760px; background: #070707; border: 1px solid #1f1f1f; padding: 1rem; }
 .technical-sheet .form-select { margin-top: .5rem; }
 .technical-sheet svg { display: block; width: 100%; max-height: 52vh; color: #aaa; }

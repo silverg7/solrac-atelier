@@ -26,7 +26,25 @@ document.addEventListener('DOMContentLoaded', () => {
         "element": "Alinhamento curvo",
         "masonry": "Pedra à vista"
       },
-      "description": "A alvenaria acompanha a curva do terreno, com juntas desencontradas e uma face contínua de pedra."
+      "description": "A alvenaria acompanha a curva do terreno, com juntas desencontradas e uma face contínua de pedra.",
+      "gallery": [
+        {
+          "image": "assets/images/muros/muro-curvo-1920.webp",
+          "thumbnail": "assets/images/muros/muro-curvo-640.webp",
+          "width": 1920,
+          "height": 1082,
+          "kind": "conjunto",
+          "alt": "Muro de contenção curvo em pedra junto ao limite de um terreno ajardinado."
+        },
+        {
+          "image": "assets/images/muros/muro-curvo-vista-2-1920.webp",
+          "thumbnail": "assets/images/muros/muro-curvo-vista-2-640.webp",
+          "width": 1920,
+          "height": 1082,
+          "kind": "remate",
+          "alt": "Remate do muro curvo junto aos degraus de pedra."
+        }
+      ]
     },
     {
       "id": "muro-aparelhado",
@@ -44,7 +62,25 @@ document.addEventListener('DOMContentLoaded', () => {
         "element": "Fiadas aparelhadas",
         "masonry": "Pedra à vista"
       },
-      "description": "Muro contínuo de pedra esquadriada, com fiadas, juntas e remate junto à entrada visíveis."
+      "description": "Muro contínuo de pedra esquadriada, com fiadas, juntas e remate junto à entrada visíveis.",
+      "gallery": [
+        {
+          "image": "assets/images/muros/muro-aparelhado-1920.webp",
+          "thumbnail": "assets/images/muros/muro-aparelhado-640.webp",
+          "width": 1920,
+          "height": 933,
+          "kind": "conjunto",
+          "alt": "Muro longo de blocos de pedra aparelhada junto a uma entrada recuada."
+        },
+        {
+          "image": "assets/images/muros/muro-aparelhado-vista-2-1920.webp",
+          "thumbnail": "assets/images/muros/muro-aparelhado-vista-2-640.webp",
+          "width": 1920,
+          "height": 933,
+          "kind": "aparejo",
+          "alt": "Fiadas aparelhadas do mesmo muro vistas ao longo da face."
+        }
+      ]
     },
     {
       "id": "portal-rural",
@@ -62,7 +98,25 @@ document.addEventListener('DOMContentLoaded', () => {
         "element": "Guarnição de entrada",
         "masonry": "Pedra à vista"
       },
-      "description": "Estrutura rural de alvenaria existente com empena inclinada e blocos aparelhados a enquadrar a entrada."
+      "description": "Estrutura rural de alvenaria existente com empena inclinada e blocos aparelhados a enquadrar a entrada.",
+      "gallery": [
+        {
+          "image": "assets/images/quintas/portal-rural-1920.webp",
+          "thumbnail": "assets/images/quintas/portal-rural-640.webp",
+          "width": 1920,
+          "height": 933,
+          "kind": "conjunto",
+          "alt": "Empena rural em pedra com guarnição de entrada em cantaria durante a reabilitação."
+        },
+        {
+          "image": "assets/images/quintas/portal-rural-vista-2-1920.webp",
+          "thumbnail": "assets/images/quintas/portal-rural-vista-2-640.webp",
+          "width": 1920,
+          "height": 933,
+          "kind": "conjunto",
+          "alt": "Vista oblíqua da empena e das ombreiras da entrada rural."
+        }
+      ]
     },
     {
       "id": "reabilitacao-pedra",
@@ -80,7 +134,25 @@ document.addEventListener('DOMContentLoaded', () => {
         "element": "Ombreiras do vão",
         "masonry": "Pedra à vista"
       },
-      "description": "Paredes de alvenaria à vista e elementos aparelhados dos vãos, fotografados durante a reabilitação de um edifício rural."
+      "description": "Paredes de alvenaria à vista e elementos aparelhados dos vãos, fotografados durante a reabilitação de um edifício rural.",
+      "gallery": [
+        {
+          "image": "assets/images/quintas/reabilitacao-pedra-1920.webp",
+          "thumbnail": "assets/images/quintas/reabilitacao-pedra-640.webp",
+          "width": 1920,
+          "height": 1080,
+          "kind": "conjunto",
+          "alt": "Interior de um edifício rural em pedra com ombreiras aparelhadas e alvenaria à vista."
+        },
+        {
+          "image": "assets/images/quintas/reabilitacao-pedra-vista-2-1920.webp",
+          "thumbnail": "assets/images/quintas/reabilitacao-pedra-vista-2-640.webp",
+          "width": 1920,
+          "height": 933,
+          "kind": "conjunto",
+          "alt": "Vista superior das paredes e dos vãos do edifício em reabilitação."
+        }
+      ]
     },
     {
       "id": "escada-detalhe",
@@ -98,7 +170,25 @@ document.addEventListener('DOMContentLoaded', () => {
         "element": "Fiada de pedra diagonal",
         "masonry": "Pedra à vista"
       },
-      "description": "Pormenor da junta entre a fiada diagonal aparelhada e a alvenaria de apoio sob a escada."
+      "description": "Pormenor da junta entre a fiada diagonal aparelhada e a alvenaria de apoio sob a escada.",
+      "gallery": [
+        {
+          "image": "assets/images/cantaria/escada-detalhe-1920.webp",
+          "thumbnail": "assets/images/cantaria/escada-detalhe-640.webp",
+          "width": 1920,
+          "height": 933,
+          "kind": "conjunto",
+          "alt": "Pormenor de uma fiada diagonal de cantaria na ligação à alvenaria sob uma escada."
+        },
+        {
+          "image": "assets/images/cantaria/escada-detalhe-vista-2-1920.webp",
+          "thumbnail": "assets/images/cantaria/escada-detalhe-vista-2-640.webp",
+          "width": 1920,
+          "height": 933,
+          "kind": "conjunto",
+          "alt": "Vista da escada com fiada inclinada, alvenaria de apoio e fachada vermelha."
+        }
+      ]
     },
     {
       "id": "degraus-macicos",
@@ -116,7 +206,25 @@ document.addEventListener('DOMContentLoaded', () => {
         "element": "Degraus de pedra maciça",
         "masonry": "Pedra à vista"
       },
-      "description": "Lanço largo de degraus de pedra com linhas horizontais contínuas e remates laterais aparelhados, fotografado em obra."
+      "description": "Lanço largo de degraus de pedra com linhas horizontais contínuas e remates laterais aparelhados, fotografado em obra.",
+      "gallery": [
+        {
+          "image": "assets/images/cantaria/degraus-macicos-1920.webp",
+          "thumbnail": "assets/images/cantaria/degraus-macicos-640.webp",
+          "width": 1920,
+          "height": 933,
+          "kind": "conjunto",
+          "alt": "Degraus largos de entrada em pedra maciça com espelhos aparelhados e remates laterais."
+        },
+        {
+          "image": "assets/images/cantaria/degraus-macicos-vista-2-1920.webp",
+          "thumbnail": "assets/images/cantaria/degraus-macicos-vista-2-640.webp",
+          "width": 1920,
+          "height": 933,
+          "kind": "remate",
+          "alt": "Vista frontal dos degraus maciços e dos seus remates laterais."
+        }
+      ]
     }
   ];
 
@@ -447,11 +555,68 @@ document.addEventListener('DOMContentLoaded', () => {
   const technicalTab = document.getElementById('lightbox-technical-tab');
   const technicalSheet = document.getElementById('lightbox-technical');
   const technicalDetail = document.getElementById('technical-detail');
+  const lightboxPhotos = document.getElementById('lightbox-photos');
+  let lightboxPhotoIndex = 0;
   let lightboxGallery = [];
   let lightboxIndex = -1;
 
+  function selectLightboxPhoto(index) {
+    const project = activeLightboxProject;
+    const views = project?.gallery || [project];
+    if (!project || index < 0 || index >= views.length) return;
+    lightboxPhotoIndex = index;
+    const view = views[index];
+    const localized = getLocalizedProject(project);
+    const label = typeof I18N !== 'undefined' ? I18N.t(`lightbox.angle_${view.kind}`, 'Conjunto') : 'Conjunto';
+    lightboxImage.src = view.image;
+    lightboxImage.alt = index === 0 ? localized.alt : `${localized.title} — ${label}`;
+    lightboxImage.width = view.width;
+    lightboxImage.height = view.height;
+    lightboxPhotos.querySelectorAll('button').forEach((button, i) => {
+      button.setAttribute('aria-pressed', String(i === index));
+      button.tabIndex = i === index ? 0 : -1;
+    });
+  }
+
+  function renderLightboxPhotos() {
+    lightboxPhotos.replaceChildren();
+    const views = activeLightboxProject.gallery || [activeLightboxProject];
+    views.forEach((view, index) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.id = `lightbox-photo-${index}`;
+      button.setAttribute('aria-controls', 'lightbox-image');
+      const label = typeof I18N !== 'undefined' ? I18N.t(`lightbox.angle_${view.kind}`, 'Conjunto') : 'Conjunto';
+      const img = document.createElement('img');
+      img.src = view.thumbnail || view.image;
+      img.alt = '';
+      img.width = 64;
+      img.height = 40;
+      img.decoding = 'async';
+      const caption = document.createElement('span');
+      caption.textContent = `${index + 1} · ${label}`;
+      button.append(img, caption);
+      button.addEventListener('click', () => selectLightboxPhoto(index));
+      button.addEventListener('keydown', event => {
+        let next = index;
+        if (event.key === 'ArrowLeft') next = (index + views.length - 1) % views.length;
+        else if (event.key === 'ArrowRight') next = (index + 1) % views.length;
+        else if (event.key === 'Home') next = 0;
+        else if (event.key === 'End') next = views.length - 1;
+        else return;
+        event.preventDefault();
+        event.stopPropagation();
+        selectLightboxPhoto(next);
+        lightboxPhotos.querySelectorAll('button')[next].focus({ preventScroll: true });
+      });
+      lightboxPhotos.append(button);
+    });
+    selectLightboxPhoto(lightboxPhotoIndex);
+  }
+
   function showLightboxView(technical) {
     lightboxImage.hidden = technical;
+    lightboxPhotos.hidden = technical;
     technicalSheet.hidden = !technical;
     photoTab.setAttribute('aria-pressed', String(!technical));
     technicalTab.setAttribute('aria-pressed', String(technical));
@@ -511,17 +676,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     lightboxIndex = lightboxGallery.findIndex(p => p.id === projectId);
     document.getElementById('lightbox-position').textContent = `${lightboxIndex + 1} / ${lightboxGallery.length}`;
-    if (activeLightboxProject?.id !== projectId) {
+    if (opening || activeLightboxProject?.id !== projectId) {
+      lightboxPhotoIndex = 0;
       technicalDetail.value = baseProject.category === 'cantaria' ? 'stone' : 'masonry';
       showTechnicalDetail();
     }
     activeLightboxProject = baseProject;
     const project = getLocalizedProject(baseProject);
 
-    lightboxImage.src = project.image;
-    lightboxImage.alt = project.alt;
-    lightboxImage.width = project.width;
-    lightboxImage.height = project.height;
+    renderLightboxPhotos();
     
     lightboxTitle.textContent = project.title;
     lightboxCategory.textContent = project.categoryLabel;

@@ -59,7 +59,8 @@
           "height": 1082,
           "bytes": 560294
         }
-      ]
+      ],
+      "project_id": "muro-curvo"
     },
     {
       "stem": "muros/muro-aparelhado",
@@ -88,7 +89,8 @@
           "height": 933,
           "bytes": 351736
         }
-      ]
+      ],
+      "project_id": "muro-aparelhado"
     },
     {
       "stem": "quintas/portal-rural",
@@ -117,7 +119,8 @@
           "height": 933,
           "bytes": 343642
         }
-      ]
+      ],
+      "project_id": "portal-rural"
     },
     {
       "stem": "quintas/reabilitacao-pedra",
@@ -146,7 +149,8 @@
           "height": 1080,
           "bytes": 341040
         }
-      ]
+      ],
+      "project_id": "reabilitacao-pedra"
     },
     {
       "stem": "cantaria/escada-detalhe",
@@ -175,7 +179,8 @@
           "height": 933,
           "bytes": 603208
         }
-      ]
+      ],
+      "project_id": "escada-detalhe"
     },
     {
       "stem": "cantaria/degraus-macicos",
@@ -203,6 +208,187 @@
           "width": 1920,
           "height": 933,
           "bytes": 450084
+        }
+      ],
+      "project_id": "degraus-macicos"
+    },
+    {
+      "stem": "muros/muro-curvo-vista-2",
+      "project_id": "muro-curvo",
+      "album_position": 5,
+      "source_dimensions": [
+        3264,
+        1840
+      ],
+      "source_sha256": "29b7515c48c32214a69b8bc7f824bf5d28c7bc1dac25b124118e4b8a8bb02327",
+      "files": [
+        {
+          "path": "assets/images/muros/muro-curvo-vista-2-640.webp",
+          "width": 640,
+          "height": 361,
+          "bytes": 46810
+        },
+        {
+          "path": "assets/images/muros/muro-curvo-vista-2-1280.webp",
+          "width": 1280,
+          "height": 721,
+          "bytes": 206754
+        },
+        {
+          "path": "assets/images/muros/muro-curvo-vista-2-1920.webp",
+          "width": 1920,
+          "height": 1082,
+          "bytes": 429272
+        }
+      ]
+    },
+    {
+      "stem": "muros/muro-aparelhado-vista-2",
+      "project_id": "muro-aparelhado",
+      "album_position": 19,
+      "source_dimensions": [
+        4032,
+        1960
+      ],
+      "source_sha256": "dadf38900fc1584f74de4384c72456c61d998dedb9caf7d1f980a9e7d5558ee1",
+      "files": [
+        {
+          "path": "assets/images/muros/muro-aparelhado-vista-2-640.webp",
+          "width": 640,
+          "height": 311,
+          "bytes": 29706
+        },
+        {
+          "path": "assets/images/muros/muro-aparelhado-vista-2-1280.webp",
+          "width": 1280,
+          "height": 622,
+          "bytes": 115660
+        },
+        {
+          "path": "assets/images/muros/muro-aparelhado-vista-2-1920.webp",
+          "width": 1920,
+          "height": 933,
+          "bytes": 269996
+        }
+      ]
+    },
+    {
+      "stem": "quintas/portal-rural-vista-2",
+      "project_id": "portal-rural",
+      "album_position": 29,
+      "source_dimensions": [
+        4032,
+        1960
+      ],
+      "source_sha256": "4d15b46e2fed0e4d9cf461fb7ebf8f428db3292ad729967117eaaa91bea17f35",
+      "files": [
+        {
+          "path": "assets/images/quintas/portal-rural-vista-2-640.webp",
+          "width": 640,
+          "height": 311,
+          "bytes": 38486
+        },
+        {
+          "path": "assets/images/quintas/portal-rural-vista-2-1280.webp",
+          "width": 1280,
+          "height": 622,
+          "bytes": 146398
+        },
+        {
+          "path": "assets/images/quintas/portal-rural-vista-2-1920.webp",
+          "width": 1920,
+          "height": 933,
+          "bytes": 324982
+        }
+      ]
+    },
+    {
+      "stem": "quintas/reabilitacao-pedra-vista-2",
+      "project_id": "reabilitacao-pedra",
+      "album_position": 31,
+      "source_dimensions": [
+        4032,
+        1960
+      ],
+      "source_sha256": "5a9526a4bad8db514fa266f41066a342fd206e66b5417a225777a5b60560eaa5",
+      "files": [
+        {
+          "path": "assets/images/quintas/reabilitacao-pedra-vista-2-640.webp",
+          "width": 640,
+          "height": 311,
+          "bytes": 34260
+        },
+        {
+          "path": "assets/images/quintas/reabilitacao-pedra-vista-2-1280.webp",
+          "width": 1280,
+          "height": 622,
+          "bytes": 127972
+        },
+        {
+          "path": "assets/images/quintas/reabilitacao-pedra-vista-2-1920.webp",
+          "width": 1920,
+          "height": 933,
+          "bytes": 282004
+        }
+      ]
+    },
+    {
+      "stem": "cantaria/escada-detalhe-vista-2",
+      "project_id": "escada-detalhe",
+      "album_position": 56,
+      "source_dimensions": [
+        4032,
+        1960
+      ],
+      "source_sha256": "a78c77250092d791c0b85fad657b33bc87ac19ec4da612e1354cb9b58e2cbdd4",
+      "files": [
+        {
+          "path": "assets/images/cantaria/escada-detalhe-vista-2-640.webp",
+          "width": 640,
+          "height": 311,
+          "bytes": 25770
+        },
+        {
+          "path": "assets/images/cantaria/escada-detalhe-vista-2-1280.webp",
+          "width": 1280,
+          "height": 622,
+          "bytes": 110650
+        },
+        {
+          "path": "assets/images/cantaria/escada-detalhe-vista-2-1920.webp",
+          "width": 1920,
+          "height": 933,
+          "bytes": 261684
+        }
+      ]
+    },
+    {
+      "stem": "cantaria/degraus-macicos-vista-2",
+      "project_id": "degraus-macicos",
+      "album_position": 67,
+      "source_dimensions": [
+        4032,
+        1960
+      ],
+      "source_sha256": "859da5511801fc7eb1f1edbd0c501325a4faa9af1d1f10ca6e93aaafa3f3f74b",
+      "files": [
+        {
+          "path": "assets/images/cantaria/degraus-macicos-vista-2-640.webp",
+          "width": 640,
+          "height": 311,
+          "bytes": 27670
+        },
+        {
+          "path": "assets/images/cantaria/degraus-macicos-vista-2-1280.webp",
+          "width": 1280,
+          "height": 622,
+          "bytes": 114882
+        },
+        {
+          "path": "assets/images/cantaria/degraus-macicos-vista-2-1920.webp",
+          "width": 1920,
+          "height": 933,
+          "bytes": 254968
         }
       ]
     }

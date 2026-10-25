@@ -52,3 +52,31 @@ o conjunto ocupa cerca de 5,1 MiB, sem ser transferido integralmente ao abrir a 
 4. Executar `make check`, `node --check js/main.js` e `make serve`. Verificar a
    grelha em desktop e telemóvel, os três filtros e a ampliação de cada fotografia.
    Confirmar ausência de imagens partidas, erros de consola e pedidos 404.
+
+## SOL-11 · Galerias por obra
+
+Cada uma das seis fichas dispõe agora de duas fotografias independentes do álbum,
+com a primeira seleção preservada. A segunda fotografia não é um recorte nem uma
+variante de resolução da primeira. Correspondências revistas visualmente pelos
+elementos construídos e pela envolvente:
+
+| Ficha | Posições no álbum | Correspondência visível |
+|---|---|---|
+| `muro-curvo` | 6, 5 | Curva, árvore e escada de remate do mesmo muro |
+| `muro-aparelhado` | 21, 19 | Fiadas e entrada recuada em betão, vistas frontal e oblíqua |
+| `portal-rural` | 28, 29 | Empena, abertura e blocos das ombreiras |
+| `reabilitacao-pedra` | 32, 31 | Mesmos vãos, paredes e placas azuis no interior |
+| `escada-detalhe` | 54, 56 | Fiada diagonal, apoio irregular e fachada vermelha |
+| `degraus-macicos` | 66, 67 | Mesmo lanço, remates laterais e entrada |
+
+O manifesto associa explicitamente cada fotografia à ficha (`project_id`). As novas
+versões WebP usam qualidade 52 e larguras 640/1280/1920; o conjunto completo mantém
+39 ficheiros abaixo do orçamento existente de 8 MiB (8 205 374 bytes). O SHA-256
+regista os bytes recebidos na descarga, limitada a 1920 px; `source_dimensions`
+regista as dimensões indicadas no álbum. Sem EXIF ou URLs temporários no site.
+
+No lightbox, clicar nas miniaturas ou usar Enter/Espaço seleciona a fotografia.
+Com foco no seletor, ←/→ percorrem as fotografias; Home/End selecionam a primeira
+ou a última. Fora do seletor, ←/→ e os controlos de obra mantêm a navegação entre
+fichas, incluindo os filtros. A fotografia selecionada é preservada ao alternar
+idioma ou detalhe técnico e regressa à primeira ao abrir outra obra.
