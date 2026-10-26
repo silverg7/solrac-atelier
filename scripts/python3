@@ -1,8 +1,71 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/sh
+# noesis-python-shim: marca que otros shims usan para no ejecutarse entre sí.
+set -eu
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
-if [[ -x "$REPO/.venv/bin/python" ]]; then
+if [ -x "$REPO/.venv/bin/python" ]; then
     exec "$REPO/.venv/bin/python" "$@"
 fi
-PYTHON_SYSTEM="$(command -p -v python3)" || { echo 'Falta Python local o del sistema.' >&2; exit 1; }
+if [ -x "$REPO/.venv/Scripts/python.exe" ]; then
+    exec "$REPO/.venv/Scripts/python.exe" "$@"
+fi
+# Worktree sin .venv propio: usa el del checkout principal. `.git` es un fichero
+# "gitdir: <principal>/.git/worktrees/<id>"; se lee con builtins, como el resto.
+if [ -f "$REPO/.git" ]; then
+    GITDIR=''
+    { IFS= read -r GITDIR || true; } < "$REPO/.git" 2>/dev/null || true
+    GITDIR="${GITDIR#gitdir: }"
+    case "$GITDIR" in
+        */worktrees/*)
+            case "$GITDIR" in /*) ;; *) GITDIR="$REPO/$GITDIR" ;; esac
+            PRINCIPAL="${GITDIR%/worktrees/*}"
+            PRINCIPAL="${PRINCIPAL%/.git}"
+            if [ -x "$PRINCIPAL/.venv/bin/python" ]; then
+                exec "$PRINCIPAL/.venv/bin/python" "$@"
+            fi
+            if [ -x "$PRINCIPAL/.venv/Scripts/python.exe" ]; then
+                exec "$PRINCIPAL/.venv/Scripts/python.exe" "$@"
+            fi
+            ;;
+    esac
+fi
+if [ -n "${PREFIX:-}" ] && [ -x "$PREFIX/bin/python3" ]; then
+    exec "$PREFIX/bin/python3" "$@"
+fi
+# Recorre PATH saltando el propio shim (ruta, symlink o hardlink: -ef compara inodo),
+# cualquier otra copia del shim (otro checkout o worktree: se ejecutarían entre sí
+# sin fin) y el alias de la Microsoft Store (WindowsApps), que no es un intérprete.
+SELF="$0"
+# Solo builtins: si faltara una herramienta externa, la comprobación no debe dar paso al bucle.
+es_shim() {
+    LINEA_1='' LINEA_2=''
+    { IFS= read -r LINEA_1 || true; IFS= read -r LINEA_2 || true; } < "$1" 2>/dev/null || return 1
+    case "$LINEA_2" in *noesis-python-shim*) return 0 ;; esac
+    return 1
+}
+PYTHON_SYSTEM=''
+IFS_SAVED="$IFS"
+IFS=":"
+set -f
+for NAME in python3 python py; do
+    for DIRECTORY in ${PATH:-}; do
+        for CANDIDATE in "${DIRECTORY:-.}/$NAME" "${DIRECTORY:-.}/$NAME.exe"; do
+            case "$CANDIDATE" in *WindowsApps*) continue ;; esac
+            if [ -f "$CANDIDATE" ] && [ -x "$CANDIDATE" ] && ! [ "$CANDIDATE" -ef "$SELF" ] \
+                && ! es_shim "$CANDIDATE"; then
+                PYTHON_SYSTEM="$CANDIDATE"
+                break 3
+            fi
+        done
+    done
+done
+IFS="$IFS_SAVED"
+set +f
+if [ -z "$PYTHON_SYSTEM" ]; then
+    CANDIDATE="$(command -p -v python3 || true)"
+    if [ -n "$CANDIDATE" ] && ! [ "$CANDIDATE" -ef "$SELF" ] \
+        && ! es_shim "$CANDIDATE"; then
+        PYTHON_SYSTEM="$CANDIDATE"
+    fi
+fi
+[ -n "$PYTHON_SYSTEM" ] || { echo 'Falta Python local o del sistema.' >&2; exit 1; }
 exec "$PYTHON_SYSTEM" "$@"
