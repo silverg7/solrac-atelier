@@ -1,4 +1,4 @@
-<!-- noesis:cabecera v1 — no editar a mano; la regenera `python ../noesis/mando.py alinear-flota --fix` -->
+<!-- noesis:cabecera v1 — no editar a mano; la regenera `python /home/emanuel/Documentos/noesis/mando.py alinear-flota --fix` -->
 # TABLERO DE AGENTES — SOLRAC-ATELIER
 > SOLRAC: atelier de cantería y arquitectura en piedra del Grande Porto y el Douro. · Gobernanza Noesis · RMAS: 6 columnas, `PENDIENTE` 🕓 / `CERRADO` ✅
 <!-- noesis:cabecera:fin -->

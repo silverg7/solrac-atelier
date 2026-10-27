@@ -1,12 +1,12 @@
-<!-- noesis:cabecera v1 — no editar a mano; la regenera `python ../noesis/mando.py alinear-flota --fix` -->
+<!-- noesis:cabecera v1 — no editar a mano; la regenera `python /home/emanuel/Documentos/noesis/mando.py alinear-flota --fix` -->
 # AGENTS.md — solrac-atelier
 > SOLRAC: atelier de cantería y arquitectura en piedra del Grande Porto y el Douro.
 
 ## Gobernanza de flota (Noesis, top-down)
-- Este satélite sigue el canon de Noesis: `../noesis/AGENTS.md`, `../noesis/data/fleet_canon.json` y `../noesis/fleet.json`.
+- Este satélite sigue el canon de Noesis: `/home/emanuel/Documentos/noesis/AGENTS.md`, `/home/emanuel/Documentos/noesis/data/fleet_canon.json` y `/home/emanuel/Documentos/noesis/fleet.json`.
 - `make sync` / `make merge` actúan en este repo; la flota entera, con `make sync transversal` / `make merge transversal`.
 - **Tablero:** `TABLERO_AGENTES.md`, tabla RMAS de 6 columnas (ID, Bloque, Tarea, Estado, Hecho cuando, Falla si);
-  dos estados, `PENDIENTE` 🕓 y `CERRADO` ✅; los cerrados salen a `archive/` con `python ../noesis/scripts/tablero_ops.py close`.
+  dos estados, `PENDIENTE` 🕓 y `CERRADO` ✅; los cerrados salen a `archive/` con `make cerrar TICKET=<id> RESUMEN="..."` (cierra en el checkout o worktree actual).
 - **Despacho:** `make mariskal` da la orden de marcha determinista del siguiente ticket; ante fricción, `make escala`.
 - **Relevo:** al cerrar ventana, `make relevo` sella `scripts/prompts/PROMPT_SIGUIENTE_VENTANA.md` (frontmatter 3.0 + `cursor_ack`).
   El siguiente ticket lo marca el tablero o el Córtex, no un prompt redactado a mano.

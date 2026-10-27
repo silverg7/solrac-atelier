@@ -57,10 +57,10 @@ else
 endif
 
 escala:
-	@python3 ../noesis/mando.py escala --satelite solrac-atelier 2>/dev/null || echo "✖ Noesis no disponible en ruta hermana."
+	@python3 /home/emanuel/Documentos/noesis/mando.py escala --satelite solrac-atelier 2>/dev/null || echo "✖ Noesis no disponible en ruta hermana."
 
 mariskal:
-	@python3 ../noesis/mando.py mariskal solrac-atelier $(if $(TICKET),--ticket $(TICKET),) $(if $(WORKTREE),--worktree $(WORKTREE),) $(if $(DISPATCH),--dispatch,) $(if $(JSON),--json,)
+	@python3 /home/emanuel/Documentos/noesis/mando.py mariskal solrac-atelier $(if $(TICKET),--ticket $(TICKET),) $(if $(WORKTREE),--worktree $(WORKTREE),) $(if $(DISPATCH),--dispatch,) $(if $(JSON),--json,)
 
 magnus: mariskal
 
@@ -75,3 +75,8 @@ relevo:
 .PHONY: mapa
 mapa:
 	@principal="$$(dirname "$$(git rev-parse --path-format=absolute --git-common-dir)")"; sat="$$(basename "$$principal")"; python3 "$$principal/../noesis/scripts/mapa.py" --raiz "$(CURDIR)"
+
+# Cierra un ticket del tablero en este checkout o worktree: `make cerrar TICKET=<id> RESUMEN="..."`.
+.PHONY: cerrar
+cerrar:
+	@principal="$$(dirname "$$(git rev-parse --path-format=absolute --git-common-dir)")"; sat="$$(basename "$$principal")"; python3 "$$principal/../noesis/scripts/tablero_ops.py" close "$(CURDIR)" "$(TICKET)" --resumen "$(RESUMEN)"
