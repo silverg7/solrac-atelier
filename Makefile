@@ -70,3 +70,8 @@ magnus: mariskal
 relevo:
 	@principal="$$(dirname "$$(git rev-parse --path-format=absolute --git-common-dir)")"; sat="$$(basename "$$principal")"; AUTOR="$(AUTOR)" ENTREGADO="$(ENTREGADO)" ESTADO="$(ESTADO)" NOTAS="$(NOTAS)" \
 	python3 "$$principal/../noesis/mando.py" relevo "$$sat" --raiz "$(CURDIR)"
+
+# Mapa de qué existe en este satélite (docs/MAPA.md), generado por Noesis desde el código.
+.PHONY: mapa
+mapa:
+	@principal="$$(dirname "$$(git rev-parse --path-format=absolute --git-common-dir)")"; sat="$$(basename "$$principal")"; python3 "$$principal/../noesis/scripts/mapa.py" --raiz "$(CURDIR)"
