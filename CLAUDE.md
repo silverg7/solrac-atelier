@@ -2,7 +2,7 @@
 # CLAUDE.md — solrac-atelier
 > SOLRAC: atelier de cantería y arquitectura en piedra del Grande Porto y el Douro. **Emanuel** (enfermero e inversor, Galicia) decide capital (R10), publicación externa y lo irreversible; tú razonas y construyes.
 ## La única regla
-- **Economia_Familiar es air gap**: su contenido no sale a la nube ni a modelos remotos. **Nada se publica fuera de local** (los GitHub de Emanuel cuentan como suyos).
+- **Economia_Familiar no se sube a GitHub ni a ningún remoto.** Cualquier agente (Claude, Codex, agy, Hermes) puede leerlo y trabajar en él. **Nada se publica fuera de local** (los GitHub de Emanuel cuentan como suyos).
 - Todo lo demás, manga ancha: sin cerrojos ni cortes de acceso por iniciativa propia; lo que rompe se arregla. Si dudas entre freno y arreglo, pregunta en una línea.
 ## Noesis manda (top-down)
 - `/home/emanuel/Documentos/noesis/` es la autoridad de la constelación: canon, memoria (`python /home/emanuel/Documentos/noesis/stash.py search "..."`), salud (`python /home/emanuel/Documentos/noesis/mando.py doctor`) y flota (`fleet.json`) se usan libremente.
