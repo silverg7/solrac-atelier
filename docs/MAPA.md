@@ -8,7 +8,7 @@ la flota; en un satélite, solo el suyo. El pulso de las 07:05 lo regenera y com
 
 | Repo | Abiertos | Pendientes | En curso | Bloqueados |
 |---|---|---|---|---|
-| solrac-atelier | 2 | 2 | 0 | 0 |
+| solrac-atelier | 3 | 3 | 0 | 0 |
 
 ## Comandos `make`
 
