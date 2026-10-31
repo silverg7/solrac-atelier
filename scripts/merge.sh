@@ -100,7 +100,13 @@ fi
 
 if git remote | grep -q "^origin$"; then
     run_step "Actualizar referencia remota" git fetch origin "$REMOTE_BRANCH"
-    git merge-base --is-ancestor "$REMOTE_REF" HEAD || die "$REMOTE_REF avanzó: integra con git pull --rebase origin $REMOTE_BRANCH antes de ejecutar los gates."
+    # Solo atrasado respecto a origin: fast-forward (git lo rechaza si hay commits locales
+    # divergentes o cambios sin commitear en ficheros que llegan); antes abortaba el merge.
+    if ! git merge-base --is-ancestor "$REMOTE_REF" HEAD; then
+        git merge --ff-only -q "$REMOTE_REF" \
+            || die "$REMOTE_REF avanzó y no admite fast-forward (commits locales o cambios sin commitear en los mismos ficheros): integra con git pull --rebase origin $REMOTE_BRANCH y relanza."
+        ok "Fast-forward a $REMOTE_REF; los cambios sin commitear siguen intactos."
+    fi
 fi
 
 # ── Gates de prueba ───────────────────────────────────────────────────────────
