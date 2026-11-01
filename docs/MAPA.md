@@ -34,7 +34,7 @@ la flota; en un satélite, solo el suyo. El pulso de las 07:05 lo regenera y com
 |---|---|---|
 | [`scripts/generar_dossier_pdf.py`](../scripts/generar_dossier_pdf.py) | Gera o dossier de entrega em PDF usando Chromium headless. | 2026-10-25 |
 | [`scripts/leads.py`](../scripts/leads.py) | Consulta e exportação local dos pedidos recebidos pelo Concierge. | 2026-10-25 |
-| [`scripts/merge.sh`](../scripts/merge.sh) | merge.sh — Full merge cycle: stage → commit → pre-push gates → push | 2026-10-25 |
+| [`scripts/merge.sh`](../scripts/merge.sh) | merge.sh — Full merge cycle: stage → commit → pre-push gates → push | 2026-10-31 |
 | [`scripts/server.py`](../scripts/server.py) | SOL-05 / SOL-08: Serviço de ingesta de leads, persistência transaccional e quota de fotos. | 2026-10-24 |
 | [`scripts/sync_local.sh`](../scripts/sync_local.sh) | — | 2026-10-06 |
 | [`scripts/transversal.sh`](../scripts/transversal.sh) | — | 2026-10-06 |
