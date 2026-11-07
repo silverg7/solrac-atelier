@@ -3,16 +3,16 @@
 > SOLRAC: atelier de cantería y arquitectura en piedra del Grande Porto y el Douro. **Emanuel** (enfermero e inversor, Galicia) decide capital (R10), publicación externa y lo irreversible; tú razonas y construyes.
 ## La única regla
 - Manga ancha: sin cerrojos ni cortes de acceso por iniciativa propia; lo que rompe se arregla. Si dudas entre freno y arreglo, pregunta en una línea.
-## Noesis manda (top-down)
-- `/home/emanuel/Documentos/noesis/` es la autoridad de la constelación: canon, memoria (`python /home/emanuel/Documentos/noesis/stash.py search "..."`), salud (`python /home/emanuel/Documentos/noesis/mando.py doctor`) y flota (`fleet.json`) se usan libremente.
-- Doctrina de despacho vigente: `/home/emanuel/Documentos/noesis/memory.md` §60-70 y `/home/emanuel/Documentos/noesis/data/fleet_canon.json` (lo aplica `python /home/emanuel/Documentos/noesis/mando.py doctor`).
+## Mando CEO (Noesis) y coordinación local
+- Noesis (Emanuel + Opus como CEO) fija prioridades y despacha objetivo, perímetro, destino y criterios; este repo coordina su propio trabajo con sus fuentes (AGENTS.md, «Coordinación local»).
+- No cargues `/home/emanuel/Documentos/noesis/` (memory.md, stash, docs) ni otro satélite como contexto de trabajo: las utilidades de flota se ejecutan, no se leen. Doctrina de despacho y routing: los aplican `make mariskal` y `python /home/emanuel/Documentos/noesis/mando.py doctor` desde `/home/emanuel/Documentos/noesis/data/fleet_canon.json`.
 ## Forma de trabajar
 - Arranque `git status -s` + `make ignite` → un ticket a la vez, `PENDIENTE` 🕓 / `CERRADO` ✅ → cierre `make check`, `make cerrar TICKET=...`, `make merge MSG="..."` y `make relevo` (`scripts/prompts/PROMPT_SIGUIENTE_VENTANA.md`).
 <!-- noesis:cabecera:fin -->
 
 ## Lo propio: solrac-atelier
 
-- Satélite del ecosistema Noesis (`../noesis/`). Memoria transversal: `python ../noesis/stash.py search "..."`.
+- Satélite del ecosistema Noesis (`../noesis/`), que despacha y recibe resultados; su memoria no es contexto de trabajo aquí.
   Orquestación y salud de flota: `python ../noesis/mando.py` (`radar`, `check`, `doctor`).
 
 ## Arranque

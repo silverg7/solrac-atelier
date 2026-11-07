@@ -3,7 +3,8 @@
 > SOLRAC: atelier de cantería y arquitectura en piedra del Grande Porto y el Douro.
 
 ## Gobernanza de flota (Noesis, top-down)
-- Este satélite sigue el canon de Noesis: `/home/emanuel/Documentos/noesis/AGENTS.md`, `/home/emanuel/Documentos/noesis/data/fleet_canon.json` y `/home/emanuel/Documentos/noesis/fleet.json`.
+- Noesis (Emanuel + Opus como CEO) decide prioridades, flujo global y cambios de flota; despacha cada orden con objetivo, perímetro, destino, ruta y criterios (`make mariskal`), comprueba que llega y recibe el resultado; no compone el trabajo interno.
+- El canon compartido (permisos, R10/R17, custodia, privacidad, aceptación humana, routing) lo aplican `make mariskal` y `python /home/emanuel/Documentos/noesis/mando.py doctor` desde `/home/emanuel/Documentos/noesis/data/fleet_canon.json`; no hace falta leer su código ni la memoria de Noesis.
 - `make sync` / `make merge` actúan en este repo; la flota entera, con `make sync transversal` / `make merge transversal`.
 - **Tablero:** `TABLERO_AGENTES.md`, tabla RMAS de 6 columnas (ID, Bloque, Tarea, Estado, Hecho cuando, Falla si);
   dos estados, `PENDIENTE` 🕓 y `CERRADO` ✅; los cerrados salen a `archive/` con `make cerrar TICKET=<id> RESUMEN="..."` (cierra en el checkout o worktree actual).
@@ -12,11 +13,15 @@
   El siguiente ticket lo marca el tablero o el Córtex, no un prompt redactado a mano.
 - PROTOCOLO_DECISIONES_HUMANAS: lo que dependa de Emanuel se pregunta en el acto con AskUserQuestion
   (2-4 opciones, la recomendada primero); nunca queda aparcado en prosa (`make audit-decisiones` en Noesis).
+
+## Coordinación local
+- El agente que trabaja aquí coordina solrac-atelier: conoce el dominio por las fuentes de este repo (este AGENTS.md, tablero, mapas, `docs/`, skills, Makefile), abre solo las que pide la tarea y decide secuencia, dependencias, calidad y aceptación técnica dentro del perímetro recibido; la aceptación humana es de Emanuel.
+- No carga `/home/emanuel/Documentos/noesis/` (memory.md, stash, docs) ni otro satélite como contexto. Devuelve al CEO el resultado (`make cerrar`, `make merge`) y, en el relevo (`make relevo`), las necesidades concretas de fuera de su perímetro.
 <!-- noesis:cabecera:fin -->
 
 ## Lo propio: SOLRAC Atelier
 
-- **Coste Tier-B y contexto:** doctrina vigente en [Noesis §69](../noesis/memory.md): delegación cero de base; Haiku 5.5 en fichas cortas autorizadas. Para Tier-B largo con >100K, evaluar Luna en arnés compatible y con calidad medida. Los tramos incluyen caché y son por petición; `maxTurns` no garantiza contexto pequeño. Comparar coste total por tarea; capital y cerrojos conservan su asignación.
+- **Coste Tier-B y contexto:** routing de flota (lo aplica `make mariskal`): delegación cero de base; Haiku 5.5 en fichas cortas autorizadas. Para Tier-B largo con >100K, evaluar Luna en arnés compatible y con calidad medida. Los tramos incluyen caché y son por petición; `maxTurns` no garantiza contexto pequeño. Comparar coste total por tarea; capital y cerrojos conservan su asignación.
 
 ## Identidad local y disparador `ignite`
 
