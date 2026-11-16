@@ -68,15 +68,15 @@ magnus: mariskal
 # Testigo de relevo canónico de flota (Noesis `mando.py relevo`).
 .PHONY: relevo
 relevo:
-	@principal="$$(dirname "$$(git rev-parse --path-format=absolute --git-common-dir)")"; sat="$$(basename "$$principal")"; AUTOR="$(AUTOR)" ENTREGADO="$(ENTREGADO)" ESTADO="$(ESTADO)" NOTAS="$(NOTAS)" \
-	python3 "$$principal/../noesis/mando.py" relevo "$$sat" --raiz "$(CURDIR)"
+	@principal="$$(dirname "$$(git rev-parse --path-format=absolute --git-common-dir)")"; sat="$$(basename "$$principal")"; noesis="$$principal/../noesis"; [ -d "$$noesis" ] || noesis="/home/emanuel/Documentos/noesis"; AUTOR="$(AUTOR)" ENTREGADO="$(ENTREGADO)" ESTADO="$(ESTADO)" NOTAS="$(NOTAS)" \
+	python3 "$$noesis/mando.py" relevo "$$sat" --raiz "$(CURDIR)"
 
 # Mapa de qué existe en este satélite (docs/MAPA.md), generado por Noesis desde el código.
 .PHONY: mapa
 mapa:
-	@principal="$$(dirname "$$(git rev-parse --path-format=absolute --git-common-dir)")"; sat="$$(basename "$$principal")"; python3 "$$principal/../noesis/scripts/mapa.py" --raiz "$(CURDIR)"
+	@principal="$$(dirname "$$(git rev-parse --path-format=absolute --git-common-dir)")"; sat="$$(basename "$$principal")"; noesis="$$principal/../noesis"; [ -d "$$noesis" ] || noesis="/home/emanuel/Documentos/noesis"; python3 "$$noesis/scripts/mapa.py" --raiz "$(CURDIR)"
 
 # Cierra un ticket del tablero en este checkout o worktree: `make cerrar TICKET=<id> RESUMEN="..."`.
 .PHONY: cerrar
 cerrar:
-	@principal="$$(dirname "$$(git rev-parse --path-format=absolute --git-common-dir)")"; sat="$$(basename "$$principal")"; python3 "$$principal/../noesis/scripts/tablero_ops.py" close "$(CURDIR)" "$(TICKET)" --resumen "$(RESUMEN)"
+	@principal="$$(dirname "$$(git rev-parse --path-format=absolute --git-common-dir)")"; sat="$$(basename "$$principal")"; noesis="$$principal/../noesis"; [ -d "$$noesis" ] || noesis="/home/emanuel/Documentos/noesis"; python3 "$$noesis/scripts/tablero_ops.py" close "$(CURDIR)" "$(TICKET)" --resumen "$(RESUMEN)"
