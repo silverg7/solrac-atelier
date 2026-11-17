@@ -1,0 +1,2 @@
+# Solo se añaden filas cerradas: git une ambos lados en vez de chocar (17-nov)
+archive/TABLERO_TICKETS_CERRADOS*.md merge=union
