@@ -11,6 +11,7 @@
 <!-- noesis:cabecera:fin -->
 
 ## Lo propio: solrac-atelier
+- **Consejo de diosas (Afrodita)**: Ver [docs/diosa/](docs/diosa/) (alma, voz, decisiones y perfil Hermes).
 
 - Satélite del ecosistema Noesis (`../noesis/`), que despacha y recibe resultados; su memoria no es contexto de trabajo aquí.
   Orquestación y salud de flota: `python ../noesis/mando.py` (`radar`, `check`, `doctor`).
