@@ -1,84 +1,45 @@
-# SOLRAC · Atelier de Arquitetura Tectónica & Cantaria de Autor
-### *Engenharia de Pedra · Muros Estruturais · Restauro de Património Nobre*
-**Grande Porto & Vale do Douro, Portugal**
+# AFRODITA (`solrac`) · Coordinadora de Belleza Familiar y Estética del Ecosistema
+
+> **«La belleza no es un lujo añadido al final: es la coherencia entre proporción, material, luz, uso y vida real.»**
+
+Este repositorio alberga el núcleo operativo, criterio estético, biblioteca destilada y especificaciones visuales de **Afrodita** (identificador técnico `solrac` en la constelación Noesis), encargada de coordinar la belleza de todos los elementos de la familia y del ecosistema.
 
 ---
 
-## 🏛️ 1. Posicionamento de Marca & Proposta de Valor
+## 1. Dominios bajo Coordinación de Afrodita
 
-**SOLRAC** é um atelier de execução arquitetónica e cantaria de alto padrão sediado no Grande Porto. Fundado na convergência rara entre duas disciplinas essenciais:
-
-1. **A Mestria do Canteiro de Arte:** Execução manual e maquinada de pedra maciça, corte à medida, alinhamento milimétrico e sensibilidade secular da rocha granítica do Norte de Portugal.
-2. **O Rigor do Aparejador / Diretor Técnico de Obra:** Engenharia de detalhe, cálculo estrutural de muros de contenção, sistemas de drenagem geotécnica oculta, planeamento de obra e controlo rigoroso de tolerâncias.
-
-> **"Não vendemos metros de muro. Executamos arquitetura mineral eterna com certificação técnica."**
+| Dominio | Alcance | Documento guía |
+|---|---|---|
+| **Arquitectura y Hogar** | Espacios, luz, materiales, reformas, distribución | [dominios/arquitectura_hogar.md](dominios/arquitectura_hogar.md) |
+| **Muebles e Interiores** | Mobiliario, textiles, ergonomía familiar, almacenaje | [dominios/muebles_interiores.md](dominios/muebles_interiores.md) |
+| **Jardín, Plantas y Huerto** | Paisajismo gallego, botánica interior/exterior, huerto | [dominios/jardin_plantas_huerto.md](dominios/jardin_plantas_huerto.md) |
+| **Estilo, Ropa, Complementos y Olores** | Colorimetría, armario cápsula, calzado, perfumería/hogar | [dominios/estilo_ropa_olores.md](dominios/estilo_ropa_olores.md) |
+| **Web Design & UI Design** | Sistemas visuales, tokens, SVG 1.2 Tiny, anti-slop | [dominios/web_ui_design.md](dominios/web_ui_design.md) |
 
 ---
 
-## 📁 2. Estrutura do Repositório
+## 2. Estructura del Repositorio
 
 ```text
-solrac/
-├── index.html                 # Plataforma web principal (High-End B&W Portfolio)
-├── css/
-│   ├── variables.css          # Design tokens (Monochrome, Tipografia, Espaçamentos)
-│   ├── typography.css         # Escala tipográfica editorial & proporção áurea
-│   └── style.css              # Layouts, grelha arquitetónica, animações e lightbox
-├── js/
-│   └── main.js                # Interações, filtro de projetos, lightbox modal e concierge
-├── assets/
-│   └── images/                # Organização das fotografias e plantas de projetos
-│       ├── hero/              # Imagens principais de capa / hero
-│       ├── muros/             # Muros de contenção, granito ciclópico, quintas
-│       ├── quintas/           # Restauro de património nobre e solares
-│       ├── cantaria/          # Detalhes de cantaria, escadarias, cornijas, lareiras
-│       └── tecnico/           # Fotos de detalhe técnico, ferramentas, prumos, cotas
-└── docs/
-    ├── MANIFESTO.md           # Tese de posicionamento para clientes High-End
-    ├── BRANDING.md            # Naming, identidade visual e guia de estilo
-    └── GUIA_IMAGENS.md        # Instruções para carregar as fotos reais das obras
+solrac/ (enlace hermano: solrac-atelier)
+├── SOUL.md                          # Alma, voz, criterio y límites de Afrodita
+├── AGENTS.md                        # Gobernanza Noesis + directrices locales de Afrodita
+├── TABLERO_AGENTES.md               # Cola viva RMAS (AFRO-01..AFRO-05)
+├── dominios/                        # Fichas operativas por cada dominio estético
+├── biblioteca/
+│   └── PLAN_LECTURAS.md             # Libros técnicos y no técnicos a destilar
+├── docs/
+│   └── KIT_DOCUMENTACION_Y_FOTOS.md # Qué fotos y datos necesita Afrodita de la familia
+├── assets/                          # Activos visuales y web
+├── css/, js/, index.html            # Base web heredada (atelier/portfolio)
+└── scripts/                         # Verificación y pipeline local
 ```
 
 ---
 
-## 💎 3. Como Carregar as Fotos das Obras
+## 3. Gobernanza y Reglas de Operación
 
-1. Copia as fotografias de alta resolução para as pastas respetivas em `assets/images/`:
-   - `assets/images/muros/` para muros de contenção e cantaria rústica/aparelhada.
-   - `assets/images/quintas/` para obras de solares, quintas no Douro e restauros.
-   - `assets/images/cantaria/` para peças esculpidas, arcos, colunas e pavimentos.
-2. Prepara versões WebP de 640, 1280 e 1920 px de largura e regista-as em `assets/images/manifest.json`.
-3. Atualiza as fichas em `PROJECTS_DATA` (`js/main.js`) e a capa em `index.html`. A grelha aplica o tratamento monocromático; copiar ficheiros para uma pasta não cria fichas automaticamente. Consulta `docs/GUIA_IMAGENS.md`.
-
----
-
-## 🌐 4. Visualização Local
-
-Para testar localmente no teu navegador:
-```bash
-make serve
-```
-Abre no navegador: `http://localhost:8080`
-
-
-O servidor do projeto recebe os pedidos em `/api/inquiry` e protege os dados locais.
-Serve apenas a página e os diretórios públicos `assets/`, `css/` e `js/`.
-
-## 5. Verificação antes de integrar alterações
-
-`make check` executa os testes de estrutura, JavaScript e persistência com dados temporários.
-Para as regressões de frontend num navegador real, instala as dependências de desenvolvimento
-num ambiente Python e usa Chrome ou Chromium já instalado:
-
-```bash
-python3 -m venv .venv
-.venv/bin/python -m pip install -r requirements-browser.txt
-make check-browser BROWSER_PYTHON=.venv/bin/python
-```
-
-`BROWSER_PYTHON` permite reutilizar outro intérprete com Playwright; `SOLRAC_BROWSER`
-seleciona o executável de Chrome/Chromium. A aplicação não depende de Playwright.
-O teste de navegador falha se lhe faltar o ambiente necessário; não omite verificações.
-As capturas ficam em `scratch/sol-bug-03/`, fora do Git.
-
-A revisão e as correções de 24/10/2026 estão em [SOL-BUG-03 · Verificação](docs/SOL-BUG-03_VERIFICACAO.md).
+- **Alma y criterio:** [SOUL.md](SOUL.md)
+- **Compras y decisiones:** Afrodita propone y debate con Hestia (`metabole`) cuando hay gasto; **Emanuel decide (R10)**.
+- **Biblioteca y evidencias:** Ver [biblioteca/PLAN_LECTURAS.md](biblioteca/PLAN_LECTURAS.md) y [docs/KIT_DOCUMENTACION_Y_FOTOS.md](docs/KIT_DOCUMENTACION_Y_FOTOS.md).
+- **Verificación local:** `make serve` (puerto `8080`) · `make ignite` · `make check`.
