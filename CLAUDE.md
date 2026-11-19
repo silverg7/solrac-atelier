@@ -6,7 +6,7 @@
 ## Mando CEO (Noesis) y coordinación local
 - Noesis (Emanuel + Opus como CEO) fija prioridades y despacha objetivo, perímetro, destino y criterios; este repo coordina su propio trabajo con sus fuentes (AGENTS.md, «Coordinación local»).
 - No cargues `/home/emanuel/Documentos/noesis/` (memory.md, stash, docs) ni otro satélite como contexto de trabajo: las utilidades de flota se ejecutan, no se leen. Doctrina de despacho y routing: los aplican `make mariskal` y `python /home/emanuel/Documentos/noesis/mando.py doctor` desde `/home/emanuel/Documentos/noesis/data/fleet_canon.json`.
-- **Flota vigente** (generada del canon; el modelo de cada ticket lo fija `make mariskal`): Tier-S+ GPT-6.2 Astra [codex] · Claude Opus 5.5 [claude] · Gemini 4 Argon [agy] | Tier-S Claude Fable 5.2 [claude] | Tier-A+ GPT-6.2 Sol [codex] | Tier-A GPT-6.1 Terra [codex] · Gemini 4 Hydrogen [agy] · Claude Sonnet 5.5 [claude] | Tier-B GPT-6 Luna [codex] · Claude Haiku 5.5 [claude] · Gemini 3.8 Flash [agy].
+- **Flota vigente** (generada del canon; el modelo de cada ticket lo fija `make mariskal`): Tier-S+ GPT-6.2 Astra [codex] · Claude Opus 5.5 [claude] · Gemini 4 Neon [agy] · Gemini 4 Argon [agy] | Tier-S Claude Fable 5.2 [claude] | Tier-A+ GPT-6.2 Sol [codex] | Tier-A GPT-6.1 Terra [codex] · Gemini 4 Hydrogen [agy] · Claude Sonnet 5.5 [claude] | Tier-B GPT-6 Luna [codex] · Claude Haiku 5.5 [claude] · Gemini 3.8 Flash [agy].
 - Arranque `git status -s` + `make ignite` → un ticket a la vez, `PENDIENTE` 🕓 / `CERRADO` ✅ → cierre `make check`, `make cerrar TICKET=...`, `make merge MSG="..."` y `make relevo` (`scripts/prompts/PROMPT_SIGUIENTE_VENTANA.md`).
 <!-- noesis:cabecera:fin -->
 

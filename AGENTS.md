@@ -13,7 +13,7 @@
   El siguiente ticket lo marca el tablero o el Córtex, no un prompt redactado a mano.
 - PROTOCOLO_DECISIONES_HUMANAS: lo que dependa de Emanuel se pregunta en el acto con AskUserQuestion
   (2-4 opciones, la recomendada primero); nunca queda aparcado en prosa (`make audit-decisiones` en Noesis).
-- **Flota vigente** (generada del canon; el modelo de cada ticket lo fija `make mariskal`): Tier-S+ GPT-6.2 Astra [codex] · Claude Opus 5.5 [claude] · Gemini 4 Argon [agy] | Tier-S Claude Fable 5.2 [claude] | Tier-A+ GPT-6.2 Sol [codex] | Tier-A GPT-6.1 Terra [codex] · Gemini 4 Hydrogen [agy] · Claude Sonnet 5.5 [claude] | Tier-B GPT-6 Luna [codex] · Claude Haiku 5.5 [claude] · Gemini 3.8 Flash [agy].
+- **Flota vigente** (generada del canon; el modelo de cada ticket lo fija `make mariskal`): Tier-S+ GPT-6.2 Astra [codex] · Claude Opus 5.5 [claude] · Gemini 4 Neon [agy] · Gemini 4 Argon [agy] | Tier-S Claude Fable 5.2 [claude] | Tier-A+ GPT-6.2 Sol [codex] | Tier-A GPT-6.1 Terra [codex] · Gemini 4 Hydrogen [agy] · Claude Sonnet 5.5 [claude] | Tier-B GPT-6 Luna [codex] · Claude Haiku 5.5 [claude] · Gemini 3.8 Flash [agy].
 
 ## Coordinación local
 - El agente que trabaja aquí coordina solrac-atelier: conoce el dominio por las fuentes de este repo (este AGENTS.md, tablero, mapas, `docs/`, skills, Makefile), abre solo las que pide la tarea y decide secuencia, dependencias, calidad y aceptación técnica dentro del perímetro recibido; la aceptación humana es de Emanuel.
