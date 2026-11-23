@@ -76,11 +76,16 @@ if [[ $WORKTREE_MODE -eq 1 ]]; then
         UPSTREAM="$TARGET"
     fi
     if ! git merge-base --is-ancestor "$UPSTREAM" HEAD; then
-        git merge -q --no-edit "$UPSTREAM" || {
+        NOESIS_MT="${NOESIS_MERGE_TABLERO:-$(dirname "$MAIN")/noesis/scripts/merge_tablero.py}"
+        [[ -f "$NOESIS_MT" ]] || NOESIS_MT="/home/emanuel/Documentos/noesis/scripts/merge_tablero.py"
+        if git merge -q --no-edit "$UPSTREAM"; then
+            ok "$UPSTREAM integrado en '$BRANCH'."
+        elif [[ -f "$NOESIS_MT" ]] && python3 "$NOESIS_MT" resolve "$REPO" --upstream "$UPSTREAM"; then
+            ok "$UPSTREAM integrado en '$BRANCH' (tablero/archivo resueltos)."
+        else
             git merge --abort 2>/dev/null || true
             die "No se pudo integrar $UPSTREAM en '$BRANCH' (conflicto o cambios sin commitear en los mismos ficheros): resuélvelo en la rama y relanza."
-        }
-        ok "$UPSTREAM integrado en '$BRANCH'."
+        fi
     fi
     ok "Modo worktree: '$BRANCH' → $TARGET, sin tocar el árbol de $MAIN."
     BRANCH="$TARGET"
