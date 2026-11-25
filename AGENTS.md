@@ -8,7 +8,7 @@
 - `make sync` / `make merge` actúan en este repo; la flota entera, con `make sync transversal` / `make merge transversal`.
 - **Tablero:** `TABLERO_AGENTES.md`, tabla RMAS de 6 columnas (ID, Bloque, Tarea, Estado, Hecho cuando, Falla si);
   dos estados, `PENDIENTE` 🕓 y `CERRADO` ✅; los cerrados salen a `archive/` con `make cerrar TICKET=<id> RESUMEN="..."` (cierra en el checkout o worktree actual).
-- **Despacho:** `make mariskal` da la orden de marcha determinista del siguiente ticket; ante fricción, `make escala`.
+- **Despacho:** `make mariskal` (siguiente ticket), `make escala` (fricción), `make humano` (`LISTA=1`/`HECHO=<id>`/`TODAS=1`).
 - **Relevo:** al cerrar ventana, `make relevo` sella `scripts/prompts/PROMPT_SIGUIENTE_VENTANA.md` (frontmatter 3.0 + `cursor_ack`).
   El siguiente ticket lo marca el tablero o el Córtex, no un prompt redactado a mano.
 - PROTOCOLO_DECISIONES_HUMANAS: lo que dependa de Emanuel se pregunta en el acto con AskUserQuestion

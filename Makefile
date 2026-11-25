@@ -80,3 +80,8 @@ mapa:
 .PHONY: cerrar
 cerrar:
 	@principal="$$(dirname "$$(git rev-parse --path-format=absolute --git-common-dir)")"; sat="$$(basename "$$principal")"; noesis="$$principal/../noesis"; [ -d "$$noesis" ] || noesis="/home/emanuel/Documentos/noesis"; python3 "$$noesis/scripts/tablero_ops.py" close "$(CURDIR)" "$(TICKET)" --resumen "$(RESUMEN)"
+
+# Tareas humanas pendientes de este satélite (`LISTA=1`, `TODAS=1`, `HECHO=ID`, `RECOLECTAR=1`).
+.PHONY: humano
+humano:
+	@principal="$$(dirname "$$(git rev-parse --path-format=absolute --git-common-dir)")"; sat="$$(basename "$$principal")"; noesis="$$principal/../noesis"; [ -d "$$noesis" ] || noesis="/home/emanuel/Documentos/noesis"; python3 "$$noesis/scripts/humano.py" $(if $(TODAS),,--proyecto "$(if $(PROYECTO),$(PROYECTO),$$sat)") $(if $(LISTA),--lista,) $(if $(HECHO),--hecho $(HECHO),) $(if $(RECOLECTAR),--recolectar --solo "$$sat",)
