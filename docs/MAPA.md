@@ -27,6 +27,7 @@ la flota; en un satélite, solo el suyo. El pulso de las 07:05 lo regenera y com
 | `make relevo` | Sella el testigo de relevo canónico de un satélite |
 | `make mapa` | — |
 | `make cerrar` | — |
+| `make humano` | — |
 
 ## Scripts
 
